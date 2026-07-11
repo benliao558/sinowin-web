@@ -129,12 +129,23 @@ export default function HomePage({ params }: { params: { lang: string } }) {
             name: 'SINOWIN INDUSTRIAL (VN)',
             url: 'https://www.sinowin-vn.com',
             email: 'info@sinowin-vn.com',
+            telephone: '+84 204 3727 010',
+            logo: 'https://www.sinowin-vn.com/assets/logo-sn.png',
+            sameAs: [
+              'https://vn.linkedin.com/company/sinowin-industrial-vietnam-co-ltd',
+            ],
             address: {
               '@type': 'PostalAddress',
               streetAddress: 'Dinh Tram Industrial Park, Nenh Ward',
               addressRegion: 'Bac Giang Province',
               addressCountry: 'VN',
             },
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: 21.2515782,
+              longitude: 106.1284738,
+            },
+            hasMap: 'https://maps.app.goo.gl/xz3Jg3GKseWbNmtk9',
           }),
         }}
       />
