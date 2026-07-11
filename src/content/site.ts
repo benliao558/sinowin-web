@@ -97,98 +97,10 @@ export const siteContent = {
       vi: 'Cơ sở Việt Nam của chúng tôi có sáu xưởng sản xuất với thiết bị chính xác, cung cấp quy trình hoàn chỉnh từ cắt đến kiểm tra.',
       ja: 'ベトナム工場には6つの製造ワークショップがあり、精密機器を備え、切断から検査まで完全な加工を提供します。',
     },
-    workshops: [
-      {
-        id: 'wire-cutting',
-        name: {
-          zh: '多線切片',
-          en: 'Multi-Wire Cutting',
-          vi: 'Cắt dây đa dây',
-          ja: 'マルチワイヤー切断',
-        },
-        specs: {
-          zh: '厚度一致性 ±0.02mm，鋸縫 <0.2mm',
-          en: 'Thickness consistency ±0.02mm, kerf <0.2mm',
-          vi: 'Độ đồng đều chiều dày ±0,02mm, đường cắt <0,2mm',
-          ja: '厚さ均一性 ±0.02mm、カーフ幅 <0.2mm',
-        },
-      },
-      {
-        id: 'laser-cutting',
-        name: {
-          zh: '雷射切割',
-          en: 'Laser Cutting',
-          vi: 'Cắt laser',
-          ja: 'レーザー切断',
-        },
-        specs: {
-          zh: '定位精度 ±0.01mm，重複精度 ±0.005mm',
-          en: 'Positioning accuracy ±0.01mm, repeatability ±0.005mm',
-          vi: 'Độ chính xác định vị ±0,01mm, độ lặp lại ±0,005mm',
-          ja: '位置決め精度 ±0.01mm、繰り返し精度 ±0.005mm',
-        },
-      },
-      {
-        id: 'grinding',
-        name: {
-          zh: '精密研磨',
-          en: 'Precision Grinding',
-          vi: 'Mài chính xác',
-          ja: '精密研削',
-        },
-        specs: {
-          zh: '平行度 <0.005mm，平面度 <0.008mm；鏡面研磨 Ra ≤0.4μm，平面度 0.003mm；外徑圓度 <0.003mm，外徑公差 ±0.005mm',
-          en: 'Parallelism <0.005mm, flatness <0.008mm; mirror grinding Ra ≤0.4μm, flatness 0.003mm; OD roundness <0.003mm, OD tolerance ±0.005mm',
-          vi: 'Độ song song <0,005mm, độ phẳng <0,008mm; mài gương Ra ≤0,4μm; độ tròn ±0,003mm, dung sai đường kính ngoài ±0,005mm',
-          ja: '平行度 <0.005mm、平面度 <0.008mm；鏡面研削 Ra ≤0.4μm；外径真円度 <0.003mm、外径公差 ±0.005mm',
-        },
-      },
-      {
-        id: 'chamfering',
-        name: {
-          zh: 'CNC 精密倒角',
-          en: 'CNC Precision Chamfering',
-          vi: 'Vát góc CNC chính xác',
-          ja: 'CNC精密面取り',
-        },
-        specs: {
-          zh: '公差 ±0.02mm',
-          en: 'Tolerance ±0.02mm',
-          vi: 'Dung sai ±0,02mm',
-          ja: '公差 ±0.02mm',
-        },
-      },
-      {
-        id: 'magnetizing',
-        name: {
-          zh: '組裝充磁',
-          en: 'Assembly & Magnetizing',
-          vi: 'Lắp ráp & Từ hóa',
-          ja: '組み立て・磁化',
-        },
-        specs: {
-          zh: '壓裝公差 ±0.03mm，點膠精度 ±1mg',
-          en: 'Press-fit tolerance ±0.03mm, dispensing accuracy ±1mg',
-          vi: 'Dung sai ép ±0,03mm, độ chính xác bôi keo ±1mg',
-          ja: '圧入公差 ±0.03mm、ディスペンシング精度 ±1mg',
-        },
-      },
-      {
-        id: 'testing',
-        name: {
-          zh: '測試實驗室',
-          en: 'Testing Laboratory',
-          vi: 'Phòng thí nghiệm kiểm tra',
-          ja: 'テストラボ',
-        },
-        specs: {
-          zh: 'CMM 三次元量測不確定度 <1μm，批次合格率 >99.5%',
-          en: 'CMM measurement uncertainty <1μm, batch pass rate >99.5%',
-          vi: 'Độ không đảm bảo đo CMM <1μm, tỷ lệ đạt lô >99,5%',
-          ja: 'CMM測定不確かさ <1μm、バッチ合格率 >99.5%',
-        },
-      },
-    ],
+    // NOTE: the detailed per-workshop content (cards + tabs) now lives in
+    // src/content/workshops.ts, rendered via <WorkshopGrid>. A short-form,
+    // fully-translated `workshops` list used to live here but was unused
+    // dead data after that switch, so it was removed (see git history if needed).
   },
 
   // ── CERTIFICATIONS ────────────────────────────────────────────

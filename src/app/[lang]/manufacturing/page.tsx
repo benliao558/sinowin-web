@@ -64,7 +64,7 @@ export default function ManufacturingPage({ params }: { params: { lang: string }
           <h1 className="text-3xl font-black text-white mb-2">{HEADING[lang]}</h1>
           <p className="text-slate-400 font-medium mb-12">{mfg.intro[lang]}</p>
 
-          <WorkshopGrid />
+          <WorkshopGrid lang={lang} />
         </div>
       </div>
 
