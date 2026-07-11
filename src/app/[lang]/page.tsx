@@ -201,7 +201,7 @@ export default function HomePage({ params }: { params: { lang: string } }) {
             </div>
 
             <div className="lg:w-1/2 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Link href={`/${lang}/manufacturing`} className="hover-lift bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group relative">
+              <Link href={`/${lang}/manufacturing`} className="hover-lift enter-fade bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group relative">
                 <div className="h-48 bg-slate-100 relative overflow-hidden">
                   <Image src="/assets/workshops/vietnam-site.webp" alt="Vietnam Site" fill className="object-cover group-hover:scale-110 transition duration-700" />
                   <div className="absolute top-3 left-3 bg-teal-600 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase z-10">{tr(T.massProduction, lang)}</div>
@@ -212,7 +212,7 @@ export default function HomePage({ params }: { params: { lang: string } }) {
                 </div>
               </Link>
 
-              <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group grayscale">
+              <div className="hover-lift enter-fade bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group grayscale" style={{ animationDelay: '80ms' }}>
                 <div className="h-48 bg-slate-200 relative">
                   <Image src="/assets/workshops/india-site.jpg" alt="India Site" fill className="object-cover opacity-70" />
                   <div className="absolute top-3 left-3 bg-slate-800 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase">{tr(T.underConstruction, lang)}</div>
@@ -233,10 +233,14 @@ export default function HomePage({ params }: { params: { lang: string } }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 className="text-4xl font-black mb-12 tracking-tight">{tr(T.certTitle, lang)}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {s.certifications.map((cert) => {
+            {s.certifications.map((cert, i) => {
               const img = CERT_IMAGES[cert.id]
               return (
-                <div key={cert.id} className={`hover-lift relative bg-white/5 border border-white/10 rounded-2xl p-6 text-center group hover:z-50 cursor-pointer ${!cert.confirmed ? 'grayscale opacity-60 hover:grayscale-0' : ''}`}>
+                <div
+                  key={cert.id}
+                  className={`hover-lift enter-fade relative bg-white/5 border border-white/10 rounded-2xl p-6 text-center group hover:z-50 cursor-pointer ${!cert.confirmed ? 'grayscale opacity-60 hover:grayscale-0' : ''}`}
+                  style={{ animationDelay: `${i * 60}ms` }}
+                >
                   <div className="h-20 flex items-center justify-center mb-4 relative">
                     {img ? (
                       <Image src={img} alt={cert.name} fill className="object-contain transition-transform duration-500 group-hover:scale-150" />
@@ -262,8 +266,8 @@ export default function HomePage({ params }: { params: { lang: string } }) {
             {lang === 'zh' ? '材料來源與風險分散佈局' : lang === 'vi' ? 'Nguồn nguyên liệu & Chiến lược phân tán rủi ro' : lang === 'ja' ? '材料調達とリスク分散配置' : 'Material Sourcing & Risk Diversification'}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {PRODUCTS.map((p) => (
-              <div key={p.flag} className="hover-lift bg-slate-50 rounded-3xl p-8 border border-slate-200">
+            {PRODUCTS.map((p, i) => (
+              <div key={p.flag} className="hover-lift enter-fade bg-slate-50 rounded-3xl p-8 border border-slate-200" style={{ animationDelay: `${i * 60}ms` }}>
                 <div className="text-3xl mb-3">{p.flag}</div>
                 <h3 className="font-black text-slate-900 text-lg mb-1">{tr(p.country, lang)}</h3>
                 <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-4">{tr(p.tagline, lang)}</p>

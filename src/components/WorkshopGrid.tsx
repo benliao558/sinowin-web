@@ -109,9 +109,10 @@ export default function WorkshopGrid() {
             key={w.id}
             type="button"
             onClick={() => setOpenId(openId === w.id ? null : w.id)}
-            className={`hover-lift text-left bg-white/5 border rounded-3xl overflow-hidden group transition duration-500 ${
+            className={`hover-lift enter-fade text-left bg-white/5 border rounded-3xl overflow-hidden group transition duration-500 ${
               openId === w.id ? 'border-teal-500/60' : 'border-white/10 hover:border-teal-500/50'
             }`}
+            style={{ animationDelay: `${i * 60}ms` }}
           >
             <div className="h-56 overflow-hidden relative">
               <Image src={w.cardImage} alt={w.cardTitle} fill className="object-cover group-hover:scale-110 transition duration-700" />
