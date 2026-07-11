@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { locales, localeNames, hreflangMap, type Locale } from '@/lib/i18n'
+import { locales, hreflangMap, type Locale } from '@/lib/i18n'
 import { siteContent } from '@/content/site'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -85,20 +86,7 @@ export default function LocaleLayout({
             <Link href={`${baseUrl}#contact`}>{nav.contact[lang]}</Link>
           </nav>
           {/* Language switcher */}
-          <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.85rem' }}>
-            {locales.map((l) => (
-              <Link
-                key={l}
-                href={`/${l}`}
-                style={{
-                  color: l === lang ? 'var(--color-accent)' : 'var(--color-muted)',
-                  fontWeight: l === lang ? 600 : 400,
-                }}
-              >
-                {localeNames[l]}
-              </Link>
-            ))}
-          </div>
+          <LanguageSwitcher lang={lang} />
         </header>
 
         <main>{children}</main>
