@@ -259,6 +259,17 @@ export default function HomePage({ params }: { params: { lang: string } }) {
         </div>
       </section>
 
+       {/* Supply Chain / China-Free differentiation */}
+      <section className="py-16 md:py-24 bg-emerald-950 text-white relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
+            {lang === 'zh' ? '供應鏈信任狀' : lang === 'vi' ? 'Cam kết chuỗi cung ứng' : lang === 'ja' ? 'サプライチェーンの信頼性' : 'Supply Chain Trust'}
+          </div>
+          <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{tr(s.home.supplyChain.title, lang)}</h2>
+          <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-3xl mx-auto">{tr(s.home.supplyChain.body, lang)}</p>
+        </div>
+      </section>
+
       {/* Products / Sourcing & risk diversification */}
       <section id="products" className="py-16 md:py-24 bg-white border-y border-slate-200 text-left">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
