@@ -45,7 +45,7 @@ export default function LocaleLayout({
   const baseUrl = `/${lang}`
 
   return (
-    <html lang={hreflangMap[lang]}>
+    <>
       <head>
         {/* hreflang tags */}
         {locales.map((l) => (
@@ -62,7 +62,6 @@ export default function LocaleLayout({
           href="https://www.sinowin-vn.com/zh"
         />
       </head>
-      <body>
         <header style={{
           borderBottom: '1px solid var(--color-border)',
           padding: '0 2rem',
@@ -119,7 +118,6 @@ export default function LocaleLayout({
             © {new Date().getFullYear()} SINOWIN INDUSTRIAL (VN). All rights reserved.
           </div>
         </footer>
-      </body>
-    </html>
+    </>
   )
 }
