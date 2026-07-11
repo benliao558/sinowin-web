@@ -175,7 +175,7 @@ export default function HomePage({ params }: { params: { lang: string } }) {
       </section>
 
       {/* Global Manufacturing Network */}
-      <section id="about" className="reveal py-16 md:py-24 bg-white relative overflow-hidden text-left border-b border-slate-100">
+      <section id="about" className="py-16 md:py-24 bg-white relative overflow-hidden text-left border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-16 items-start">
             <div className="lg:w-1/2">
@@ -228,7 +228,7 @@ export default function HomePage({ params }: { params: { lang: string } }) {
       </section>
 
       {/* Certifications */}
-      <section id="system" className="reveal py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden">
+      <section id="system" className="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 hero-gradient opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 className="text-4xl font-black mb-12 tracking-tight">{tr(T.certTitle, lang)}</h2>
@@ -256,7 +256,7 @@ export default function HomePage({ params }: { params: { lang: string } }) {
       </section>
 
       {/* Products / Sourcing & risk diversification */}
-      <section id="products" className="reveal py-16 md:py-24 bg-white border-y border-slate-200 text-left">
+      <section id="products" className="py-16 md:py-24 bg-white border-y border-slate-200 text-left">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-black text-slate-900 mb-10 border-l-4 border-slate-900 pl-6">
             {lang === 'zh' ? '材料來源與風險分散佈局' : lang === 'vi' ? 'Nguồn nguyên liệu & Chiến lược phân tán rủi ro' : lang === 'ja' ? '材料調達とリスク分散配置' : 'Material Sourcing & Risk Diversification'}
@@ -292,7 +292,7 @@ export default function HomePage({ params }: { params: { lang: string } }) {
       </section>
 
       {/* Industry Insights teaser -> links to /articles (avoids duplicating the Blog modal) */}
-      <section className="reveal py-16 md:py-24 bg-slate-950 text-white">
+      <section className="py-16 md:py-24 bg-slate-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-black mb-4">
             {lang === 'zh' ? '產業洞察' : lang === 'vi' ? 'Tin tức ngành' : lang === 'ja' ? '業界インサイト' : 'Industry Insights'}
@@ -313,14 +313,14 @@ export default function HomePage({ params }: { params: { lang: string } }) {
       <PartnersStrip lang={lang} />
 
       {/* Br/Hcj grade table + calculator */}
-      <section className="reveal py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <BrHcjTool lang={lang} />
         </div>
       </section>
 
       {/* Contact */}
-      <section id="contact" className="reveal py-16 md:py-24 bg-white overflow-hidden text-left border-t border-slate-100">
+      <section id="contact" className="py-16 md:py-24 bg-white overflow-hidden text-left border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-slate-900 rounded-[3rem] p-8 lg:p-16 shadow-2xl grid md:grid-cols-2 gap-10 border border-white/5">
             <div>
