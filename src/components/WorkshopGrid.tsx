@@ -109,7 +109,7 @@ export default function WorkshopGrid() {
             key={w.id}
             type="button"
             onClick={() => setOpenId(openId === w.id ? null : w.id)}
-            className={`text-left bg-white/5 border rounded-3xl overflow-hidden group transition duration-500 ${
+            className={`hover-lift text-left bg-white/5 border rounded-3xl overflow-hidden group transition duration-500 ${
               openId === w.id ? 'border-teal-500/60' : 'border-white/10 hover:border-teal-500/50'
             }`}
           >

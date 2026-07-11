@@ -70,3 +70,28 @@ img { max-width: 100%; display: block; }
   from { opacity: 0; transform: translateY(20px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+/* Scroll-reveal: progressive enhancement only. Without the `.js` class (JS didn't
+   run, or before hydration), `.reveal` elements are fully visible — content is
+   never hidden from crawlers or no-JS visitors. */
+.reveal { opacity: 1; transform: none; }
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.js .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Card hover polish */
+.hover-lift { transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease; }
+.hover-lift:hover { transform: translateY(-4px); box-shadow: 0 16px 32px -12px rgba(2, 6, 23, 0.25); }
+
+/* Button press feedback (complements .btn-cta) */
+button, a.btn-cta, .btn-cta {
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-cta:active { transform: translateY(0) scale(0.97); }

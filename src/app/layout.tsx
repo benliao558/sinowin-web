@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Noto_Sans_TC } from 'next/font/google'
+import ScrollReveal from '@/components/ScrollReveal'
 import './globals.css'
 
 const notoSansTC = Noto_Sans_TC({
@@ -21,7 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh" className={notoSansTC.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ScrollReveal />
+      </body>
     </html>
   )
 }

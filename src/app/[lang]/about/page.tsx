@@ -103,7 +103,7 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section className="reveal py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           <article className="lg:col-span-7 glass rounded-[2rem] p-8 sm:p-10">
             <h2 className="text-2xl font-black mb-2">About SINOWIN</h2>
@@ -135,9 +135,9 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 border-t border-white/5">
+      <section className="reveal py-16 md:py-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-10">
-          <div className="glass rounded-[2rem] p-8 sm:p-10">
+          <div className="hover-lift glass rounded-[2rem] p-8 sm:p-10">
             <p className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2">What We Focus On</p>
             <h2 className="text-2xl font-black mb-6">{c.focusOn.title[lang]}</h2>
             <div className="space-y-2">
@@ -149,7 +149,7 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
               ))}
             </div>
           </div>
-          <div className="glass rounded-[2rem] p-8 sm:p-10">
+          <div className="hover-lift glass rounded-[2rem] p-8 sm:p-10">
             <p className="text-rose-400 text-xs font-black uppercase tracking-widest mb-2">What We Don&apos;t</p>
             <h2 className="text-2xl font-black mb-6">{c.dontDo.title[lang]}</h2>
             <div className="space-y-2">
