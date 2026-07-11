@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { locales } from '@/lib/i18n'
+import { articles } from '@/content/articles'
 
 const baseUrl = 'https://www.sinowin-vn.com'
 
@@ -15,6 +16,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: page === '' ? 'weekly' : 'monthly',
         priority: page === '' ? 1.0 : 0.8,
+      })
+    }
+
+    for (const article of articles) {
+      entries.push({
+        url: `${baseUrl}/${lang}/articles/${article.slug}`,
+        lastModified: new Date(article.publishDate),
+        changeFrequency: 'monthly',
+        priority: 0.7,
       })
     }
   }

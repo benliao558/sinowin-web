@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
 import { articles, getTranslation } from '@/content/articles'
 
@@ -39,7 +40,12 @@ export default function ArticlesPage({ params }: { params: { lang: string } }) {
               href={`/${lang}/articles/${a.slug}`}
               style={{ background: 'white', padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem' }}
             >
-              <div style={{ fontWeight: 500 }}>{t.title}</div>
+              {a.coverImage && (
+                <div style={{ width: '80px', height: '60px', position: 'relative', flexShrink: 0, borderRadius: '8px', overflow: 'hidden' }}>
+                  <Image src={a.coverImage} alt={t.title} fill style={{ objectFit: 'cover' }} />
+                </div>
+              )}
+              <div style={{ fontWeight: 500, flex: 1 }}>{t.title}</div>
               <div style={{ fontSize: '0.8rem', color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>
                 {a.publishDate}
               </div>
