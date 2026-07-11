@@ -46,22 +46,20 @@ export default function LocaleLayout({
 
   return (
     <>
-      <head>
-        {/* hreflang tags */}
-        {locales.map((l) => (
-          <link
-            key={l}
-            rel="alternate"
-            hrefLang={hreflangMap[l]}
-            href={`https://www.sinowin-vn.com/${l}`}
-          />
-        ))}
+      {/* hreflang tags */}
+      {locales.map((l) => (
         <link
+          key={l}
           rel="alternate"
-          hrefLang="x-default"
-          href="https://www.sinowin-vn.com/zh"
+          hrefLang={hreflangMap[l]}
+          href={`https://www.sinowin-vn.com/${l}`}
         />
-      </head>
+      ))}
+      <link
+        rel="alternate"
+        hrefLang="x-default"
+        href="https://www.sinowin-vn.com/zh"
+      />
         <header style={{
           borderBottom: '1px solid var(--color-border)',
           padding: '0 2rem',
