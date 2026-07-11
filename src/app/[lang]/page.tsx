@@ -1,7 +1,10 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
 import { siteContent } from '@/content/site'
+import BrHcjTool from '@/components/BrHcjTool'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -26,16 +29,49 @@ export async function generateMetadata({ params }: { params: { lang: string } })
 
 const s = siteContent
 
+const CERT_IMAGES: Record<string, string> = {
+  iso9001: '/assets/workshops/iso-9001.webp',
+  iso14001: '/assets/workshops/iso-14001.webp',
+  iso45001: '/assets/workshops/iso-45001.webp',
+  qc080000: '/assets/workshops/qc-080000.webp',
+}
+
+const T = {
+  eyebrow: { zh: '越南垂直整合磁材製造商', en: 'Vertically Integrated Magnet Manufacturer in Vietnam', vi: 'Nhà sản xuất nam châm tích hợp dọc tại Việt Nam', ja: 'ベトナムの垂直統合型磁石メーカー' },
+  networkTitle: { zh: '全球製造基地佈局', en: 'Global Manufacturing Network', vi: 'Mạng lưới sản xuất toàn cầu', ja: 'グローバル製造ネットワーク' },
+  networkLead: { zh: 'SINOWIN 致力於構建具備高度韌性的供應鏈。目前已在越南北寧建立成熟產線，並積極佈建印度清奈生產中心。', en: 'SINOWIN is building a highly resilient supply chain — an established production line in Bac Giang, Vietnam, and an upcoming site in Chennai, India.', vi: 'SINOWIN đang xây dựng chuỗi cung ứng có khả năng phục hồi cao — dây chuyền sản xuất tại Bắc Giang, Việt Nam và cơ sở sắp tới tại Chennai, Ấn Độ.', ja: 'SINOWINはベトナム・バクザンの確立された生産ラインと、インド・チェンナイの新拠点により、強靭なサプライチェーンを構築しています。' },
+  vietnamName: { zh: '越南北寧', en: 'Bac Giang, Vietnam', vi: 'Bắc Giang, Việt Nam', ja: 'ベトナム・バクザン' },
+  vietnamAddr: 'Lots B3, B4, B5, Dinh Tram Industrial Park, Bac Giang',
+  indiaName: { zh: '印度清奈', en: 'Chennai, India', vi: 'Chennai, Ấn Độ', ja: 'インド・チェンナイ' },
+  indiaAddr: { zh: '建設中 | Tamil Nadu, India', en: 'Construction in progress | Tamil Nadu, India', vi: 'Đang xây dựng | Tamil Nadu, Ấn Độ', ja: '建設中 | タミル・ナードゥ州、インド' },
+  vietnamCardTitle: { zh: '越南北寧基地', en: 'Bac Giang, Vietnam Site', vi: 'Cơ sở Bắc Giang, Việt Nam', ja: 'ベトナム・バクザン拠点' },
+  vietnamCardDesc: { zh: '機加工全製程包含各項異型研磨，多元表面處理工藝，全方位充磁組裝，實現海外全品項滿足供應。', en: 'Full machining process including custom-profile grinding, diverse surface treatments, and complete magnetizing/assembly for full overseas supply.', vi: 'Quy trình gia công đầy đủ bao gồm mài biên dạng tùy chỉnh, xử lý bề mặt đa dạng và từ hóa/lắp ráp hoàn chỉnh.', ja: '異形研削、多様な表面処理、充磁・組立まで一貫した加工プロセス。' },
+  viewTour: { zh: '進入 SINOWIN', en: 'Enter SINOWIN', vi: 'Vào SINOWIN', ja: 'SINOWINへ' },
+  massProduction: { zh: '量產中', en: 'Mass Production', vi: 'Sản xuất hàng loạt', ja: '量産中' },
+  indiaCardTitle: { zh: '印度清奈基地', en: 'Chennai, India Site', vi: 'Cơ sở Chennai, Ấn Độ', ja: 'インド・チェンナイ拠点' },
+  indiaCardDesc: { zh: '預計 2026 年夏季啟用，擴大對南亞市場的高端供應能力。', en: 'Expected to launch summer 2026, expanding high-end supply capability to the South Asian market.', vi: 'Dự kiến ra mắt mùa hè 2026, mở rộng năng lực cung ứng cao cấp cho thị trường Nam Á.', ja: '2026年夏稼働予定。南アジア市場への高付加価値供給能力を拡大。' },
+  underConstruction: { zh: '建設中', en: 'Under Construction', vi: 'Đang xây dựng', ja: '建設中' },
+  certTitle: { zh: '認證與管理體系', en: 'Certifications & Management Systems', vi: 'Chứng nhận & Hệ thống quản lý', ja: '認証・管理システム' },
+  obtained: { zh: '已獲取', en: 'Obtained', vi: 'Đã đạt được', ja: '取得済み' },
+  verifying: { zh: '驗證中', en: 'Verifying', vi: 'Đang xác minh', ja: '認証中' },
+  contactTitle: { zh: '越南基地定位', en: 'Vietnam Site Location', vi: 'Vị trí cơ sở Việt Nam', ja: 'ベトナム拠点の所在地' },
+  addrCompany: 'SINOWIN INDUSTRIAL(VN)CO.,LTD',
+  addrFull: 'Lots B3, B4, B5, Dinh Tram Industrial Park, Nenh Ward, Bac Giang Province, Vietnam',
+}
+
+function tr(obj: Partial<Record<Locale, string>> | string, lang: Locale): string {
+  if (typeof obj === 'string') return obj
+  return obj[lang] ?? obj.en ?? ''
+}
+
 export default function HomePage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
   const home = s.home
-  const mfg = s.manufacturing
 
   return (
     <>
-      {/* JSON-LD Organization */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -45,106 +81,152 @@ export default function HomePage({ params }: { params: { lang: string } }) {
             name: 'SINOWIN INDUSTRIAL (VN)',
             url: 'https://www.sinowin-vn.com',
             email: 'info@sinowin-vn.com',
-            address: { '@type': 'PostalAddress', addressCountry: 'VN', addressRegion: 'Bac Giang' },
-            sameAs: [],
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Dinh Tram Industrial Park, Nenh Ward',
+              addressRegion: 'Bac Giang Province',
+              addressCountry: 'VN',
+            },
           }),
         }}
       />
 
       {/* Hero */}
-      <section style={{ padding: '5rem 2rem 4rem', maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 700, lineHeight: 1.15, marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>
-          {home.hero.title[lang]}
-        </h1>
-        <p style={{ fontSize: '1.125rem', color: 'var(--color-muted)', maxWidth: '640px', lineHeight: 1.7 }}>
-          {home.hero.subtitle[lang]}
-        </p>
-      </section>
-
-      {/* Key metrics */}
-      <section style={{ background: 'var(--color-primary)', color: 'white', padding: '3rem 2rem' }}>
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
-          {[
-            { value: '2,000 MT', label: lang === 'zh' ? '年加工產能' : lang === 'vi' ? 'Công suất năm' : lang === 'ja' ? '年間処理能力' : 'Annual Capacity' },
-            { value: '6', label: lang === 'zh' ? '製造車間' : lang === 'vi' ? 'Xưởng sản xuất' : lang === 'ja' ? '製造ワークショップ' : 'Workshops' },
-            { value: '>99.5%', label: lang === 'zh' ? '批次合格率' : lang === 'vi' ? 'Tỷ lệ đạt lô' : lang === 'ja' ? 'バッチ合格率' : 'Batch Pass Rate' },
-            { value: '<1μm', label: lang === 'zh' ? 'CMM 量測精度' : lang === 'vi' ? 'Độ chính xác CMM' : lang === 'ja' ? 'CMM精度' : 'CMM Accuracy' },
-          ].map(({ value, label }) => (
-            <div key={label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: 700, letterSpacing: '-0.03em', color: '#fff' }}>{value}</div>
-              <div style={{ fontSize: '0.875rem', opacity: 0.7, marginTop: '0.5rem' }}>{label}</div>
-            </div>
-          ))}
+      <section className="relative hero-gradient pt-16 md:pt-24 pb-16 md:pb-20 overflow-hidden text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-400/10 border border-teal-400/20 text-teal-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
+            <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+            {tr(T.eyebrow, lang)}
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
+            {home.hero.title[lang]}
+          </h1>
+          <p className="text-lg text-slate-400 max-w-2xl font-medium leading-relaxed">
+            {home.hero.subtitle[lang]}
+          </p>
         </div>
       </section>
 
-      {/* Supply Chain Advantage */}
-      <section style={{ padding: '4rem 2rem', maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
-          <div>
-            <div style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-accent)', textTransform: 'uppercase', marginBottom: '1rem' }}>
-              {lang === 'zh' ? '核心優勢' : lang === 'vi' ? 'Lợi thế cốt lõi' : lang === 'ja' ? 'コア優位性' : 'Core Advantage'}
+      {/* Global Manufacturing Network */}
+      <section id="about" className="py-16 md:py-24 bg-white relative overflow-hidden text-left border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-16 items-start">
+            <div className="lg:w-1/2">
+              <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight">
+                {tr(T.networkTitle, lang)}
+                <span className="block text-lg font-medium text-slate-400 mt-1">Global Manufacturing Network</span>
+              </h2>
+              <p className="text-lg leading-relaxed font-medium text-slate-600 mb-6">{tr(T.networkLead, lang)}</p>
+              <div className="space-y-4">
+                <div className="flex gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                  <div>
+                    <p className="font-bold text-slate-800 text-lg">{tr(T.vietnamName, lang)}</p>
+                    <p className="text-xs text-slate-500 font-bold tracking-tight">{T.vietnamAddr}</p>
+                  </div>
+                </div>
+                <div className="flex gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                  <div>
+                    <p className="font-bold text-slate-800 text-lg">{tr(T.indiaName, lang)}</p>
+                    <p className="text-xs text-slate-500 font-bold tracking-tight italic text-amber-600">{tr(T.indiaAddr, lang)}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h2 style={{ fontSize: '2rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '1rem' }}>
-              {s.home.supplyChain.title[lang]}
-            </h2>
-            <p style={{ color: 'var(--color-muted)', lineHeight: 1.8 }}>
-              {s.home.supplyChain.body[lang]}
-            </p>
-          </div>
-          <div style={{ background: 'var(--color-surface)', borderRadius: '12px', padding: '2rem' }}>
-            {[
-              lang === 'zh' ? '✓ 機加工設備不涉中國供應鏈' : lang === 'vi' ? '✓ Thiết bị gia công không từ Trung Quốc' : lang === 'ja' ? '✓ 機械加工設備は中国製不使用' : '✓ Machining equipment: China-free',
-              lang === 'zh' ? '✓ 充磁設備不涉中國供應鏈' : lang === 'vi' ? '✓ Thiết bị từ hóa không từ Trung Quốc' : lang === 'ja' ? '✓ 磁化設備は中国製不使用' : '✓ Magnetizing equipment: China-free',
-              lang === 'zh' ? '✓ 測試設備不涉中國供應鏈' : lang === 'vi' ? '✓ Thiết bị kiểm tra không từ Trung Quốc' : lang === 'ja' ? '✓ 検査設備は中国製不使用' : '✓ Testing equipment: China-free',
-            ].map((item) => (
-              <div key={item} style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.95rem', fontWeight: 500 }}>
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Manufacturing overview */}
-      <section style={{ padding: '4rem 2rem', background: 'var(--color-surface)' }}>
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '0.75rem' }}>
-            {mfg.pageTitle[lang]}
-          </h2>
-          <p style={{ color: 'var(--color-muted)', marginBottom: '2.5rem' }}>{mfg.intro[lang]}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
-            {mfg.workshops.map((w) => (
-              <div key={w.id} style={{ background: 'white', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)', padding: '1.5rem' }}>
-                <div style={{ fontWeight: 600, marginBottom: '0.5rem' }}>{w.name[lang]}</div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--color-muted)' }}>{w.specs[lang]}</div>
+            <div className="lg:w-1/2 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Link href={`/${lang}/manufacturing`} className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group relative">
+                <div className="h-48 bg-slate-100 relative overflow-hidden">
+                  <Image src="/assets/workshops/vietnam-site.webp" alt="Vietnam Site" fill className="object-cover group-hover:scale-110 transition duration-700" />
+                  <div className="absolute top-3 left-3 bg-teal-600 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase z-10">{tr(T.massProduction, lang)}</div>
+                </div>
+                <div className="p-6">
+                  <h4 className="font-black text-slate-900 mb-2">{tr(T.vietnamCardTitle, lang)}</h4>
+                  <p className="text-xs text-slate-500 font-bold leading-relaxed">{tr(T.vietnamCardDesc, lang)}</p>
+                </div>
+              </Link>
+
+              <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group grayscale">
+                <div className="h-48 bg-slate-200 relative">
+                  <Image src="/assets/workshops/india-site.jpg" alt="India Site" fill className="object-cover opacity-70" />
+                  <div className="absolute top-3 left-3 bg-slate-800 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase">{tr(T.underConstruction, lang)}</div>
+                </div>
+                <div className="p-6 text-slate-400 italic">
+                  <h4 className="font-black text-slate-500 mb-2">{tr(T.indiaCardTitle, lang)}</h4>
+                  <p className="text-xs text-slate-400 font-bold leading-relaxed">{tr(T.indiaCardDesc, lang)}</p>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Certifications */}
-      <section style={{ padding: '4rem 2rem', maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <h2 style={{ fontSize: '1.75rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '2rem' }}>
-          {lang === 'zh' ? '認證' : lang === 'vi' ? 'Chứng nhận' : lang === 'ja' ? '認証' : 'Certifications'}
-        </h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          {s.certifications.filter(c => c.confirmed).map((cert) => (
-            <div key={cert.id} style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: '0.75rem 1.5rem', fontWeight: 600, fontSize: '0.9rem' }}>
-              {cert.name}
-            </div>
-          ))}
+      <section id="system" className="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 hero-gradient opacity-20" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="text-4xl font-black mb-12 tracking-tight">{tr(T.certTitle, lang)}</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {s.certifications.map((cert) => {
+              const img = CERT_IMAGES[cert.id]
+              return (
+                <div key={cert.id} className={`relative bg-white/5 border border-white/10 rounded-2xl p-6 text-center group hover:z-50 cursor-pointer ${!cert.confirmed ? 'grayscale opacity-60 hover:grayscale-0' : ''}`}>
+                  <div className="h-20 flex items-center justify-center mb-4 relative">
+                    {img ? (
+                      <Image src={img} alt={cert.name} fill className="object-contain transition-transform duration-500 group-hover:scale-150" />
+                    ) : (
+                      <span className="text-slate-500 text-xs font-black">{cert.name}</span>
+                    )}
+                  </div>
+                  <h4 className="text-sm font-black text-white mb-1">{cert.name}</h4>
+                  <p className={`text-[9px] font-bold uppercase ${cert.confirmed ? 'text-teal-400' : 'text-slate-500'}`}>
+                    {cert.confirmed ? tr(T.obtained, lang) : tr(T.verifying, lang)}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
 
-      {/* Contact anchor */}
-      <section id="contact" style={{ padding: '4rem 2rem', background: 'var(--color-primary)', color: 'white' }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '1rem' }}>
-            {lang === 'zh' ? '聯絡我們' : lang === 'vi' ? 'Liên hệ với chúng tôi' : lang === 'ja' ? 'お問い合わせ' : 'Contact Us'}
-          </h2>
-          <p style={{ opacity: 0.8, marginBottom: '2rem' }}>info@sinowin-vn.com</p>
+      {/* Br/Hcj grade table + calculator */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <BrHcjTool lang={lang} />
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-16 md:py-24 bg-white overflow-hidden text-left border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-slate-900 rounded-[3rem] p-8 lg:p-16 shadow-2xl grid md:grid-cols-2 gap-10 border border-white/5">
+            <div>
+              <h2 className="text-3xl font-black text-white mb-1">{tr(T.contactTitle, lang)}</h2>
+              <p className="text-slate-400 text-sm font-medium mb-6">Vietnam Site Positioning</p>
+              <a
+                className="map-interactive-wrapper mb-8 block group"
+                href="https://maps.app.goo.gl/9NJcn9pakADQJF2y5?g_st=ipc"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="map-container">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.3496350714775!2d106.0683058760431!3d21.2179836812604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313509930f785555%3A0x6739665f80b2a752!2sSINOWIN%20Industrial%20(Vietnam)%20Co.%2C%20Ltd.!5e0!3m2!1szh-TW!2svn!4v1735874200000!5m2!1szh-TW!2svn"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+              </a>
+              <p className="text-white font-bold text-lg mb-1">{T.addrCompany}</p>
+              <p className="text-xs font-medium text-slate-400 leading-relaxed">{T.addrFull}</p>
+            </div>
+            <div className="flex flex-col justify-center">
+              <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mb-2">Email</p>
+              <a href="mailto:info@sinowin-vn.com" className="text-2xl font-black text-teal-400">info@sinowin-vn.com</a>
+            </div>
+          </div>
         </div>
       </section>
     </>
