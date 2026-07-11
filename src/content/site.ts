@@ -109,10 +109,13 @@ export const siteContent = {
     { id: 'iso14001', name: 'ISO 14001', confirmed: true },
     { id: 'iso45001', name: 'ISO 45001', confirmed: true },
     { id: 'qc080000', name: 'QC 080000', confirmed: true },
-    // NOTE: IATF 16949 and RBA are placeholder images on current site
-    // Confirm with QA team before publishing
-    { id: 'iatf16949', name: 'IATF 16949', confirmed: false },
+    // Confirmed obtained by QA dept 2026-07-11. Badge image pending — see
+    // CERT_IMAGES in [lang]/page.tsx; falls back to text label until the
+    // official badge file is supplied.
+    { id: 'iatf16949', name: 'IATF 16949', confirmed: true },
+    // Under audit, not yet obtained — confirmed by QA dept 2026-07-11.
     { id: 'rba', name: 'RBA', confirmed: false },
+    { id: 'esci', name: 'ESCI', confirmed: false },
   ],
 
   // ── FAQ (from contact.html — [TODO] need full content) ────────

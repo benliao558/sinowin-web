@@ -56,7 +56,7 @@ const T = {
   underConstruction: { zh: '建設中', en: 'Under Construction', vi: 'Đang xây dựng', ja: '建設中' },
   certTitle: { zh: '認證與管理體系', en: 'Certifications & Management Systems', vi: 'Chứng nhận & Hệ thống quản lý', ja: '認証・管理システム' },
   obtained: { zh: '已獲取', en: 'Obtained', vi: 'Đã đạt được', ja: '取得済み' },
-  verifying: { zh: '驗證中', en: 'Verifying', vi: 'Đang xác minh', ja: '認証中' },
+  verifying: { zh: '審核中', en: 'Under Audit', vi: 'Đang được đánh giá', ja: '審査中' },
   contactTitle: { zh: '越南基地定位', en: 'Vietnam Site Location', vi: 'Vị trí cơ sở Việt Nam', ja: 'ベトナム拠点の所在地' },
   addrCompany: 'SINOWIN INDUSTRIAL(VN)CO.,LTD',
   addrFull: 'Lots B3, B4, B5, Dinh Tram Industrial Park, Nenh Ward, Bac Giang Province, Vietnam',
