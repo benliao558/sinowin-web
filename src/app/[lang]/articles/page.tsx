@@ -52,7 +52,7 @@ export default function ArticlesPage({ params }: { params: { lang: string } }) {
         {articlePlaceholders.map((a) => (
           <div key={a.slug} style={{ background: 'white', padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ fontWeight: 500 }}>{a.title[lang]}</div>
-            <div style={{ fontSize: '0.8rem', color: 'var(--color-muted)', background: '#fffbeb', padding: '0.25rem 0.75rem', borderRadius: '999px', border: '1px solid #f59e0b', color: '#92400e' }}>
+            <div style={{ fontSize: '0.8rem', background: '#fffbeb', padding: '0.25rem 0.75rem', borderRadius: '999px', border: '1px solid #f59e0b', color: '#92400e' }}>
               {lang === 'zh' ? '遷移中' : lang === 'vi' ? 'Đang di chuyển' : lang === 'ja' ? '移行中' : 'Migrating'}
             </div>
           </div>
