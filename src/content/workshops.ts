@@ -51,7 +51,7 @@ export const workshops: Workshop[] = [
     ],
     tabs: [
       {
-        key: 'mw', title: { zh: '高速多線切割機', en: 'High-Speed Multi-Wire Cutting Machine' }, sub: { zh: 'Throughput · Accuracy' }, img: '/assets/workshops/multi-wire-cutting-workshop.png',
+        key: 'mw', title: { zh: '高速多線切割機', en: 'High-Speed Multi-Wire Cutting Machine', vi: 'Máy Cắt Dây Đa Dây Tốc Độ Cao', ja: '高速多線切断機' }, sub: { zh: 'Throughput · Accuracy' }, img: '/assets/workshops/multi-wire-cutting-workshop.png',
         points: [
           [{ zh: '核心優勢：', en: 'Core advantage: ', vi: 'Ưu điểm cốt lõi: ', ja: '核心的優位性：' }, { zh: '同時走 400～600 條鑽石線，單次可切割數百片，適合大批量標準規格磁片。', en: 'Runs 400–600 diamond wires simultaneously, cutting hundreds of slices per pass — suited for high-volume standard-spec magnet slices.', vi: 'Vận hành đồng thời 400–600 dây kim cương, cắt hàng trăm lát mỗi lần, phù hợp cho phiến từ quy cách tiêu chuẩn số lượng lớn.', ja: '400〜600本のダイヤモンドワイヤーを同時に走行させ、一度に数百枚を切断。大量生産される標準規格の磁石スライスに適しています。' }],
           [{ zh: '精度表現：', en: 'Precision: ', vi: 'Độ chính xác: ', ja: '精度：' }, { zh: '切片厚度一致性 ±0.02 mm，鋸縫寬度 < 0.2 mm，原材料損耗率業界最低。', en: 'Slice thickness consistency ±0.02 mm, kerf width < 0.2 mm, industry-leading raw material loss rate.', vi: 'Độ đồng nhất chiều dày lát cắt ±0,02 mm, chiều rộng đường cắt < 0,2 mm, tỷ lệ hao hụt nguyên liệu thấp nhất ngành.', ja: 'スライス厚さの一貫性 ±0.02 mm、切断幅 < 0.2 mm。業界トップクラスの低い原材料ロス率。' }],
@@ -59,7 +59,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'feed', title: { zh: '精密伺服進給系統', en: 'Precision Servo Feed System' }, sub: { zh: 'Stability · Consistency' }, img: '/assets/workshops/multi-wire-cutting-workshop.png',
+        key: 'feed', title: { zh: '精密伺服進給系統', en: 'Precision Servo Feed System', vi: 'Hệ Thống Cấp Phôi Servo Chính Xác', ja: '精密サーボ送り機構' }, sub: { zh: 'Stability · Consistency' }, img: '/assets/workshops/multi-wire-cutting-workshop.png',
         points: [
           [{ zh: '核心功能：', en: 'Core function: ', vi: 'Chức năng cốt lõi: ', ja: '核心機能：' }, { zh: '伺服控制進給速度與切割壓力，實時補償切割力變化，確保切割面平整。', en: 'Servo-controlled feed speed and cutting pressure with real-time compensation for cutting force variation, ensuring a flat cut surface.', vi: 'Điều khiển servo tốc độ tiến dao và áp lực cắt, bù trừ theo thời gian thực biến động lực cắt, đảm bảo bề mặt cắt phẳng.', ja: 'サーボ制御により送り速度と切断圧力を管理し、切断力の変動をリアルタイムで補正、平滑な切断面を実現します。' }],
           [{ zh: '精度指標：', en: 'Precision metrics: ', vi: 'Chỉ số độ chính xác: ', ja: '精度指標：' }, { zh: '表面粗糙度 Ra < 0.8 μm，平面度 < 0.01 mm，批次間尺寸波動極小。', en: 'Surface roughness Ra < 0.8 μm, flatness < 0.01 mm, minimal dimensional variation between batches.', vi: 'Độ nhám bề mặt Ra < 0,8 μm, độ phẳng < 0,01 mm, biến động kích thước giữa các lô rất nhỏ.', ja: '表面粗さ Ra < 0.8 μm、平面度 < 0.01 mm。バッチ間の寸法variationを最小限に抑制。' }],
@@ -67,7 +67,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'qc', title: { zh: '在線尺寸監控系統', en: 'Inline Dimensional Monitoring System' }, sub: { zh: 'Quality · Reliability' }, img: '/assets/workshops/multi-wire-cutting-workshop.png',
+        key: 'qc', title: { zh: '在線尺寸監控系統', en: 'Inline Dimensional Monitoring System', vi: 'Hệ Thống Giám Sát Kích Thước Trực Tuyến', ja: 'インライン寸法監視システム' }, sub: { zh: 'Quality · Reliability' }, img: '/assets/workshops/multi-wire-cutting-workshop.png',
         points: [
           [{ zh: '監控方式：', en: 'Monitoring method: ', vi: 'Phương pháp giám sát: ', ja: '監視方式：' }, { zh: 'CCD 攝影機即時量測切片厚度，自動反饋調整進給參數。', en: 'CCD cameras measure slice thickness in real time, automatically feeding back to adjust feed parameters.', vi: 'Camera CCD đo chiều dày lát cắt theo thời gian thực, tự động phản hồi để điều chỉnh thông số tiến dao.', ja: 'CCDカメラでスライス厚さをリアルタイム測定し、送り条件へ自動フィードバック。' }],
           [{ zh: '品質保障：', en: 'Quality assurance: ', vi: 'Đảm bảo chất lượng: ', ja: '品質保証：' }, { zh: '不合格品即時剔除，確保批次合格率 > 99.5%。', en: 'Non-conforming pieces are removed immediately, ensuring a batch pass rate > 99.5%.', vi: 'Loại bỏ ngay sản phẩm không đạt, đảm bảo tỷ lệ đạt lô > 99,5%.', ja: '不良品は即座に排除し、バッチ合格率99.5%超を確保します。' }],
@@ -94,7 +94,7 @@ export const workshops: Workshop[] = [
     ],
     tabs: [
       {
-        key: 'fiber', title: { zh: '光纖激光切割機', en: 'Fiber Laser Cutting Machine' }, sub: { zh: 'Precision · Non-contact' }, img: '/assets/workshops/laser-cutting-workshop.png',
+        key: 'fiber', title: { zh: '光纖激光切割機', en: 'Fiber Laser Cutting Machine', vi: 'Máy Cắt Laser Sợi Quang', ja: 'ファイバーレーザー切断機' }, sub: { zh: 'Precision · Non-contact' }, img: '/assets/workshops/laser-cutting-workshop.png',
         points: [
           [{ zh: '輸出功率：', en: 'Output power: ', vi: 'Công suất đầu ra: ', ja: '出力：' }, { zh: '500W～2kW，可依磁材厚度選擇最佳切割功率，減少熱影響區。', en: '500W–2kW, optimal cutting power selectable based on material thickness to reduce the heat-affected zone.', vi: '500W–2kW, có thể chọn công suất cắt tối ưu theo độ dày vật liệu để giảm vùng ảnh hưởng nhiệt.', ja: '500W〜2kW、材料厚さに応じて最適な切断出力を選択し、熱影響部を低減。' }],
           [{ zh: '定位精度：', en: 'Positioning accuracy: ', vi: 'Độ chính xác định vị: ', ja: '位置決め精度：' }, { zh: '伺服驅動 XY 平台，定位精度 ±0.01 mm，重複精度 ±0.005 mm。', en: 'Servo-driven XY platform, positioning accuracy ±0.01 mm, repeatability ±0.005 mm.', vi: 'Bàn XY dẫn động servo, độ chính xác định vị ±0,01 mm, độ lặp lại ±0,005 mm.', ja: 'サーボ駆動XYステージ、位置決め精度 ±0.01 mm、繰り返し精度 ±0.005 mm。' }],
@@ -102,7 +102,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'vision', title: { zh: '高精度視覺定位系統', en: 'High-Precision Vision Positioning System' }, sub: { zh: 'Auto-align · Accuracy' }, img: '/assets/workshops/laser-cutting-workshop.png',
+        key: 'vision', title: { zh: '高精度視覺定位系統', en: 'High-Precision Vision Positioning System', vi: 'Hệ Thống Định Vị Thị Giác Độ Chính Xác Cao', ja: '高精度画像位置決めシステム' }, sub: { zh: 'Auto-align · Accuracy' }, img: '/assets/workshops/laser-cutting-workshop.png',
         points: [
           [{ zh: '對位原理：', en: 'Alignment principle: ', vi: 'Nguyên lý căn chỉnh: ', ja: '位置合わせ原理：' }, { zh: 'CCD 攝影機即時拍攝磁件位置，與 CAD 圖形自動比對後修正切割路徑。', en: 'CCD cameras capture magnet position in real time, automatically comparing against CAD geometry to correct the cutting path.', vi: 'Camera CCD chụp vị trí nam châm theo thời gian thực, tự động so sánh với hình học CAD để hiệu chỉnh đường cắt.', ja: 'CCDカメラで磁石位置をリアルタイム撮影し、CAD形状と自動照合して切断経路を補正。' }],
           [{ zh: '適用場景：', en: 'Application scenario: ', vi: 'Kịch bản áp dụng: ', ja: '適用シーン：' }, { zh: '異型磁件、有印記或特徵邊的零件，確保每片切割位置一致。', en: 'Custom-shaped magnets, parts with markings or feature edges — ensures consistent cutting position across every piece.', vi: 'Nam châm hình dạng đặc biệt, chi tiết có dấu hoặc cạnh đặc trưng — đảm bảo vị trí cắt nhất quán cho từng phiến.', ja: '異形磁石やマーキング・特徴的なエッジを持つ部品に適用し、全ての切断位置の一貫性を確保。' }],
@@ -110,7 +110,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'exhaust', title: { zh: '自動排煙除塵系統', en: 'Automatic Fume Extraction System' }, sub: { zh: 'Safety · Compliance' }, img: '/assets/workshops/laser-cutting-workshop.png',
+        key: 'exhaust', title: { zh: '自動排煙除塵系統', en: 'Automatic Fume Extraction System', vi: 'Hệ Thống Hút Khói Bụi Tự Động', ja: '自動集煙・集塵システム' }, sub: { zh: 'Safety · Compliance' }, img: '/assets/workshops/laser-cutting-workshop.png',
         points: [
           [{ zh: '過濾效能：', en: 'Filtration performance: ', vi: 'Hiệu suất lọc: ', ja: 'フィルター性能：' }, { zh: '三級過濾（HEPA + 活性碳），去除 ≥ 99.97% 的 0.3 μm 微粒。', en: 'Three-stage filtration (HEPA + activated carbon), removing ≥ 99.97% of 0.3 μm particles.', vi: 'Lọc ba cấp (HEPA + than hoạt tính), loại bỏ ≥ 99,97% hạt 0,3 μm.', ja: '3段階フィルター（HEPA＋活性炭）で0.3μm粒子を99.97%以上除去。' }],
           [{ zh: '安全合規：', en: 'Safety compliance: ', vi: 'Tuân thủ an toàn: ', ja: '安全コンプライアンス：' }, { zh: '符合越南工廠排放標準，保障操作員健康與廠房環境。', en: 'Meets Vietnam factory emission standards, protecting operator health and the shop-floor environment.', vi: 'Đáp ứng tiêu chuẩn khí thải nhà máy Việt Nam, bảo vệ sức khỏe người vận hành và môi trường xưởng.', ja: 'ベトナム工場排出基準に適合し、作業員の健康と工場環境を保護。' }],
@@ -137,7 +137,7 @@ export const workshops: Workshop[] = [
     ],
     tabs: [
       {
-        key: 'dface', title: { zh: '全自動雙面研磨機', en: 'Fully Automatic Double-Side Grinder' }, sub: { zh: 'Flatness · Parallelism' }, img: '/assets/workshops/grinding-workshop.png',
+        key: 'dface', title: { zh: '全自動雙面研磨機', en: 'Fully Automatic Double-Side Grinder', vi: 'Máy Mài Hai Mặt Tự Động Hoàn Toàn', ja: '全自動両面研削盤' }, sub: { zh: 'Flatness · Parallelism' }, img: '/assets/workshops/grinding-workshop.png',
         points: [
           [{ zh: '加工方式：', en: 'Method: ', vi: 'Phương pháp: ', ja: '加工方式：' }, { zh: '磁片夾持在行星輪盤中，上下研磨輪同時研磨兩面，確保高度一致性。', en: 'Magnet pieces are held in a planetary carrier while upper and lower grinding wheels grind both faces simultaneously, ensuring height consistency.', vi: 'Phiến nam châm được kẹp trong đĩa hành tinh, đá mài trên và dưới mài đồng thời hai mặt, đảm bảo độ đồng nhất chiều cao.', ja: '磁石片を遊星キャリアに保持し、上下の砥石で両面を同時に研削、高さの一貫性を確保。' }],
           [{ zh: '精度指標：', en: 'Precision: ', vi: 'Độ chính xác: ', ja: '精度：' }, { zh: '平行度 < 0.005 mm，平面度 < 0.008 mm，表面粗糙度 Ra ≤ 0.6 μm。', en: 'Parallelism < 0.005 mm, flatness < 0.008 mm, surface roughness Ra ≤ 0.6 μm.', vi: 'Độ song song < 0,005 mm, độ phẳng < 0,008 mm, độ nhám bề mặt Ra ≤ 0,6 μm.', ja: '平行度 < 0.005 mm、平面度 < 0.008 mm、表面粗さ Ra ≤ 0.6 μm。' }],
@@ -145,7 +145,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'cless', title: { zh: '無心磨床', en: 'Centerless Grinder' }, sub: { zh: 'Roundness · OD Precision' }, img: '/assets/workshops/grinding-workshop.png',
+        key: 'cless', title: { zh: '無心磨床', en: 'Centerless Grinder', vi: 'Máy Mài Vô Tâm', ja: '心なし研削盤' }, sub: { zh: 'Roundness · OD Precision' }, img: '/assets/workshops/grinding-workshop.png',
         points: [
           [{ zh: '適用範圍：', en: 'Application: ', vi: 'Phạm vi áp dụng: ', ja: '適用範囲：' }, { zh: '圓柱形、環形磁材的外徑精密加工，無需夾頭，適合大量生產。', en: 'Precision outer-diameter machining for cylindrical and ring magnets, no chuck required, suited for high-volume production.', vi: 'Gia công đường kính ngoài chính xác cho nam châm hình trụ và hình vòng, không cần mâm cặp, phù hợp sản xuất số lượng lớn.', ja: '円柱・リング磁石の高精度外径加工に対応、チャック不要で大量生産に適合。' }],
           [{ zh: '圓度精度：', en: 'Roundness precision: ', vi: 'Độ chính xác độ tròn: ', ja: '真円度精度：' }, { zh: '圓度誤差 < 0.003 mm，外徑尺寸公差可達 ±0.005 mm。', en: 'Roundness error < 0.003 mm, OD tolerance up to ±0.005 mm.', vi: 'Sai số độ tròn < 0,003 mm, dung sai đường kính ngoài đạt ±0,005 mm.', ja: '真円度誤差 < 0.003 mm、外径公差 ±0.005 mm。' }],
@@ -153,7 +153,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'surf', title: { zh: '精密平面磨床', en: 'Precision Surface Grinder' }, sub: { zh: 'Mirror Finish · μm Flatness' }, img: '/assets/workshops/grinding-workshop.png',
+        key: 'surf', title: { zh: '精密平面磨床', en: 'Precision Surface Grinder', vi: 'Máy Mài Phẳng Chính Xác', ja: '精密平面研削盤' }, sub: { zh: 'Mirror Finish · μm Flatness' }, img: '/assets/workshops/grinding-workshop.png',
         points: [
           [{ zh: '鏡面加工：', en: 'Mirror finishing: ', vi: 'Gia công gương: ', ja: '鏡面加工：' }, { zh: '最高可達 Ra ≤ 0.4 μm 的鏡面效果，適合有光學或精密配合要求的磁件。', en: 'Achieves mirror-like Ra ≤ 0.4 μm, suited for magnets with optical or precision-fit requirements.', vi: 'Đạt hiệu ứng gương Ra ≤ 0,4 μm, phù hợp nam châm yêu cầu quang học hoặc lắp ghép chính xác.', ja: 'Ra ≤ 0.4 μmの鏡面仕上げを実現、光学用途や精密嵌合が求められる磁石に対応。' }],
           [{ zh: '平面度：', en: 'Flatness: ', vi: 'Độ phẳng: ', ja: '平面度：' }, { zh: '配合精密工作台，平面度可達 0.003 mm，滿足最嚴格的組裝要求。', en: 'With precision worktables, flatness up to 0.003 mm, meeting the strictest assembly requirements.', vi: 'Với bàn làm việc chính xác, độ phẳng đạt 0,003 mm, đáp ứng yêu cầu lắp ráp khắt khe nhất.', ja: '精密作業台により平面度0.003mmを実現、最も厳しい組立要求にも対応。' }],
@@ -187,7 +187,7 @@ export const workshops: Workshop[] = [
     ],
     tabs: [
       {
-        key: 'barrel', title: { zh: '振動倒角機', en: 'Vibratory Tumbler' }, sub: { zh: 'Gentle · Stable' }, img: '/assets/workshops/equipment-vibratory-tumbler-1200.jpg',
+        key: 'barrel', title: { zh: '振動倒角機', en: 'Vibratory Tumbler', vi: 'Máy Rung Mài Bavia', ja: '振動バリ取り機' }, sub: { zh: 'Gentle · Stable' }, img: '/assets/workshops/equipment-vibratory-tumbler-1200.jpg',
         points: [
           [{ zh: '適用場景：', en: 'Application: ', vi: 'Kịch bản áp dụng: ', ja: '適用シーン：' }, { zh: '更溫和的去毛刺/圓滑處理，適合對崩邊敏感的工件與較大/較厚零件。', en: 'Gentler deburring/rounding, suited for chip-sensitive workpieces and larger/thicker parts.', vi: 'Xử lý tẩy ba via/bo tròn nhẹ nhàng hơn, phù hợp cho chi tiết nhạy cảm với sứt mẻ và chi tiết lớn/dày hơn.', ja: 'よりマイルドなバリ取り・丸め処理、チッピングに敏感なワークや大型・厚物部品に適合。' }],
           [{ zh: '加工特性：', en: 'Process characteristics: ', vi: 'Đặc tính gia công: ', ja: '加工特性：' }, { zh: '批量穩定，工藝窗口可調（介質/時間/狀態），外觀一致性佳。', en: 'Stable in batches, adjustable process window (media/time/condition), good appearance consistency.', vi: 'Ổn định theo lô, cửa sổ quy trình có thể điều chỉnh (vật liệu mài/thời gian/trạng thái), tính nhất quán ngoại quan tốt.', ja: 'バッチ安定性が高く、工程ウィンドウ（メディア／時間／状態）を調整可能、外観の一貫性も良好。' }],
@@ -195,7 +195,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'cnc', title: { zh: '離心倒角機', en: 'Centrifugal Chamfering Machine' }, sub: { zh: 'Throughput · Uniformity' }, img: '/assets/workshops/equipment-centrifugal-deburring-1200.jpg',
+        key: 'cnc', title: { zh: '離心倒角機', en: 'Centrifugal Chamfering Machine', vi: 'Máy Vát Cạnh Ly Tâm', ja: '遠心式面取り機' }, sub: { zh: 'Throughput · Uniformity' }, img: '/assets/workshops/equipment-centrifugal-deburring-1200.jpg',
         points: [
           [{ zh: '適用場景：', en: 'Application: ', vi: 'Kịch bản áp dụng: ', ja: '適用シーン：' }, { zh: '中小件批量倒角，追求效率與一致性。', en: 'Batch chamfering for small-to-medium parts, prioritizing efficiency and consistency.', vi: 'Vát cạnh theo lô cho chi tiết nhỏ đến trung bình, ưu tiên hiệu suất và tính nhất quán.', ja: '中小部品のバッチ面取り、効率と均一性を重視。' }],
           [{ zh: '加工特性：', en: 'Process characteristics: ', vi: 'Đặc tính gia công: ', ja: '加工特性：' }, { zh: '節拍快、倒角均勻；可依需求做溫和精修或高效去角。', en: 'Fast cycle time, uniform chamfering; can be tuned for gentle finishing or high-efficiency edge removal as needed.', vi: 'Thời gian chu kỳ nhanh, vát cạnh đồng đều; có thể điều chỉnh để hoàn thiện nhẹ nhàng hoặc loại bỏ cạnh hiệu quả cao theo nhu cầu.', ja: 'サイクルタイムが速く面取りが均一。ニーズに応じて穏やかな仕上げまたは高効率なエッジ除去に調整可能。' }],
@@ -203,7 +203,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'clean', title: { zh: '倒角石與適用產品', en: 'Chamfering Media & Applicable Products' }, sub: { zh: 'Media · Matching' }, img: '/assets/workshops/chamfer-media-collage-1200.jpg',
+        key: 'clean', title: { zh: '倒角石與適用產品', en: 'Chamfering Media & Applicable Products', vi: 'Vật Liệu Mài Vát & Sản Phẩm Áp Dụng', ja: '面取りメディアと適用製品' }, sub: { zh: 'Media · Matching' }, img: '/assets/workshops/chamfer-media-collage-1200.jpg',
         points: [
           [{ zh: '圓球倒角石：', en: 'Spherical media: ', vi: 'Vật liệu mài hình cầu: ', ja: '球形メディア：' }, { zh: '通用型，適合均勻去毛刺與圓滑過渡；小件可用更小規格以降低崩邊。', en: 'General-purpose, suited for uniform deburring and smooth transitions; smaller sizes can be used on small parts to reduce chipping.', vi: 'Đa dụng, phù hợp cho tẩy ba via đồng đều và chuyển tiếp mượt mà; kích thước nhỏ hơn có thể dùng cho chi tiết nhỏ để giảm sứt mẻ.', ja: '汎用タイプ、均一なバリ取りと滑らかな移行に適し、小型部品にはより小さいサイズでチッピングを低減。' }],
           [{ zh: '斜圓柱倒角石：', en: 'Angled-cylinder media: ', vi: 'Vật liệu mài trụ xiên: ', ja: '斜円柱メディア：' }, { zh: '更利於形成穩定 R 角效果，適合需要圓弧過渡與外觀一致性的產品。', en: 'Better for forming a stable R-corner effect, suited for products requiring rounded transitions and appearance consistency.', vi: 'Tốt hơn cho hình thành hiệu ứng bo góc R ổn định, phù hợp cho sản phẩm cần chuyển tiếp cong và tính nhất quán ngoại quan.', ja: '安定したR角形成に有利で、丸みのある移行と外観の一貫性が求められる製品に適合。' }],
@@ -230,7 +230,7 @@ export const workshops: Workshop[] = [
     ],
     tabs: [
       {
-        key: 'mag', title: { zh: '高能脈衝充磁機', en: 'High-Energy Pulse Magnetizer' }, sub: { zh: 'Saturation · Multi-pole' }, img: '/assets/workshops/assembly-and-magnetizing-workshop.png',
+        key: 'mag', title: { zh: '高能脈衝充磁機', en: 'High-Energy Pulse Magnetizer', vi: 'Máy Từ Hóa Xung Năng Lượng Cao', ja: '高エネルギーパルス着磁機' }, sub: { zh: 'Saturation · Multi-pole' }, img: '/assets/workshops/assembly-and-magnetizing-workshop.png',
         points: [
           [{ zh: '磁場強度：', en: 'Field strength: ', vi: 'Cường độ từ trường: ', ja: '磁場強度：' }, { zh: '瞬間輸出磁場可達 4T，確保各牌號 NdFeB 完全充磁飽和，包括高矯頑力 SH/UH/EH 等牌號。', en: 'Instantaneous output field up to 4T, ensuring full magnetizing saturation for all NdFeB grades, including high-coercivity SH/UH/EH grades.', vi: 'Từ trường xuất tức thời đạt 4T, đảm bảo bão hòa từ hóa hoàn toàn cho mọi mác NdFeB, kể cả các mác lực kháng từ cao SH/UH/EH.', ja: '瞬間出力磁場は最大4T、SH/UH/EHなど高保磁力グレードを含む全NdFeBグレードで完全な着磁飽和を確保。' }],
           [{ zh: '充磁方式：', en: 'Magnetizing methods: ', vi: 'Phương pháp từ hóa: ', ja: '着磁方式：' }, { zh: '支援軸向、徑向、多極（Halbach、交錯多極等）充磁，可依客戶圖紙客製充磁治具。', en: 'Supports axial, radial, and multi-pole (Halbach, interleaved multi-pole, etc.) magnetizing, with custom fixtures per customer drawings.', vi: 'Hỗ trợ từ hóa hướng trục, hướng kính, đa cực (Halbach, đa cực xen kẽ, v.v.), có thể tùy chỉnh đồ gá theo bản vẽ khách hàng.', ja: '軸方向、径方向、多極（Halbach、交互多極など）着磁に対応し、顧客図面に応じたカスタム治具を製作。' }],
@@ -238,7 +238,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'assy', title: { zh: '自動點膠組裝線', en: 'Automated Dispensing & Assembly Line' }, sub: { zh: 'Bonding · Positioning' }, img: '/assets/workshops/assembly-and-magnetizing-workshop.png',
+        key: 'assy', title: { zh: '自動點膠組裝線', en: 'Automated Dispensing & Assembly Line', vi: 'Dây Chuyền Lắp Ráp & Nhỏ Keo Tự Động', ja: '自動ディスペンス組立ライン' }, sub: { zh: 'Bonding · Positioning' }, img: '/assets/workshops/assembly-and-magnetizing-workshop.png',
         points: [
           [{ zh: '點膠精度：', en: 'Dispensing precision: ', vi: 'Độ chính xác bôi keo: ', ja: 'ディスペンス精度：' }, { zh: '精密點膠閥控制膠量 ±1 mg，確保膠合強度一致性，避免溢膠與缺膠。', en: 'Precision dispensing valves control adhesive volume to ±1 mg, ensuring consistent bond strength and avoiding overflow or insufficient adhesive.', vi: 'Van định lượng keo chính xác kiểm soát lượng keo ±1 mg, đảm bảo độ bền liên kết đồng nhất, tránh tràn hoặc thiếu keo.', ja: '精密ディスペンスバルブで接着剤量を±1mgに制御し、接着強度の一貫性を確保、接着剤の溢れや不足を防止。' }],
           [{ zh: '組裝精度：', en: 'Assembly precision: ', vi: 'Độ chính xác lắp ráp: ', ja: '組立精度：' }, { zh: '自動壓裝定位夾具，組裝位置公差 ±0.03 mm，適合高精度磁性組件。', en: 'Automated press-fit positioning fixtures achieve assembly position tolerance ±0.03 mm, suited for high-precision magnetic assemblies.', vi: 'Đồ gá định vị ép tự động đạt dung sai vị trí lắp ráp ±0,03 mm, phù hợp cho cụm từ tính độ chính xác cao.', ja: '自動圧入位置決め治具により組立位置公差±0.03mmを実現、高精度磁性部品に対応。' }],
@@ -246,7 +246,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'flux', title: { zh: '充磁後磁通量檢測', en: 'Post-Magnetizing Flux Inspection' }, sub: { zh: '100% Inspection' }, img: '/assets/workshops/assembly-and-magnetizing-workshop.png',
+        key: 'flux', title: { zh: '充磁後磁通量檢測', en: 'Post-Magnetizing Flux Inspection', vi: 'Kiểm Tra Từ Thông Sau Từ Hóa', ja: '着磁後磁束検査' }, sub: { zh: '100% Inspection' }, img: '/assets/workshops/assembly-and-magnetizing-workshop.png',
         points: [
           [{ zh: '檢測方式：', en: 'Method: ', vi: 'Phương pháp: ', ja: '検査方法：' }, { zh: '霍爾效應感測器或通量計，逐件量測磁通量 Φ 值，與客戶規格上下限比對。', en: 'Hall-effect sensors or fluxmeters measure flux value Φ piece-by-piece, compared against the customer\'s upper/lower spec limits.', vi: 'Cảm biến hiệu ứng Hall hoặc máy đo từ thông đo giá trị từ thông Φ từng chi tiết, so sánh với giới hạn trên/dưới theo yêu cầu khách hàng.', ja: 'ホール効果センサーまたはフラックスメーターで磁束値Φを1個ずつ測定し、顧客規格の上下限と比較。' }],
           [{ zh: '篩選效率：', en: 'Screening efficiency: ', vi: 'Hiệu suất phân loại: ', ja: '選別効率：' }, { zh: '全自動分選，不合格品自動剔除，檢測速度 > 1,000 件/小時。', en: 'Fully automated sorting, non-conforming pieces removed automatically, inspection speed > 1,000 pieces/hour.', vi: 'Phân loại tự động hoàn toàn, tự động loại bỏ sản phẩm không đạt, tốc độ kiểm tra > 1.000 chiếc/giờ.', ja: '全自動選別、不良品を自動排除、検査速度は1,000個/時間以上。' }],
@@ -273,7 +273,7 @@ export const workshops: Workshop[] = [
     ],
     tabs: [
       {
-        key: 'bh', title: { zh: '退磁曲線測試儀', en: 'Demagnetization Curve Tracer' }, sub: { zh: 'Br · Hcj · (BH)max' }, img: '/assets/workshops/testing-laboratory.png',
+        key: 'bh', title: { zh: '退磁曲線測試儀', en: 'Demagnetization Curve Tracer', vi: 'Máy Đo Đường Cong Khử Từ', ja: '減磁曲線トレーサー' }, sub: { zh: 'Br · Hcj · (BH)max' }, img: '/assets/workshops/testing-laboratory.png',
         points: [
           [{ zh: '測量參數：', en: 'Measurement parameters: ', vi: 'Thông số đo lường: ', ja: '測定パラメータ：' }, { zh: '完整 BH 磁滯迴路，量測 Br（剩磁）、Hcb（矯頑力）、Hcj（內禀矯頑力）、(BH)max（最大磁能積）。', en: 'Full BH hysteresis loop, measuring Br (remanence), Hcb (coercivity), Hcj (intrinsic coercivity), and (BH)max (maximum energy product).', vi: 'Vòng từ trễ BH đầy đủ, đo Br (từ dư), Hcb (lực kháng từ), Hcj (lực kháng từ nội tại), (BH)max (tích năng lượng cực đại).', ja: '完全なBHヒステリシスループを測定し、Br（残留磁束密度）、Hcb（保磁力）、Hcj（固有保磁力）、(BH)max（最大エネルギー積）を計測。' }],
           [{ zh: '溫度測試：', en: 'Temperature testing: ', vi: 'Thử nghiệm nhiệt độ: ', ja: '温度試験：' }, { zh: '可搭配溫控腔，量測磁材在 -40°C ～ 200°C 溫度範圍內的磁性能變化（Tc 係數）。', en: 'Can be paired with a temperature-controlled chamber to measure magnetic property changes from -40°C to 200°C (Tc coefficient).', vi: 'Có thể kết hợp buồng kiểm soát nhiệt độ để đo biến đổi tính chất từ trong khoảng -40°C đến 200°C (hệ số Tc).', ja: '温度制御チャンバーと組み合わせ、-40°C〜200°Cの範囲での磁気特性変化（Tc係数）を測定可能。' }],
@@ -281,7 +281,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'env', title: { zh: '環境可靠度測試設備', en: 'Environmental Reliability Test Equipment' }, sub: { zh: 'PCT · HAST · Salt Spray' }, img: '/assets/workshops/testing-laboratory.png',
+        key: 'env', title: { zh: '環境可靠度測試設備', en: 'Environmental Reliability Test Equipment', vi: 'Thiết Bị Kiểm Tra Độ Tin Cậy Môi Trường', ja: '環境信頼性試験装置' }, sub: { zh: 'PCT · HAST · Salt Spray' }, img: '/assets/workshops/testing-laboratory.png',
         points: [
           [{ zh: 'PCT 測試：', en: 'PCT testing: ', vi: 'Thử nghiệm PCT: ', ja: 'PCT試験：' }, { zh: '壓力蒸煮測試（121°C / 2atm / 100% RH），驗證鍍層在極端高溫高濕下的防腐蝕能力。', en: 'Pressure cooker test (121°C / 2atm / 100% RH), verifying coating corrosion resistance under extreme high temperature and humidity.', vi: 'Thử nghiệm nồi áp suất (121°C / 2atm / 100% RH), xác minh khả năng chống ăn mòn của lớp phủ trong điều kiện nhiệt độ và độ ẩm cực cao.', ja: 'プレッシャークッカー試験（121°C／2atm／湿度100%）で高温高湿下でのコーティング耐食性を検証。' }],
           [{ zh: '鹽霧測試：', en: 'Salt spray testing: ', vi: 'Thử nghiệm phun muối: ', ja: '塩水噴霧試験：' }, { zh: '依 ASTM B117 / ISO 9227 標準執行，驗證鍍層的中性鹽霧耐蝕性。', en: 'Performed per ASTM B117 / ISO 9227 standards, verifying neutral salt spray corrosion resistance of coatings.', vi: 'Thực hiện theo tiêu chuẩn ASTM B117 / ISO 9227, xác minh khả năng chống ăn mòn sương muối trung tính của lớp phủ.', ja: 'ASTM B117／ISO 9227規格に準拠し、コーティングの中性塩水噴霧耐食性を検証。' }],
@@ -289,7 +289,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'cmm', title: { zh: '三次元量測儀 (CMM)', en: 'Coordinate Measuring Machine' }, sub: { zh: '3D Dimensional · μm Accuracy' }, img: '/assets/workshops/testing-laboratory.png',
+        key: 'cmm', title: { zh: '三次元量測儀 (CMM)', en: 'Coordinate Measuring Machine', vi: 'Máy Đo Tọa Độ 3 Chiều (CMM)', ja: '三次元測定機（CMM）' }, sub: { zh: '3D Dimensional · μm Accuracy' }, img: '/assets/workshops/testing-laboratory.png',
         points: [
           [{ zh: '量測能力：', en: 'Measurement capability: ', vi: 'Khả năng đo lường: ', ja: '測定能力：' }, { zh: '高精度三維座標量測，量測不確定度 < 1 μm，適合複雜幾何形狀磁件的全尺寸檢測。', en: 'High-precision 3D coordinate measurement with uncertainty < 1 μm, suited for full-dimensional inspection of complex-geometry magnets.', vi: 'Đo tọa độ 3D độ chính xác cao với độ không đảm bảo đo < 1 μm, phù hợp kiểm tra toàn diện kích thước cho nam châm hình học phức tạp.', ja: '不確かさ<1μmの高精度3次元座標測定、複雑形状磁石の全寸法検査に対応。' }],
           [{ zh: '適用範圍：', en: 'Application range: ', vi: 'Phạm vi áp dụng: ', ja: '適用範囲：' }, { zh: '異型磁件、孔位、弧面等用手動量具無法有效量測的幾何特徵。', en: 'Custom-shaped magnets, bore positions, arc surfaces, and other geometric features that manual gauges cannot effectively measure.', vi: 'Nam châm hình dạng đặc biệt, vị trí lỗ, bề mặt cung tròn và các đặc điểm hình học khác mà dụng cụ đo thủ công không thể đo hiệu quả.', ja: '異形磁石、穴位置、円弧面など、手動測定器では効果的に測定できない幾何特徴に対応。' }],
@@ -316,7 +316,7 @@ export const workshops: Workshop[] = [
     ],
     tabs: [
       {
-        key: 'wedm', title: { zh: '快走絲 / 中走絲線切割', en: 'Fast-Speed / Medium-Speed WEDM' }, sub: { zh: 'Efficiency · Precision' }, img: '/assets/workshops/wedm.jpg',
+        key: 'wedm', title: { zh: '快走絲 / 中走絲線切割', en: 'Fast-Speed / Medium-Speed WEDM', vi: 'Cắt Dây EDM Tốc Độ Nhanh / Trung Bình', ja: '高速・中速ワイヤー放電加工機（WEDM）' }, sub: { zh: 'Efficiency · Precision' }, img: '/assets/workshops/wedm.jpg',
         points: [
           [{ zh: '快走絲（Fast-speed WEDM）：', en: 'Fast-speed WEDM: ', vi: 'Cắt dây nhanh (Fast-speed WEDM): ', ja: '快走絲（Fast-speed WEDM）：' }, { zh: '核心優勢為極高切割效率、加工成本更具競爭力；輔具應用於一般結構件、大型支撐墊塊等對精度/粗糙度要求較低的輔助零件。', en: 'Core advantage is very high cutting efficiency and more competitive machining cost; used for general structural parts, large support blocks, and other auxiliary components with lower precision/roughness requirements.', vi: 'Ưu điểm cốt lõi là hiệu suất cắt rất cao và chi phí gia công cạnh tranh hơn; ứng dụng cho các chi tiết kết cấu thông thường, khối đỡ lớn và các chi tiết phụ trợ khác có yêu cầu độ chính xác/độ nhám thấp hơn.', ja: '極めて高い切断効率と競争力のある加工コストが核心的優位性。精度・粗さ要求が比較的低い一般構造部品、大型サポートブロックなどの補助部品に使用。' }],
           [{ zh: '中走絲（Medium-speed WEDM）：', en: 'Medium-speed WEDM: ', vi: 'Cắt dây trung bình (Medium-speed WEDM): ', ja: '中走絲（Medium-speed WEDM）：' }, { zh: '兼顧效率與幾何精度，表面光潔度與尺寸穩定性更佳；輔具應用於磁片切片夾具、精密定位模具與高精度工裝，提升裝配嚴密性與良率。', en: 'Balances efficiency and geometric accuracy, with better surface finish and dimensional stability; used for magnet-slicing fixtures, precision positioning molds, and high-precision tooling, improving assembly tightness and yield.', vi: 'Cân bằng hiệu suất và độ chính xác hình học, bề mặt hoàn thiện và độ ổn định kích thước tốt hơn; ứng dụng cho đồ gá cắt lát nam châm, khuôn định vị chính xác và dụng cụ độ chính xác cao, nâng cao độ khít lắp ráp và tỷ lệ đạt.', ja: '効率と幾何精度のバランスが取れ、表面仕上げと寸法安定性に優れる。磁石スライス用治具、精密位置決め金型、高精度工装に使用し、組立の密着性と歩留まりを向上。' }],
@@ -324,7 +324,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'slot', title: { zh: '滾輪開槽機', en: 'Roller Slotting Machine' }, sub: { zh: 'Traction · Stability' }, img: '/assets/workshops/slot.jpg',
+        key: 'slot', title: { zh: '滾輪開槽機', en: 'Roller Slotting Machine', vi: 'Máy Xẻ Rãnh Con Lăn', ja: 'ローラー溝加工機' }, sub: { zh: 'Traction · Stability' }, img: '/assets/workshops/slot.jpg',
         points: [
           [{ zh: '核心功能：', en: 'Core function: ', vi: 'Chức năng cốt lõi: ', ja: '核心機能：' }, { zh: '在送料滾輪表面加工精密槽位，提升傳動摩擦力與導向穩定性。', en: 'Machines precision slots on the surface of feed rollers, improving drive friction and guiding stability.', vi: 'Gia công rãnh chính xác trên bề mặt con lăn cấp liệu, cải thiện lực ma sát truyền động và độ ổn định dẫn hướng.', ja: '送りローラー表面に精密溝を加工し、駆動摩擦力とガイド安定性を向上。' }],
           [{ zh: '加工優勢：', en: 'Machining advantage: ', vi: 'Ưu điểm gia công: ', ja: '加工優位性：' }, { zh: '支援直線/螺旋/網格槽（止滑紋），兼顧切割精度與量產效率。', en: 'Supports straight/spiral/grid slots (anti-slip texture), balancing cutting precision and production efficiency.', vi: 'Hỗ trợ rãnh thẳng/xoắn ốc/lưới (vân chống trượt), cân bằng độ chính xác cắt và hiệu suất sản xuất.', ja: '直線／螺旋／格子溝（滑り止め加工）に対応し、切断精度と生産効率を両立。' }],
@@ -332,7 +332,7 @@ export const workshops: Workshop[] = [
         ],
       },
       {
-        key: 'wire', title: { zh: '鑽石線包覆機（繞線機）', en: 'Diamond Wire Coating Machine (Winding)' }, sub: { zh: 'Durability · Yield' }, img: '/assets/workshops/diamond-wire-coating.jpg',
+        key: 'wire', title: { zh: '鑽石線包覆機（繞線機）', en: 'Diamond Wire Coating Machine (Winding)', vi: 'Máy Phủ Dây Kim Cương (Máy Cuốn Dây)', ja: 'ダイヤモンドワイヤーコーティング機（巻線機）' }, sub: { zh: 'Durability · Yield' }, img: '/assets/workshops/diamond-wire-coating.jpg',
         points: [
           [{ zh: '核心功能：', en: 'Core function: ', vi: 'Chức năng cốt lõi: ', ja: '核心機能：' }, { zh: '包覆樹脂/薄膜層，提升耐用性與切割穩定性，減少崩邊與切縫損耗。', en: 'Coats a resin/film layer, improving durability and cutting stability, reducing chipping and kerf loss.', vi: 'Phủ lớp nhựa/màng, cải thiện độ bền và độ ổn định khi cắt, giảm sứt mẻ và hao hụt đường cắt.', ja: '樹脂／フィルム層をコーティングし、耐久性と切断安定性を向上、チッピングと切断ロスを低減。' }],
           [{ zh: '技術特色：', en: 'Technical features: ', vi: 'Đặc điểm kỹ thuật: ', ja: '技術特徴：' }, { zh: '高精度張力控制＋可客製化設計，確保高效加工。', en: 'High-precision tension control plus customizable design, ensuring efficient machining.', vi: 'Kiểm soát lực căng chính xác cao kết hợp thiết kế tùy chỉnh, đảm bảo gia công hiệu quả.', ja: '高精度張力制御とカスタマイズ設計により、高効率な加工を実現。' }],
