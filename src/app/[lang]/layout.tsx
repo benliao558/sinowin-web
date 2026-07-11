@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { locales, hreflangMap, type Locale } from '@/lib/i18n'
 import { siteContent } from '@/content/site'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
@@ -60,61 +61,46 @@ export default function LocaleLayout({
         hrefLang="x-default"
         href="https://www.sinowin-vn.com/zh"
       />
-        <header style={{
-          borderBottom: '1px solid var(--color-border)',
-          padding: '0 2rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '64px',
-          position: 'sticky',
-          top: 0,
-          background: 'white',
-          zIndex: 100,
-        }}>
-          <Link href={baseUrl} style={{ fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.02em' }}>
-            SINOWIN
-          </Link>
-          <nav style={{ display: 'flex', gap: '1.5rem', fontSize: '0.9rem' }}>
-            <Link href={`${baseUrl}/manufacturing`}>{nav.manufacturing[lang]}</Link>
-            <Link href={`${baseUrl}/about`}>{nav.about[lang]}</Link>
-            <Link href={`${baseUrl}/faq`}>{nav.faq[lang]}</Link>
-            <Link href={`${baseUrl}/articles`}>{nav.articles[lang]}</Link>
-            <Link href={`${baseUrl}#contact`}>{nav.contact[lang]}</Link>
-          </nav>
-          {/* Language switcher */}
-          <LanguageSwitcher lang={lang} />
-        </header>
+        <div className="sinowin-site-header fixed top-0 left-0 right-0 z-[9999] bg-slate-950/80 backdrop-blur-md border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <Link href={baseUrl} className="inline-flex items-center gap-3 text-white/80 hover:text-white transition min-w-0 shrink-0">
+              <span className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-sm shadow-slate-900/10">
+                <Image src="/assets/logo-sn.png" alt="Sinowin" width={32} height={32} className="w-8 h-8 object-contain" />
+              </span>
+              <span className="font-black text-xl tracking-tighter whitespace-nowrap min-w-0 truncate">
+                <span className="text-emerald-400">{lang === 'zh' ? '華榮實業' : 'Sinowin'}</span>{' '}
+                <span className="text-white/90">{lang === 'zh' ? '（越南）有限公司' : 'Industrial (Vietnam)'}</span>
+              </span>
+            </Link>
+
+            <nav className="hidden md:flex flex-1 items-center justify-center gap-7 text-xs font-black uppercase tracking-widest text-white/60 whitespace-nowrap">
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/manufacturing`}>{nav.manufacturing[lang]}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/about`}>{nav.about[lang]}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/faq`}>{nav.faq[lang]}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/articles`}>{nav.articles[lang]}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}#contact`}>{nav.contact[lang]}</Link>
+            </nav>
+
+            <div className="flex items-center gap-3 md:gap-4 shrink-0">
+              <LanguageSwitcher lang={lang} />
+              <Link
+                href={`${baseUrl}#contact`}
+                className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-500 text-white font-black text-xs tracking-widest uppercase shadow-lg shadow-emerald-900/30 transition btn-cta"
+              >
+                {lang === 'zh' ? '一鍵申請樣品' : lang === 'vi' ? 'YÊU CẦU MẪU' : lang === 'ja' ? 'サンプル請求' : 'REQUEST SAMPLE'}
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="h-20" aria-hidden="true" />
 
         <main>{children}</main>
 
-        <footer style={{
-          borderTop: '1px solid var(--color-border)',
-          padding: '3rem 2rem',
-          marginTop: '4rem',
-          fontSize: '0.875rem',
-          color: 'var(--color-muted)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1rem',
-          maxWidth: 'var(--max-w)',
-          margin: '4rem auto 0',
-        }}>
-          <div>
-            <div style={{ fontWeight: 600, marginBottom: '0.5rem', color: 'var(--color-text)' }}>SINOWIN INDUSTRIAL (VN)</div>
-            <div>Bac Giang, Vietnam</div>
-            <div style={{ marginTop: '0.25rem' }}>info@sinowin-vn.com</div>
-          </div>
-          <div>
-            <div style={{ marginBottom: '0.5rem', fontWeight: 500, color: 'var(--color-text)' }}>
-              {lang === 'zh' ? '認證' : lang === 'vi' ? 'Chứng nhận' : lang === 'ja' ? '認証' : 'Certifications'}
-            </div>
-            <div>ISO 9001 · ISO 14001 · ISO 45001 · QC 080000</div>
-          </div>
-          <div style={{ fontSize: '0.8rem', alignSelf: 'flex-end' }}>
-            © {new Date().getFullYear()} SINOWIN INDUSTRIAL (VN). All rights reserved.
-          </div>
+        <footer className="bg-slate-950 text-slate-500 py-14 border-t border-white/5 text-center">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-2">SINOWIN Industrial (Vietnam) Co., Ltd.</p>
+          <p className="text-[10px] font-bold uppercase">
+            © {new Date().getFullYear()} {lang === 'zh' ? '華榮實業（越南）有限公司。保留所有權利。' : lang === 'vi' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. Đã đăng ký bản quyền.' : lang === 'ja' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. 無断複写・転載を禁じます。' : 'SINOWIN Industrial (Vietnam) Co., Ltd. All rights reserved.'}
+          </p>
         </footer>
     </>
   )

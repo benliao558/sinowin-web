@@ -1,5 +1,13 @@
 import type { Metadata } from 'next'
+import { Noto_Sans_TC } from 'next/font/google'
 import './globals.css'
+
+const notoSansTC = Noto_Sans_TC({
+  subsets: ['latin'],
+  weight: ['400', '500', '700', '900'],
+  variable: '--font-noto-sans-tc',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'SINOWIN INDUSTRIAL (VN) — Precision Magnet Processing',
@@ -12,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh">
+    <html lang="zh" className={notoSansTC.variable}>
       <body>{children}</body>
     </html>
   )
