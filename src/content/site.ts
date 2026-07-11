@@ -49,10 +49,10 @@ export const siteContent = {
         ja: '中国フリー生産ライン',
       },
       body: {
-        zh: 'SINOWIN 核心製程（機加工、充磁、測試）採用去中化設備專線，供應鏈不涉中國，協助客戶規避長臂管轄與地緣政治合規風險。',
-        en: 'SINOWIN\'s core processes (machining, magnetizing, testing) use a China-free equipment line. Our supply chain has no China involvement, helping customers avoid long-arm jurisdiction and geopolitical compliance risks.',
-        vi: 'Các quy trình cốt lõi của SINOWIN (gia công cơ khí, từ hóa, kiểm tra) sử dụng dây chuyền thiết bị không liên quan Trung Quốc, giúp khách hàng tránh được rủi ro pháp lý xuyên biên giới (long-arm jurisdiction) và rủi ro tuân thủ địa chính trị.',
-        ja: 'SINOWINのコアプロセス（機械加工、磁化、テスト）は中国を経由しない専用設備ラインで行われており、お客様は域外適用（ロングアーム管轄）や地政学的コンプライアンスリスクを回避できます。'
+        zh: 'SINOWIN 核心製程（機加工、充磁、測試）採用去中化設備專線，供應鏈不涉中國，協助客戶規避長臂管轄與地緣政治合規風險。SINOWIN 團隊橫跨越南、印度、台灣與新加坡，工程與管理人才不集中於單一國家，為客戶提供不受單一人力市場波動影響的穩定支援。',
+        en: 'SINOWIN\'s core processes (machining, magnetizing, testing) use a China-free equipment line. Our supply chain has no China involvement, helping customers avoid long-arm jurisdiction and geopolitical compliance risks. The SINOWIN team spans Vietnam, India, Taiwan, and Singapore — engineering and management talent is not concentrated in any single country, giving customers stable support that isn\'t exposed to volatility in any one labor market.',
+        vi: 'Các quy trình cốt lõi của SINOWIN (gia công cơ khí, từ hóa, kiểm tra) sử dụng dây chuyền thiết bị không liên quan Trung Quốc, giúp khách hàng tránh được rủi ro pháp lý xuyên biên giới (long-arm jurisdiction) và rủi ro tuân thủ địa chính trị. Đội ngũ SINOWIN trải rộng khắp Việt Nam, Ấn Độ, Đài Loan và Singapore — nhân lực kỹ thuật và quản lý không tập trung vào một quốc gia duy nhất, mang lại sự hỗ trợ ổn định cho khách hàng, không bị ảnh hưởng bởi biến động của một thị trường lao động đơn lẻ.',
+        ja: 'SINOWINのコアプロセス（機械加工、磁化、テスト）は中国を経由しない専用設備ラインで行われており、お客様は域外適用（ロングアーム管轄）や地政学的コンプライアンスリスクを回避できます。SINOWINのチームはベトナム、インド、台湾、シンガポールにまたがっており、エンジニアリングおよび管理人材は特定の一国に集中していません。これにより、単一の労働市場の変動に左右されない安定したサポートをお客様に提供します。'
       },
     },
     capacity: {
