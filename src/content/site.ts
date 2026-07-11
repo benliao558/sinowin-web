@@ -51,8 +51,8 @@ export const siteContent = {
       body: {
         zh: 'SINOWIN 核心製程（機加工、充磁、測試）採用去中化設備專線，供應鏈不涉中國，協助客戶規避長臂管轄與地緣政治合規風險。',
         en: 'SINOWIN\'s core processes (machining, magnetizing, testing) use a China-free equipment line. Our supply chain has no China involvement, helping customers avoid long-arm jurisdiction and geopolitical compliance risks.',
-        vi: 'Các quy trình cốt lõi của SINOWIN (gia công cơ khí, từ hóa, kiểm tra) sử dụng dây chuyền thiết bị không liên quan Trung Quốc, giúp khách hàng tránh rủi ro tuân thủ địa chính trị.',
-        ja: 'SINOWINのコアプロセス（機械加工、磁化、テスト）は中国フリー設備ラインを使用しており、お客様が地政学的コンプライアンスリスクを回避するのに役立ちます。',
+        vi: 'Các quy trình cốt lõi của SINOWIN (gia công cơ khí, từ hóa, kiểm tra) sử dụng dây chuyền thiết bị không liên quan Trung Quốc, giúp khách hàng tránh được rủi ro pháp lý xuyên biên giới (long-arm jurisdiction) và rủi ro tuân thủ địa chính trị.',
+        ja: 'SINOWINのコアプロセス（機械加工、磁化、テスト）は中国を経由しない専用設備ラインで行われており、お客様は域外適用（ロングアーム管轄）や地政学的コンプライアンスリスクを回避できます。'
       },
     },
     capacity: {
