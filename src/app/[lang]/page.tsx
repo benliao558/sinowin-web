@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
 import { siteContent } from '@/content/site'
 import BrHcjTool from '@/components/BrHcjTool'
+import CareersModal from '@/components/CareersModal'
+import PartnersStrip from '@/components/PartnersStrip'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -64,6 +66,51 @@ function tr(obj: Partial<Record<Locale, string>> | string, lang: Locale): string
   return obj[lang] ?? obj.en ?? ''
 }
 
+type LocalizedText = Partial<Record<Locale, string>>
+const PRODUCTS: { flag: string; country: LocalizedText; tagline: LocalizedText; bullets?: LocalizedText[]; desc?: LocalizedText }[] = [
+  {
+    flag: '🇨🇳',
+    country: { zh: '中國', en: 'China', vi: 'Trung Quốc', ja: '中国' },
+    tagline: { zh: '製造規模與成本優勢', en: 'Scale & Cost Advantage', vi: 'Lợi thế quy mô & chi phí', ja: '規模とコストの優位性' },
+    bullets: [
+      { zh: '完整產業鏈', en: 'Complete supply chain', vi: 'Chuỗi cung ứng hoàn chỉnh', ja: '完全なサプライチェーン' },
+      { zh: '生產規模大', en: 'Large production scale', vi: 'Quy mô sản xuất lớn', ja: '大規模な生産能力' },
+      { zh: '適合大量標準毛胚', en: 'Suited for high-volume standard blanks', vi: 'Phù hợp phôi tiêu chuẩn số lượng lớn', ja: '大量の標準ブランクに適合' },
+    ],
+  },
+  {
+    flag: '🇯🇵',
+    country: { zh: '日本', en: 'Japan', vi: 'Nhật Bản', ja: '日本' },
+    tagline: { zh: '高品質與一致性', en: 'High Quality & Consistency', vi: 'Chất lượng cao & nhất quán', ja: '高品質と一貫性' },
+    bullets: [
+      { zh: '材料純度高', en: 'High material purity', vi: 'Độ tinh khiết vật liệu cao', ja: '高い材料純度' },
+      { zh: '製程穩定', en: 'Stable processes', vi: 'Quy trình ổn định', ja: '安定した工程' },
+      { zh: '嚴謹品管文化', en: 'Rigorous QC culture', vi: 'Văn hóa kiểm soát chất lượng nghiêm ngặt', ja: '厳格な品質管理文化' },
+    ],
+  },
+  {
+    flag: '🇻🇳',
+    country: { zh: '越南', en: 'Vietnam', vi: 'Việt Nam', ja: 'ベトナム' },
+    tagline: { zh: '具競爭力的供應基地', en: 'Competitive Supply Base', vi: 'Cơ sở cung ứng cạnh tranh', ja: '競争力のある供給拠点' },
+    bullets: [
+      { zh: '關稅與地緣優勢', en: 'Tariff & geopolitical advantage', vi: 'Lợi thế thuế quan & địa chính trị', ja: '関税・地政学上の優位性' },
+      { zh: '勞動力具彈性', en: 'Flexible labor force', vi: 'Lực lượng lao động linh hoạt', ja: '柔軟な労働力' },
+      { zh: '在地垂直整合產能', en: 'Local vertically-integrated capacity', vi: 'Năng lực tích hợp dọc tại chỗ', ja: '現地垂直統合生産能力' },
+    ],
+  },
+  {
+    flag: '🌍',
+    country: { zh: '其他', en: 'Others', vi: 'Khác', ja: 'その他' },
+    tagline: { zh: '全球潛力據點佈局', en: 'Emerging Global Sites', vi: 'Bố trí địa điểm tiềm năng toàn cầu', ja: 'グローバル潜在拠点の展開' },
+    desc: {
+      zh: '持續開發印度、馬來西亞、澳洲、歐洲與美洲據點，強化供應鏈韌性與貼近終端市場的服務能力。',
+      en: 'Continuously developing sites in India, Malaysia, Australia, Europe and the Americas to strengthen supply-chain resilience and stay close to end markets.',
+      vi: 'Liên tục phát triển các địa điểm tại Ấn Độ, Malaysia, Úc, châu Âu và châu Mỹ để tăng cường khả năng phục hồi chuỗi cung ứng.',
+      ja: 'インド、マレーシア、オーストラリア、欧州、米州での拠点開発を継続し、サプライチェーンの強靭性とエンドマーケットへの近接性を強化しています。',
+    },
+  },
+]
+
 export default function HomePage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
@@ -101,9 +148,28 @@ export default function HomePage({ params }: { params: { lang: string } }) {
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
             {home.hero.title[lang]}
           </h1>
-          <p className="text-lg text-slate-400 max-w-2xl font-medium leading-relaxed">
+          <p className="text-lg text-slate-400 max-w-2xl font-medium leading-relaxed mb-10">
             {home.hero.subtitle[lang]}
           </p>
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+            <CareersModal lang={lang} />
+            <a
+              href="https://www.yensonic.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black uppercase bg-teal-600 hover:bg-teal-500 text-white text-sm"
+            >
+              {lang === 'zh' ? '中國生產基地' : lang === 'vi' ? 'Cơ sở sản xuất Trung Quốc' : lang === 'ja' ? '中国生産拠点' : 'China Production Base'}
+            </a>
+            <a
+              href="https://www.phoneingroup.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black uppercase bg-sky-600 hover:bg-sky-500 text-white text-sm"
+            >
+              {lang === 'zh' ? '了解華殷集團' : lang === 'vi' ? 'Về Phonein Group' : lang === 'ja' ? 'Phonein Groupについて' : 'About Phonein Group'}
+            </a>
+          </div>
         </div>
       </section>
 
@@ -187,6 +253,63 @@ export default function HomePage({ params }: { params: { lang: string } }) {
           </div>
         </div>
       </section>
+
+      {/* Products / Sourcing & risk diversification */}
+      <section id="products" className="py-16 md:py-24 bg-white border-y border-slate-200 text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-black text-slate-900 mb-10 border-l-4 border-slate-900 pl-6">
+            {lang === 'zh' ? '材料來源與風險分散佈局' : lang === 'vi' ? 'Nguồn nguyên liệu & Chiến lược phân tán rủi ro' : lang === 'ja' ? '材料調達とリスク分散配置' : 'Material Sourcing & Risk Diversification'}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {PRODUCTS.map((p) => (
+              <div key={p.flag} className="bg-slate-50 rounded-3xl p-8 border border-slate-200">
+                <div className="text-3xl mb-3">{p.flag}</div>
+                <h3 className="font-black text-slate-900 text-lg mb-1">{tr(p.country, lang)}</h3>
+                <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-4">{tr(p.tagline, lang)}</p>
+                {p.bullets ? (
+                  <ul className="space-y-1 text-xs text-slate-500 font-medium">
+                    {p.bullets.map((b) => <li key={tr(b, lang)}>• {tr(b, lang)}</li>)}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">{tr(p.desc!, lang)}</p>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 p-10 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-y-2 border-emerald-200/50 rounded-3xl text-center">
+            <p className="text-slate-700 font-medium max-w-3xl mx-auto">
+              {lang === 'zh'
+                ? '透過中國、日本與越南等多國毛胚來源配置，並持續評估印度、馬來西亞、澳洲、歐洲與美洲等潛力據點，SINOWIN 為客戶建立不受單一地緣政治風險影響的供應韌性。'
+                : lang === 'vi'
+                ? 'Thông qua việc bố trí nguồn phôi từ Trung Quốc, Nhật Bản và Việt Nam, đồng thời liên tục đánh giá các địa điểm tiềm năng như Ấn Độ, Malaysia, Úc và châu Âu/Mỹ, SINOWIN xây dựng khả năng phục hồi chuỗi cung ứng không phụ thuộc vào một rủi ro địa chính trị duy nhất.'
+                : lang === 'ja'
+                ? '中国・日本・ベトナムなど複数国からの原材料調達と、インド・マレーシア・オーストラリア・欧米など潜在拠点の継続評価により、SINOWINは単一の地政学リスクに左右されない供給の強靭性を構築しています。'
+                : 'Through blank/raw-material sourcing across China, Japan, and Vietnam, and by continuously evaluating potential sites in India, Malaysia, Australia, Europe, and the Americas, SINOWIN builds supply resilience that is not dependent on any single geopolitical risk.'}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Industry Insights teaser -> links to /articles (avoids duplicating the Blog modal) */}
+      <section className="py-16 md:py-24 bg-slate-950 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-black mb-4">
+            {lang === 'zh' ? '產業洞察' : lang === 'vi' ? 'Tin tức ngành' : lang === 'ja' ? '業界インサイト' : 'Industry Insights'}
+          </h2>
+          <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
+            {lang === 'zh' ? '探索磁材科技的最前沿應用' : lang === 'vi' ? 'Khám phá các ứng dụng tiên tiến nhất của công nghệ vật liệu từ' : lang === 'ja' ? '磁性材料技術の最先端応用を探る' : 'Explore the latest applications in magnet material technology'}
+          </p>
+          <Link
+            href={`/${lang}/articles`}
+            className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black uppercase bg-teal-600 hover:bg-teal-500 text-white text-sm"
+          >
+            {lang === 'zh' ? '閱讀文章' : lang === 'vi' ? 'Đọc bài viết' : lang === 'ja' ? '記事を読む' : 'Read Articles'}
+          </Link>
+        </div>
+      </section>
+
+      {/* Partners */}
+      <PartnersStrip lang={lang} />
 
       {/* Br/Hcj grade table + calculator */}
       <section className="py-16 md:py-24 bg-white">
