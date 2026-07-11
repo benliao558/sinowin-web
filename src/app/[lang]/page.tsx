@@ -7,6 +7,7 @@ import { siteContent } from '@/content/site'
 import BrHcjTool from '@/components/BrHcjTool'
 import CareersModal from '@/components/CareersModal'
 import PartnersStrip from '@/components/PartnersStrip'
+import ContactForm from '@/components/ContactForm'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -345,9 +346,10 @@ export default function HomePage({ params }: { params: { lang: string } }) {
               <p className="text-white font-bold text-lg mb-1">{T.addrCompany}</p>
               <p className="text-xs font-medium text-slate-400 leading-relaxed">{T.addrFull}</p>
             </div>
-            <div className="flex flex-col justify-center">
-              <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mb-2">Email</p>
-              <a href="mailto:info@sinowin-vn.com" className="text-2xl font-black text-teal-400">info@sinowin-vn.com</a>
+            <div className="flex flex-col">
+              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Email</p>
+              <a href="mailto:info@sinowin-vn.com" className="text-lg font-black text-teal-400 mb-6">info@sinowin-vn.com</a>
+              <ContactForm lang={lang} />
             </div>
           </div>
         </div>
