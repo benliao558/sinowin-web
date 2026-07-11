@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { locales, type Locale } from '@/lib/i18n'
 import { siteContent } from '@/content/site'
+import WorkshopGrid from '@/components/WorkshopGrid'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -35,6 +36,8 @@ const toleranceTable = [
   { process: { zh: 'CMM 三次元量測', en: 'CMM Measurement', vi: 'Đo CMM', ja: 'CMM測定' }, spec: 'Uncertainty <1μm' },
 ]
 
+const HEADING = { zh: '一號廠房｜現有產線佈局', en: 'Factory No.1 | Current Production Workshops', vi: 'Nhà máy số 1 | Bố trí dây chuyền hiện tại', ja: '第一工場｜現有生産ライン配置' }
+
 export default function ManufacturingPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
@@ -56,31 +59,16 @@ export default function ManufacturingPage({ params }: { params: { lang: string }
         }}
       />
 
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '3rem 2rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: '1rem' }}>
-          {mfg.pageTitle[lang]}
-        </h1>
-        <p style={{ color: 'var(--color-muted)', fontSize: '1.1rem', marginBottom: '3rem', maxWidth: '640px' }}>
-          {mfg.intro[lang]}
-        </p>
+      <div className="bg-slate-950 text-white py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-black text-white mb-2">{HEADING[lang]}</h1>
+          <p className="text-slate-400 font-medium mb-12">{mfg.intro[lang]}</p>
 
-        {/* Workshops */}
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>
-          {lang === 'zh' ? '六大車間' : lang === 'vi' ? 'Sáu xưởng sản xuất' : lang === 'ja' ? '6つのワークショップ' : 'Six Workshops'}
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
-          {mfg.workshops.map((w, i) => (
-            <div key={w.id} style={{ border: '1px solid var(--color-border)', borderRadius: '12px', padding: '1.5rem' }}>
-              <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-accent)', marginBottom: '0.5rem' }}>
-                {String(i + 1).padStart(2, '0')}
-              </div>
-              <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>{w.name[lang]}</div>
-              <div style={{ fontSize: '0.875rem', color: 'var(--color-muted)', lineHeight: 1.7 }}>{w.specs[lang]}</div>
-            </div>
-          ))}
+          <WorkshopGrid />
         </div>
+      </div>
 
-        {/* Tolerance table */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>
           {lang === 'zh' ? '製程公差總覽' : lang === 'vi' ? 'Tổng quan dung sai quy trình' : lang === 'ja' ? '工程公差一覧' : 'Process Tolerance Overview'}
         </h2>
