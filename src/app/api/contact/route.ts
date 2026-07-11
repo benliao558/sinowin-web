@@ -4,9 +4,8 @@ import { Resend } from 'resend'
 export const runtime = 'nodejs'
 
 const TO_EMAIL = 'info@sinowin-vn.com'
-// Default Resend sandbox sender — works without domain verification.
-// Once a real domain is verified in Resend, change this to e.g. "SINOWIN Website <contact@sinowin-vn.com>".
-const FROM_EMAIL = 'SINOWIN Website <onboarding@resend.dev>'
+// sinowin-vn.com is verified in Resend (SPF/DKIM/DMARC records added 2026-07-11).
+const FROM_EMAIL = 'SINOWIN Website <contact@sinowin-vn.com>'
 
 export async function POST(req: Request) {
   let body: { name?: string; email?: string; message?: string }
