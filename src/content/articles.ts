@@ -56,6 +56,9 @@ export const articles: Article[] = [
     slug: 'fe16n2-supplychain-rebuild',
     publishDate: '2025-11-20',
     category: 'supply-chain',
+    // NOTE: original cover image recovered from website.zip backup is only 400x267
+    // (mislabeled .jpg, actually PNG) -- too low-res to use. Not copied in; see
+    // report to user 2026-07-12. Needs a fresh image from the client.
     translations: {
       'zh-Hant': {
         title: '氮化鐵磁鐵（Fe₁₆N₂）：企業該如何看待這場磁材供應鏈的重構？',
@@ -91,6 +94,7 @@ export const articles: Article[] = [
     slug: 'hre-free-ndfeb-thermal-showdown-120c-150c',
     publishDate: '2026-01-05',
     category: 'technical',
+    coverImage: '/assets/uploads/hre-free-ndfeb-thermal-showdown-120c-150c-cover.webp',
     translations: {
       'zh-Hant': {
         title: '「磁王」耐熱大對決：無重稀土磁鐵在 120°C 下能撐住嗎？',
@@ -126,6 +130,7 @@ export const articles: Article[] = [
     slug: 'magnetic-circuit-design-pot-magnet-secret',
     publishDate: '2026-01-24',
     category: 'technical',
+    coverImage: '/assets/uploads/magnetic-circuit-design-pot-magnet-secret-cover.webp',
     translations: {
       'zh-Hant': {
         title: '【磁鐵界的煉金術】為什麼加了「廉價鐵片」，釹鐵硼磁力反而暴增、成本還砍半？',
@@ -161,6 +166,7 @@ export const articles: Article[] = [
     slug: 'ndfeb-end-to-end-process',
     publishDate: '2026-01-04',
     category: 'technical',
+    coverImage: '/assets/uploads/ndfeb-end-to-end-process-cover.webp',
     translations: {
       'zh-Hant': {
         title: 'NdFeB 全流程技術解析：從礦山到磁化的垂直整合生產',
@@ -196,6 +202,7 @@ export const articles: Article[] = [
     slug: 'urban-mining-ndfeb-circular-recycling',
     publishDate: '2026-01-15',
     category: 'industry',
+    coverImage: '/assets/uploads/urban-mining-ndfeb-circular-recycling-cover.webp',
     translations: {
       'zh-Hant': {
         title: '隱藏在城市裡的「稀土礦山」：釹鐵硼磁鐵的永續再生革命',
@@ -231,6 +238,7 @@ export const articles: Article[] = [
     slug: 'why-n52-magnet-cannot-reach-14800-gauss',
     publishDate: '2026-01-18',
     category: 'technical',
+    coverImage: '/assets/uploads/why-n52-magnet-cannot-reach-14800-gauss-cover.webp',
     translations: {
       'zh-Hant': {
         title: '為什麼 N52 磁鐵測不到 14,800 高斯？揭開釹鐵硼「消失磁力」的真相',
