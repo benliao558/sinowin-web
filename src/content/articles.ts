@@ -20,7 +20,7 @@ export const articles: Article[] = [
     slug: 'magnet-surface',
     publishDate: '2026-04-05',
     category: 'industry',
-    coverImage: '/assets/uploads/1775390498145-magnet-surface.png',
+    coverImage: '/assets/uploads/1775390498145-magnet-surface.webp',
     translations: {
       'zh-Hant': {
         title: '釹鐵硼磁鐵防生鏽全攻略：鍍層厚度與鹽霧時長大解密！',
