@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { locales, type Locale } from '@/lib/i18n'
+import { faqItems } from '@/content/faq'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -14,36 +15,48 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
 }
 
-// [TODO] This content needs to be extracted from the original contact.html
-// The original has a complete zh/en bilingual FAQ covering:
-// - Machine precision guarantees
-// - Chipping prevention
-// - Lead time estimation
-// - Certification documents available
-// - Custom sample production
-// - Surface treatment options
+function pick(rec: Record<string, string>, lang: Locale): string {
+  return rec[lang] ?? rec.en
+}
 
 export default function FaqPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '3rem 2rem' }}>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: '0.75rem' }}>
+    <div className="max-w-3xl mx-auto px-6 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqItems.map((item) => ({
+              '@type': 'Question',
+              name: pick(item.q, lang),
+              acceptedAnswer: { '@type': 'Answer', text: pick(item.a, lang) },
+            })),
+          }),
+        }}
+      />
+
+      <h1 className="text-4xl font-black tracking-tight mb-3 text-slate-900">
         {lang === 'zh' ? '常見問題' : lang === 'vi' ? 'Câu hỏi thường gặp' : lang === 'ja' ? 'よくある質問' : 'Frequently Asked Questions'}
       </h1>
-      <p style={{ color: 'var(--color-muted)', marginBottom: '2rem' }}>
+      <p className="text-slate-500 mb-10">
         {lang === 'zh' ? '採購、技術規格、交期、認證相關問答' : lang === 'vi' ? 'Hỏi đáp về mua hàng, thông số kỹ thuật, thời gian giao hàng, chứng nhận' : lang === 'ja' ? '調達、技術仕様、納期、認証に関するQ&A' : 'Q&A on procurement, technical specs, lead time, certifications'}
       </p>
 
-      <div style={{ background: '#fffbeb', border: '1px solid #f59e0b', borderRadius: 'var(--radius)', padding: '1rem 1.5rem', fontSize: '0.875rem', color: '#92400e' }}>
-        {lang === 'zh'
-          ? '⚠️ FAQ 內容正在從原始 contact.html 遷移中。這是網站上品質最好的 AEO 素材，請提供原始檔案以完成遷移。'
-          : lang === 'vi'
-          ? '⚠️ Nội dung FAQ đang được di chuyển từ contact.html gốc.'
-          : lang === 'ja'
-          ? '⚠️ FAQコンテンツはオリジナルのcontact.htmlから移行中です。'
-          : '⚠️ FAQ content is being migrated from original contact.html. Please provide the source file to complete migration.'}
+      <div className="space-y-3">
+        {faqItems.map((item, i) => (
+          <details key={i} className="group border border-slate-200 rounded-2xl p-5 open:bg-slate-50">
+            <summary className="cursor-pointer font-bold text-slate-900 list-none flex items-start justify-between gap-4">
+              <span>Q{i + 1}. {pick(item.q, lang)}</span>
+              <span className="shrink-0 text-teal-600 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <p className="mt-3 text-slate-600 text-sm leading-relaxed">{pick(item.a, lang)}</p>
+          </details>
+        ))}
       </div>
     </div>
   )

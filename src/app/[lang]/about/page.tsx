@@ -82,8 +82,7 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
   const c = content
 
   return (
-    <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '3rem 2rem' }}>
-      {/* JSON-LD */}
+    <div className="bg-slate-950 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
@@ -92,57 +91,78 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
       })}} />
 
       {/* Hero */}
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: '1.5rem' }}>
-        {lang === 'zh' ? '關於 SINOWIN' : lang === 'vi' ? 'Về SINOWIN' : lang === 'ja' ? 'SINOWINについて' : 'About SINOWIN'}
-      </h1>
-      <p style={{ fontSize: '1.2rem', maxWidth: '720px', lineHeight: 1.8, marginBottom: '2rem', fontWeight: 500 }}>
-        {c.hero[lang]}
-      </p>
-      <p style={{ maxWidth: '720px', lineHeight: 1.9, color: 'var(--color-muted)', marginBottom: '1.5rem' }}>{c.p1[lang]}</p>
-      <p style={{ maxWidth: '720px', lineHeight: 1.9, color: 'var(--color-muted)', marginBottom: '1.5rem' }}>{c.p2[lang]}</p>
-      <p style={{ maxWidth: '720px', lineHeight: 1.9, color: 'var(--color-muted)', marginBottom: '1.5rem' }}>{c.p3[lang]}</p>
-      <p style={{ maxWidth: '720px', lineHeight: 1.9, color: 'var(--color-muted)', marginBottom: '3rem' }}>{c.p4[lang]}</p>
+      <section className="relative hero-gradient pt-16 pb-16 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-500/10 border border-teal-500/20 text-teal-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
+            SINOWIN | ABOUT
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+            {lang === 'zh' ? '關於華榮' : lang === 'vi' ? 'Về SINOWIN' : lang === 'ja' ? 'SINOWINについて' : 'About SINOWIN'}
+          </h1>
+          <p className="text-slate-300/90 text-lg leading-relaxed font-medium max-w-2xl">{c.hero[lang]}</p>
+        </div>
+      </section>
 
-      {/* What We Focus On / Don't */}
-      <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '1.5rem' }}>
-        {c.focusOn.title[lang]} / {c.dontDo.title[lang]}
-      </h2>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '3rem' }}>
-        <div style={{ border: '1px solid var(--color-border)', borderRadius: '12px', padding: '1.5rem' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-accent)', marginBottom: '0.75rem', textTransform: 'uppercase' }}>What We Focus On</div>
-          <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: '1rem' }}>{c.focusOn.title[lang]}</div>
-          {c.focusOn.items[lang].map((item: string) => (
-            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.9rem' }}>
-              <span style={{ color: '#10b981', fontSize: '0.6rem' }}>●</span>{item}
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          <article className="lg:col-span-7 glass rounded-[2rem] p-8 sm:p-10">
+            <h2 className="text-2xl font-black mb-2">About SINOWIN</h2>
+            <div className="w-16 h-1.5 bg-teal-500 rounded-full mb-8" />
+            <div className="space-y-6 text-slate-300 text-[15px] sm:text-base leading-relaxed font-medium">
+              <p>{c.p1[lang]}</p>
+              <p>{c.p2[lang]}</p>
+              <p>{c.p3[lang]}</p>
+              <p>{c.p4[lang]}</p>
             </div>
-          ))}
-        </div>
-        <div style={{ border: '1px solid var(--color-border)', borderRadius: '12px', padding: '1.5rem' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', color: '#ef4444', marginBottom: '0.75rem', textTransform: 'uppercase' }}>What We Don't</div>
-          <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: '1rem' }}>{c.dontDo.title[lang]}</div>
-          {c.dontDo.items[lang].map((item: string) => (
-            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.9rem' }}>
-              <span style={{ color: '#ef4444', fontSize: '0.6rem' }}>●</span>{item}
-            </div>
-          ))}
-        </div>
-      </div>
+          </article>
 
-      {/* Manufacturing System */}
-      <div style={{ background: 'var(--color-surface)', borderRadius: '12px', padding: '2rem', marginBottom: '3rem' }}>
-        <div style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-muted)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Manufacturing System</div>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>{c.manufacturing.title[lang]}</h2>
-        <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem' }}>{c.manufacturing.subtitle[lang]}</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
-          {c.manufacturing.cards.map((card) => (
-            <div key={card.label} style={{ background: 'white', borderRadius: '8px', border: '1px solid var(--color-border)', padding: '1.25rem' }}>
-              <div style={{ fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>{card.label}</div>
-              <div style={{ fontWeight: 700, marginBottom: '0.5rem' }}>{card.title[lang]}</div>
-              <div style={{ fontSize: '0.875rem', color: 'var(--color-muted)' }}>{card.body[lang]}</div>
+          <aside className="lg:col-span-5 space-y-6">
+            <div className="glass-soft rounded-[2rem] border border-white/10 p-6 sm:p-7">
+              <p className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2">Manufacturing System</p>
+              <h3 className="text-xl font-black mb-2">{c.manufacturing.title[lang]}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">{c.manufacturing.subtitle[lang]}</p>
+              <div className="grid grid-cols-2 gap-3">
+                {c.manufacturing.cards.map((card) => (
+                  <div key={card.label} className="glass rounded-2xl p-4">
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">{card.label}</div>
+                    <div className="font-black text-sm mb-1">{card.title[lang]}</div>
+                    <div className="text-xs text-slate-400">{card.body[lang]}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+          </aside>
         </div>
-      </div>
+      </section>
+
+      <section className="py-16 md:py-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-10">
+          <div className="glass rounded-[2rem] p-8 sm:p-10">
+            <p className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2">What We Focus On</p>
+            <h2 className="text-2xl font-black mb-6">{c.focusOn.title[lang]}</h2>
+            <div className="space-y-2">
+              {c.focusOn.items[lang].map((item: string) => (
+                <div key={item} className="glass-soft rounded-2xl px-5 py-4 border border-white/10 flex items-center gap-3 text-sm text-slate-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-400 shrink-0" />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="glass rounded-[2rem] p-8 sm:p-10">
+            <p className="text-rose-400 text-xs font-black uppercase tracking-widest mb-2">What We Don&apos;t</p>
+            <h2 className="text-2xl font-black mb-6">{c.dontDo.title[lang]}</h2>
+            <div className="space-y-2">
+              {c.dontDo.items[lang].map((item: string) => (
+                <div key={item} className="glass-soft rounded-2xl px-5 py-4 border border-white/10 flex items-center gap-3 text-sm text-slate-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
