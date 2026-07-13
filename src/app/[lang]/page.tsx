@@ -302,13 +302,76 @@ export default async function HomePage({ params }: { params: { lang: string } })
       </section>
 
        {/* Supply Chain / China-Free differentiation */}
-      <section className="py-16 md:py-24 bg-emerald-950 text-white relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
-            {lang === 'zh' ? '供應鏈信任狀' : lang === 'vi' ? 'Cam kết chuỗi cung ứng' : lang === 'ja' ? 'サプライチェーンの信頼性' : 'Supply Chain Trust'}
+      <section
+        className="py-16 md:py-24 text-white relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #0b1220 0%, #0f172a 45%, #022c22 100%)' }}
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+            <div className="flex-1 text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
+                {lang === 'zh' ? '供應鏈信任狀' : lang === 'vi' ? 'Cam kết chuỗi cung ứng' : lang === 'ja' ? 'サプライチェーンの信頼性' : 'Supply Chain Trust'}
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{t(home?.supplyChainTitle, lang)}</h2>
+              <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-2xl">{t(home?.supplyChainBody, lang)}</p>
+
+              <div className="flex flex-wrap gap-3 mt-8">
+                {[
+                  {
+                    label: { zh: '機加工', en: 'Machining', vi: 'Gia công cơ khí', ja: '機械加工' },
+                    icon: (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8a4 4 0 100 8 4 4 0 000-8Z" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.4 13.5a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V19.5a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H4.5a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09A1.65 1.65 0 0011 3.09V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h.09a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1Z"
+                        />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: { zh: '充磁', en: 'Magnetizing', vi: 'Từ hóa', ja: '磁化' },
+                    icon: (
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                        <path d="M13 2 3 14h7l-1 8 11-14h-7l1-6Z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: { zh: '測試', en: 'Testing', vi: 'Kiểm tra', ja: 'テスト' },
+                    icon: (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.5l2 2 4-4.5" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7 3.5h10a1 1 0 011 1V5a1 1 0 01-1 1H7a1 1 0 01-1-1v-.5a1 1 0 011-1Z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 5.2A3 3 0 004 8v10a3 3 0 003 3h10a3 3 0 003-3V8a3 3 0 00-2-2.8" />
+                      </svg>
+                    ),
+                  },
+                ].map((tag, i) => (
+                  <span
+                    key={i}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-teal-400/15 text-teal-200 text-xs font-black uppercase tracking-wide"
+                  >
+                    {tag.icon}
+                    {tag.label[lang]}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="shrink-0 mx-auto md:mx-0">
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-teal-400/10 border border-teal-400/20 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.4" className="w-24 h-24 md:w-32 md:h-32 text-teal-300">
+                  <circle cx="50" cy="50" r="38" />
+                  <ellipse cx="50" cy="50" rx="16" ry="38" />
+                  <path d="M12 50h76" />
+                  <path d="M17 32c8 6 58 6 66 0" />
+                  <path d="M17 68c8-6 58-6 66 0" />
+                </svg>
+              </div>
+            </div>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{t(home?.supplyChainTitle, lang)}</h2>
-          <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-3xl mx-auto">{t(home?.supplyChainBody, lang)}</p>
         </div>
       </section>
 
