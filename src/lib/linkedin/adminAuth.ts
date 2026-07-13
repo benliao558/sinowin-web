@@ -6,9 +6,9 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 // is LinkedIn's own login+consent screen during /authorize anyway. Set
 // LINKEDIN_ADMIN_SECRET in Vercel; requests must pass ?key=<that value>.
 export function isAdminAuthorized(url: URL): boolean {
-  const expected = process.env.LINKEDIN_ADMIN_SECRET
+  const expected = process.env.LINKEDIN_ADMIN_SECRET?.trim()
   if (!expected) return false
-  const provided = url.searchParams.get('key')
+  const provided = url.searchParams.get('key')?.trim()
   if (!provided) return false
   const a = Buffer.from(provided)
   const b = Buffer.from(expected)
@@ -21,7 +21,7 @@ export function isAdminAuthorized(url: URL): boolean {
 const STATE_TTL_MS = 10 * 60 * 1000
 
 function getStateSecret(): string {
-  const secret = process.env.LINKEDIN_TOKEN_ENCRYPTION_KEY
+  const secret = process.env.LINKEDIN_TOKEN_ENCRYPTION_KEY?.trim()
   if (!secret) throw new Error('Missing LINKEDIN_TOKEN_ENCRYPTION_KEY environment variable')
   return secret
 }

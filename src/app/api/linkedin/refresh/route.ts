@@ -11,9 +11,11 @@ const REFRESH_WHEN_DAYS_REMAINING = 20
 // CRON_SECRET is set, so this checks that header rather than the
 // LINKEDIN_ADMIN_SECRET ?key= scheme used by the human-facing routes.
 function isCronAuthorized(req: Request): boolean {
-  const secret = process.env.CRON_SECRET
+  const secret = process.env.CRON_SECRET?.trim()
   if (!secret) return false
-  return req.headers.get('authorization') === `Bearer ${secret}`
+  const header = req.headers.get('authorization') ?? ''
+  const provided = header.replace(/^Bearer\s+/i, '').trim()
+  return provided === secret
 }
 
 export async function GET(req: Request) {

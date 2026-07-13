@@ -8,7 +8,7 @@ import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto'
 const ALGORITHM = 'aes-256-gcm'
 
 function getKey(): Buffer {
-  const raw = process.env.LINKEDIN_TOKEN_ENCRYPTION_KEY
+  const raw = process.env.LINKEDIN_TOKEN_ENCRYPTION_KEY?.trim()
   if (!raw) {
     throw new Error('Missing LINKEDIN_TOKEN_ENCRYPTION_KEY environment variable')
   }

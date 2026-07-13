@@ -6,7 +6,7 @@ import { apiVersion, dataset, projectId } from '@/sanity/env'
 // from src/sanity/lib/client.ts, which is the public read-only client used
 // by pages. Only ever imported from API routes (never from client code).
 function getToken(): string {
-  const token = process.env.SANITY_API_TOKEN
+  const token = process.env.SANITY_API_TOKEN?.trim()
   if (!token) {
     throw new Error('Missing SANITY_API_TOKEN environment variable (needs Editor role or higher)')
   }

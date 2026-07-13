@@ -25,8 +25,8 @@ export const LINKEDIN_REDIRECT_URI = 'https://www.sinowin-vn.com/api/linkedin/ca
 export const LINKEDIN_SCOPE = 'w_organization_social'
 
 function getClientCredentials() {
-  const clientId = process.env.LINKEDIN_CLIENT_ID
-  const clientSecret = process.env.LINKEDIN_CLIENT_SECRET
+  const clientId = process.env.LINKEDIN_CLIENT_ID?.trim()
+  const clientSecret = process.env.LINKEDIN_CLIENT_SECRET?.trim()
   if (!clientId || !clientSecret) {
     throw new Error('Missing LINKEDIN_CLIENT_ID / LINKEDIN_CLIENT_SECRET environment variables')
   }

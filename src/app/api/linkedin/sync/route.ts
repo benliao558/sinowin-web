@@ -54,7 +54,7 @@ async function alreadySynced(articleId: string): Promise<boolean> {
 export async function POST(req: Request) {
   const bodyText = await req.text()
   const signature = req.headers.get(SIGNATURE_HEADER_NAME) ?? ''
-  const secret = process.env.SANITY_WEBHOOK_SECRET
+  const secret = process.env.SANITY_WEBHOOK_SECRET?.trim()
 
   if (!secret || !(await isValidSignature(bodyText, signature, secret))) {
     // Not a real Sanity webhook call -- reject before doing any work, but
