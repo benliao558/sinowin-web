@@ -6,6 +6,7 @@ import {
   workshopsQuery,
   certificationsQuery,
   faqItemsQuery,
+  activeJobOpeningsQuery,
   companyInfoQuery,
   homepageContentQuery,
   manufacturingIntroQuery,
@@ -17,6 +18,7 @@ import type {
   SanityWorkshop,
   SanityCertification,
   SanityFaqItem,
+  SanityJobOpening,
   SanityCompanyInfo,
   SanityHomepageContent,
   SanityManufacturingIntro,
@@ -45,6 +47,10 @@ export function getCertifications(): Promise<SanityCertification[]> {
 
 export function getFaqItems(): Promise<SanityFaqItem[]> {
   return client.fetch(faqItemsQuery)
+}
+
+export function getActiveJobOpenings(): Promise<SanityJobOpening[]> {
+  return client.fetch(activeJobOpeningsQuery)
 }
 
 export function getCompanyInfo(): Promise<SanityCompanyInfo> {

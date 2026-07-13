@@ -81,6 +81,17 @@ export const faqItemsQuery = `*[_type == "faqItem"] | order(order asc){
   order
 }`
 
+export const activeJobOpeningsQuery = `*[_type == "jobOpening" && isActive == true] | order(postedDate desc){
+  _id,
+  title,
+  department,
+  location,
+  employmentType,
+  description,
+  isActive,
+  postedDate
+}`
+
 export const companyInfoQuery = `*[_type == "companyInfo"][0]{ name, tagline, description }`
 
 export const homepageContentQuery = `*[_type == "homepageContent"][0]{

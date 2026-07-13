@@ -12,6 +12,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('workshop').title('Workshops'),
       S.documentTypeListItem('faqItem').title('FAQ'),
       S.documentTypeListItem('certification').title('Certifications'),
+      S.documentTypeListItem('jobOpening').title('Job Openings'),
       S.divider(),
       S.listItem()
         .title('LinkedIn')
@@ -53,7 +54,7 @@ export const structure: StructureResolver = (S) =>
           const id = item.getId()
           return (
             id &&
-            !['article', 'workshop', 'faqItem', 'certification', 'linkedinSyncLog'].includes(id) &&
+            !['article', 'workshop', 'faqItem', 'certification', 'jobOpening', 'linkedinSyncLog'].includes(id) &&
             !SINGLETON_TYPES.has(id)
           )
         }

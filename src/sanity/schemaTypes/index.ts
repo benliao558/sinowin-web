@@ -11,6 +11,7 @@ import article from './documents/article'
 import workshop from './documents/workshop'
 import certification from './documents/certification'
 import faqItem from './documents/faqItem'
+import jobOpening from './documents/jobOpening'
 import companyInfo from './documents/companyInfo'
 import homepageContent from './documents/homepageContent'
 import manufacturingIntro from './documents/manufacturingIntro'
@@ -33,6 +34,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     workshop,
     certification,
     faqItem,
+    jobOpening,
     linkedinSyncLog,
     // singletons (see sanity/structure.ts for the "only one instance" UI treatment)
     companyInfo,

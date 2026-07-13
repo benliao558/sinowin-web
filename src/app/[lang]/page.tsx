@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
-import { getHomepageContent, getCertifications } from '@/sanity/lib/fetch'
+import { getHomepageContent, getCertifications, getActiveJobOpenings } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
 import BrHcjTool from '@/components/BrHcjTool'
@@ -110,7 +110,7 @@ export default async function HomePage({ params }: { params: { lang: string } })
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const [home, certifications] = await Promise.all([getHomepageContent(), getCertifications()])
+  const [home, certifications, jobOpenings] = await Promise.all([getHomepageContent(), getCertifications(), getActiveJobOpenings()])
 
   return (
     <>
@@ -179,7 +179,7 @@ export default async function HomePage({ params }: { params: { lang: string } })
             {t(home?.heroSubtitle, lang)}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-            <CareersModal lang={lang} />
+            <CareersModal lang={lang} jobOpenings={jobOpenings} />
             <a
               href="https://www.yensonic.com/"
               target="_blank"

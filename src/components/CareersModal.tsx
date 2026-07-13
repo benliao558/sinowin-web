@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import type { Locale } from '@/lib/i18n'
+import type { SanityJobOpening } from '@/sanity/lib/types'
+import { t } from '@/sanity/lib/localize'
 
 const T = {
   title: { zh: '攜手開創磁材新紀元', en: 'Shape the Next Era of Magnetics With Us', vi: 'Cùng chúng tôi mở ra kỷ nguyên vật liệu từ mới', ja: '磁性材料の新時代を共に切り拓く' },
@@ -11,7 +13,35 @@ const T = {
   close: { zh: '關閉', en: 'Close', vi: 'Đóng', ja: '閉じる' },
 }
 
-export default function CareersModal({ lang }: { lang: Locale }) {
+function JobCard({ job, lang }: { job: SanityJobOpening; lang: Locale }) {
+  const title = t(job.title, lang) ?? ''
+  const department = t(job.department, lang)
+  const location = t(job.location, lang)
+  const employmentType = t(job.employmentType, lang)
+  const description = t(job.description, lang)
+
+  return (
+    <div className="text-left bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
+      <h3 className="text-xl font-black text-white mb-2">{title}</h3>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {department && (
+          <span className="inline-flex items-center px-3 py-1 rounded-full bg-teal-400/10 text-teal-300 text-xs font-black uppercase tracking-widest">
+            {department}
+          </span>
+        )}
+        {location && (
+          <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-slate-300 text-xs font-bold">{location}</span>
+        )}
+        {employmentType && (
+          <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 text-slate-300 text-xs font-bold">{employmentType}</span>
+        )}
+      </div>
+      {description && <p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line">{description}</p>}
+    </div>
+  )
+}
+
+export default function CareersModal({ lang, jobOpenings }: { lang: Locale; jobOpenings: SanityJobOpening[] }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -45,9 +75,17 @@ export default function CareersModal({ lang }: { lang: Locale }) {
               <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">{T.title[lang]}</h2>
               <p className="text-slate-400 leading-relaxed mb-12">{T.desc[lang]}</p>
 
-              <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-10 text-slate-300 text-sm leading-relaxed mb-10">
-                {T.empty[lang]}
-              </div>
+              {jobOpenings.length > 0 ? (
+                <div className="space-y-4 mb-10">
+                  {jobOpenings.map((job) => (
+                    <JobCard key={job._id} job={job} lang={lang} />
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-10 text-slate-300 text-sm leading-relaxed mb-10">
+                  {T.empty[lang]}
+                </div>
+              )}
 
               <div className="p-10 bg-teal-500/10 border border-teal-500/20 rounded-[3rem]">
                 <p className="text-slate-300 font-medium mb-4">{T.cta[lang]}</p>

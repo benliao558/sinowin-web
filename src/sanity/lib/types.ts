@@ -71,6 +71,17 @@ export type SanityFaqItem = {
   order?: number
 }
 
+export type SanityJobOpening = {
+  _id: string
+  title: LocaleString
+  department?: LocaleString
+  location?: LocaleString
+  employmentType?: LocaleString
+  description?: LocaleText
+  isActive: boolean
+  postedDate: string
+}
+
 export type SanityCompanyInfo = {
   name: LocaleString
   tagline: LocaleString
