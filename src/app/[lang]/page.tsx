@@ -35,12 +35,12 @@ export async function generateMetadata({ params }: { params: { lang: string } })
 const T = {
   eyebrow: { zh: '越南垂直整合磁材製造商', en: 'Vertically Integrated Magnet Manufacturer in Vietnam', vi: 'Nhà sản xuất nam châm tích hợp dọc tại Việt Nam', ja: 'ベトナムの垂直統合型磁石メーカー' },
   networkTitle: { zh: '全球製造基地佈局', en: 'Global Manufacturing Network', vi: 'Mạng lưới sản xuất toàn cầu', ja: 'グローバル製造ネットワーク' },
-  networkLead: { zh: 'SINOWIN 致力於構建具備高度韌性的供應鏈。目前已在越南北寧建立成熟產線，並積極佈建印度清奈生產中心。', en: 'SINOWIN is building a highly resilient supply chain — an established production line in Bac Giang, Vietnam, and an upcoming site in Chennai, India.', vi: 'SINOWIN đang xây dựng chuỗi cung ứng có khả năng phục hồi cao — dây chuyền sản xuất tại Bắc Giang, Việt Nam và cơ sở sắp tới tại Chennai, Ấn Độ.', ja: 'SINOWINはベトナム・バクザンの確立された生産ラインと、インド・チェンナイの新拠点により、強靭なサプライチェーンを構築しています。' },
-  vietnamName: { zh: '越南北寧', en: 'Bac Giang, Vietnam', vi: 'Bắc Giang, Việt Nam', ja: 'ベトナム・バクザン' },
-  vietnamAddr: 'Lots B3, B4, B5, Dinh Tram Industrial Park, Bac Giang',
+  networkLead: { zh: 'SINOWIN 致力於構建具備高度韌性的供應鏈。目前已在越南北寧建立成熟產線，並積極佈建印度清奈生產中心。', en: 'SINOWIN is building a highly resilient supply chain — an established production line in Bac Ninh, Vietnam, and an upcoming site in Chennai, India.', vi: 'SINOWIN đang xây dựng chuỗi cung ứng có khả năng phục hồi cao — dây chuyền sản xuất tại Bắc Ninh, Việt Nam và cơ sở sắp tới tại Chennai, Ấn Độ.', ja: 'SINOWINはベトナム・バクニンの確立された生産ラインと、インド・チェンナイの新拠点により、強靭なサプライチェーンを構築しています。' },
+  vietnamName: { zh: '越南北寧', en: 'Bac Ninh, Vietnam', vi: 'Bắc Ninh, Việt Nam', ja: 'ベトナム・バクニン' },
+  vietnamAddr: 'Lot B3, B4, B5, Dinh Tram Industrial Park, Nenh Ward, Bac Ninh Province, Vietnam',
   indiaName: { zh: '印度清奈', en: 'Chennai, India', vi: 'Chennai, Ấn Độ', ja: 'インド・チェンナイ' },
   indiaAddr: { zh: '建設中 | Tamil Nadu, India', en: 'Construction in progress | Tamil Nadu, India', vi: 'Đang xây dựng | Tamil Nadu, Ấn Độ', ja: '建設中 | タミル・ナードゥ州、インド' },
-  vietnamCardTitle: { zh: '越南北寧基地', en: 'Bac Giang, Vietnam Site', vi: 'Cơ sở Bắc Giang, Việt Nam', ja: 'ベトナム・バクザン拠点' },
+  vietnamCardTitle: { zh: '越南北寧基地', en: 'Bac Ninh, Vietnam Site', vi: 'Cơ sở Bắc Ninh, Việt Nam', ja: 'ベトナム・バクニン拠点' },
   vietnamCardDesc: { zh: '機加工全製程包含各項異型研磨，多元表面處理工藝，全方位充磁組裝，實現海外全品項滿足供應。', en: 'Full machining process including custom-profile grinding, diverse surface treatments, and complete magnetizing/assembly for full overseas supply.', vi: 'Quy trình gia công đầy đủ bao gồm mài biên dạng tùy chỉnh, xử lý bề mặt đa dạng và từ hóa/lắp ráp hoàn chỉnh.', ja: '異形研削、多様な表面処理、充磁・組立まで一貫した加工プロセス。' },
   viewTour: { zh: '進入 SINOWIN', en: 'Enter SINOWIN', vi: 'Vào SINOWIN', ja: 'SINOWINへ' },
   massProduction: { zh: '量產中', en: 'Mass Production', vi: 'Sản xuất hàng loạt', ja: '量産中' },
@@ -52,7 +52,7 @@ const T = {
   verifying: { zh: '審核中', en: 'Under Audit', vi: 'Đang được đánh giá', ja: '審査中' },
   contactTitle: { zh: '越南基地定位', en: 'Vietnam Site Location', vi: 'Vị trí cơ sở Việt Nam', ja: 'ベトナム拠点の所在地' },
   addrCompany: 'SINOWIN INDUSTRIAL(VN)CO.,LTD',
-  addrFull: 'Lots B3, B4, B5, Dinh Tram Industrial Park, Nenh Ward, Bac Giang Province, Vietnam',
+  addrFull: 'Lot B3, B4, B5, Dinh Tram Industrial Park, Nenh Ward, Bac Ninh Province, Vietnam',
 }
 
 function tr(obj: Partial<Record<Locale, string>> | string, lang: Locale): string {
@@ -129,8 +129,9 @@ export default async function HomePage({ params }: { params: { lang: string } })
             ],
             address: {
               '@type': 'PostalAddress',
-              streetAddress: 'Dinh Tram Industrial Park, Nenh Ward',
-              addressRegion: 'Bac Giang Province',
+              streetAddress: 'Lot B3, B4, B5 (For Rent Factory No. 1, 1A of Phu Loc Construction Production – Trade Joint Stock Company), Dinh Tram Industrial Park, Nenh Ward',
+              addressRegion: 'Bac Ninh Province',
+              postalCode: '26169',
               addressCountry: 'VN',
             },
             geo: {
