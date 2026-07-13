@@ -15,6 +15,8 @@ import companyInfo from './documents/companyInfo'
 import homepageContent from './documents/homepageContent'
 import manufacturingIntro from './documents/manufacturingIntro'
 import navLabels from './documents/navLabels'
+import linkedinConnection from './documents/linkedinConnection'
+import linkedinSyncLog from './documents/linkedinSyncLog'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -31,11 +33,13 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     workshop,
     certification,
     faqItem,
+    linkedinSyncLog,
     // singletons (see sanity/structure.ts for the "only one instance" UI treatment)
     companyInfo,
     homepageContent,
     manufacturingIntro,
     navLabels,
+    linkedinConnection,
   ],
 }
 
@@ -46,6 +50,7 @@ export const SINGLETON_TYPES = new Set([
   'homepageContent',
   'manufacturingIntro',
   'navLabels',
+  'linkedinConnection',
 ])
 
 export const SINGLETON_ID: Record<string, string> = {
@@ -53,4 +58,5 @@ export const SINGLETON_ID: Record<string, string> = {
   homepageContent: 'homepageContent',
   manufacturingIntro: 'manufacturingIntro',
   navLabels: 'navLabels',
+  linkedinConnection: 'linkedinConnection',
 }

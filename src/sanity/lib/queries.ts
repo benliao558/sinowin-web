@@ -31,6 +31,18 @@ export const articleBySlugQuery = `*[_type == "article" && slug.current == $slug
 
 export const articleSlugsQuery = `*[_type == "article"]{ "slug": slug.current }`
 
+export const articleByIdQuery = `*[_type == "article" && _id == $id][0]{
+  _id,
+  "slug": slug.current,
+  publishDate,
+  category,
+  coverImage ${imageFields},
+  title,
+  excerpt,
+  metaTitle,
+  metaDescription
+}`
+
 export const workshopsQuery = `*[_type == "workshop"] | order(_createdAt asc){
   _id,
   "workshopId": workshopId.current,

@@ -14,6 +14,19 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('certification').title('Certifications'),
       S.divider(),
       S.listItem()
+        .title('LinkedIn')
+        .child(
+          S.list()
+            .title('LinkedIn')
+            .items([
+              S.listItem()
+                .title('Connection Status')
+                .child(S.document().schemaType('linkedinConnection').documentId(SINGLETON_ID.linkedinConnection)),
+              S.documentTypeListItem('linkedinSyncLog').title('Sync Log'),
+            ])
+        ),
+      S.divider(),
+      S.listItem()
         .title('Site Settings')
         .child(
           S.list()
@@ -40,7 +53,7 @@ export const structure: StructureResolver = (S) =>
           const id = item.getId()
           return (
             id &&
-            !['article', 'workshop', 'faqItem', 'certification'].includes(id) &&
+            !['article', 'workshop', 'faqItem', 'certification', 'linkedinSyncLog'].includes(id) &&
             !SINGLETON_TYPES.has(id)
           )
         }
