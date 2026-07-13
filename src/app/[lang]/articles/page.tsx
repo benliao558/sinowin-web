@@ -19,6 +19,12 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
 }
 
+const CATEGORY_LABELS: Record<string, Record<Locale, string>> = {
+  industry: { zh: '產業', en: 'Industry', vi: 'Ngành', ja: '業界' },
+  'supply-chain': { zh: '供應鏈', en: 'Supply Chain', vi: 'Chuỗi cung ứng', ja: 'サプライチェーン' },
+  technical: { zh: '技術', en: 'Technical', vi: 'Kỹ thuật', ja: '技術' },
+}
+
 export default async function ArticlesPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
@@ -34,24 +40,41 @@ export default async function ArticlesPage({ params }: { params: { lang: string 
         {lang === 'zh' ? '磁材技術、供應鏈、市場深度分析' : lang === 'vi' ? 'Phân tích chuyên sâu về công nghệ nam châm, chuỗi cung ứng, thị trường' : lang === 'ja' ? '磁石技術、サプライチェーン、市場の詳細分析' : 'Deep analysis on magnet technology, supply chain, and markets'}
       </p>
 
-      <div style={{ display: 'grid', gap: '1px', background: 'var(--color-border)' }}>
-        {articles.map((a) => {
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {articles.map((a, i) => {
           const title = tt(a.title, lang) ?? ''
-          const imgUrl = urlForImage(a.coverImage)?.width(160).height(120).url()
+          const excerpt = tt(a.excerpt, lang) ?? ''
+          const categoryLabel = CATEGORY_LABELS[a.category]?.[lang] ?? a.category
+          const imgUrl = urlForImage(a.coverImage)?.width(600).height(338).url()
+
           return (
             <Link
               key={a.slug}
               href={`/${lang}/articles/${a.slug}`}
-              style={{ background: 'white', padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem' }}
+              className="hover-lift enter-fade group flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
+              style={{ animationDelay: `${i * 60}ms` }}
             >
-              {imgUrl && (
-                <div style={{ width: '80px', height: '60px', position: 'relative', flexShrink: 0, borderRadius: '8px', overflow: 'hidden' }}>
-                  <Image src={imgUrl} alt={title} fill style={{ objectFit: 'cover' }} />
-                </div>
-              )}
-              <div style={{ fontWeight: 500, flex: 1 }}>{title}</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>
-                {a.publishDate}
+              <div className="relative aspect-video bg-slate-100 overflow-hidden shrink-0">
+                {imgUrl ? (
+                  <Image
+                    src={imgUrl}
+                    alt={title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition duration-700"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
+                    <span className="text-slate-400 text-xs font-black uppercase tracking-widest">SINOWIN</span>
+                  </div>
+                )}
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <span className="inline-block self-start px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-[10px] font-black uppercase tracking-widest mb-3">
+                  {categoryLabel}
+                </span>
+                <h3 className="font-black text-slate-900 text-lg leading-snug mb-2 line-clamp-2">{title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">{excerpt}</p>
+                <div className="text-xs text-slate-400 font-medium">{a.publishDate}</div>
               </div>
             </Link>
           )
