@@ -35,11 +35,13 @@ export function calculateGauss(params: {
   dim2: number
   dim3?: number
   hasYoke: boolean
+  gapMm?: number
 }): number {
-  const { shape, br, dim1, dim2, dim3, hasYoke } = params
+  const { shape, br, dim1, dim2, dim3, hasYoke, gapMm } = params
   if (!isFinite(br) || br <= 0) return 0
 
-  const gap = PROBE_EMBED_MM
+  const gap = gapMm ?? PROBE_EMBED_MM
+  if (!isFinite(gap) || gap < 0) return 0
   let res = 0
 
   if (shape === 'cylinder') {
