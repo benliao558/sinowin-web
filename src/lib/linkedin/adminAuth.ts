@@ -5,22 +5,9 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 // internal, low-traffic, single-admin tool where the real security boundary
 // is LinkedIn's own login+consent screen during /authorize anyway. Set
 // LINKEDIN_ADMIN_SECRET in Vercel; requests must pass ?key=<that value>.
-// TEMPORARY: masks a secret to "first8...last6 (N chars)" for safe logging --
-// never logs the actual value. Remove this together with the console.log
-// call below once the LINKEDIN_ADMIN_SECRET 403 mismatch is diagnosed.
-function maskSecret(value: string | undefined | null): string {
-  if (!value) return '(empty)'
-  if (value.length <= 14) return `(${value.length} chars, too short to mask safely)`
-  return `${value.slice(0, 8)}...${value.slice(-6)} (${value.length} chars)`
-}
-
 export function isAdminAuthorized(url: URL): boolean {
   const expected = process.env.LINKEDIN_ADMIN_SECRET?.trim()
   const provided = url.searchParams.get('key')?.trim()
-
-  // TEMPORARY DEBUG LOGGING -- remove once the 403 mismatch is diagnosed.
-  console.log('[linkedin-admin-auth-debug] expected=%s provided=%s', maskSecret(expected), maskSecret(provided))
-
   if (!expected) return false
   if (!provided) return false
   const a = Buffer.from(provided)
