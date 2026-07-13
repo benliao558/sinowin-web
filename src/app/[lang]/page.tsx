@@ -3,7 +3,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
-import { siteContent } from '@/content/site'
+import { getHomepageContent, getCertifications } from '@/sanity/lib/fetch'
+import { t } from '@/sanity/lib/localize'
+import { urlForImage } from '@/sanity/lib/image'
 import BrHcjTool from '@/components/BrHcjTool'
 import CareersModal from '@/components/CareersModal'
 import PartnersStrip from '@/components/PartnersStrip'
@@ -28,15 +30,6 @@ export async function generateMetadata({ params }: { params: { lang: string } })
     ja: '年産2,000トン、中国フリーサプライチェーン、ISO 9001/14001/45001認証取得。ベトナムの精密磁石加工。',
   }
   return { title: titles[lang], description: descs[lang] }
-}
-
-const s = siteContent
-
-const CERT_IMAGES: Record<string, string> = {
-  iso9001: '/assets/workshops/iso-9001.webp',
-  iso14001: '/assets/workshops/iso-14001.webp',
-  iso45001: '/assets/workshops/iso-45001.webp',
-  qc080000: '/assets/workshops/qc-080000.webp',
 }
 
 const T = {
@@ -112,11 +105,11 @@ const PRODUCTS: { flag: string; country: LocalizedText; tagline: LocalizedText; 
   },
 ]
 
-export default function HomePage({ params }: { params: { lang: string } }) {
+export default async function HomePage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const home = s.home
+  const [home, certifications] = await Promise.all([getHomepageContent(), getCertifications()])
 
   return (
     <>
@@ -158,10 +151,10 @@ export default function HomePage({ params }: { params: { lang: string } }) {
             {tr(T.eyebrow, lang)}
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
-            {home.hero.title[lang]}
+            {t(home?.heroTitle, lang)}
           </h1>
           <p className="text-lg text-slate-400 max-w-2xl font-medium leading-relaxed mb-10">
-            {home.hero.subtitle[lang]}
+            {t(home?.heroSubtitle, lang)}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             <CareersModal lang={lang} />
@@ -244,11 +237,11 @@ export default function HomePage({ params }: { params: { lang: string } }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 className="text-4xl font-black mb-12 tracking-tight">{tr(T.certTitle, lang)}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {s.certifications.map((cert, i) => {
-              const img = CERT_IMAGES[cert.id]
+            {certifications.map((cert, i) => {
+              const img = urlForImage(cert.badgeImage)?.width(200).url()
               return (
                 <div
-                  key={cert.id}
+                  key={cert.certId}
                   className={`hover-lift enter-fade relative bg-white/5 border border-white/10 rounded-2xl p-6 text-center group hover:z-50 cursor-pointer ${!cert.confirmed ? 'grayscale opacity-60 hover:grayscale-0' : ''}`}
                   style={{ animationDelay: `${i * 60}ms` }}
                 >
@@ -276,8 +269,8 @@ export default function HomePage({ params }: { params: { lang: string } }) {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
             {lang === 'zh' ? '供應鏈信任狀' : lang === 'vi' ? 'Cam kết chuỗi cung ứng' : lang === 'ja' ? 'サプライチェーンの信頼性' : 'Supply Chain Trust'}
           </div>
-          <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{tr(s.home.supplyChain.title, lang)}</h2>
-          <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-3xl mx-auto">{tr(s.home.supplyChain.body, lang)}</p>
+          <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{t(home?.supplyChainTitle, lang)}</h2>
+          <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-3xl mx-auto">{t(home?.supplyChainBody, lang)}</p>
         </div>
       </section>
 

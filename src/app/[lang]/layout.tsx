@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { locales, hreflangMap, type Locale } from '@/lib/i18n'
-import { siteContent } from '@/content/site'
+import { getNavLabels } from '@/sanity/lib/fetch'
+import { t } from '@/sanity/lib/localize'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export async function generateStaticParams() {
@@ -32,7 +33,7 @@ export async function generateMetadata({
   }
 }
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
@@ -42,7 +43,7 @@ export default function LocaleLayout({
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const nav = siteContent.nav
+  const nav = await getNavLabels()
   const baseUrl = `/${lang}`
 
   return (
@@ -74,11 +75,11 @@ export default function LocaleLayout({
             </Link>
 
             <nav className="hidden md:flex flex-1 items-center justify-center gap-7 text-xs font-black uppercase tracking-widest text-white/60 whitespace-nowrap">
-              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/manufacturing`}>{nav.manufacturing[lang]}</Link>
-              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/about`}>{nav.about[lang]}</Link>
-              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/faq`}>{nav.faq[lang]}</Link>
-              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/articles`}>{nav.articles[lang]}</Link>
-              <Link className="nav-link hover:text-white transition" href={`${baseUrl}#contact`}>{nav.contact[lang]}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/manufacturing`}>{t(nav?.manufacturing, lang)}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/about`}>{t(nav?.about, lang)}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/faq`}>{t(nav?.faq, lang)}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/articles`}>{t(nav?.articles, lang)}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}#contact`}>{t(nav?.contact, lang)}</Link>
             </nav>
 
             <div className="flex items-center gap-3 md:gap-4 shrink-0">

@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { locales, type Locale } from '@/lib/i18n'
-import { faqItems } from '@/content/faq'
+import { getFaqItems } from '@/sanity/lib/fetch'
+import { t } from '@/sanity/lib/localize'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -15,13 +16,11 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
 }
 
-function pick(rec: Record<string, string>, lang: Locale): string {
-  return rec[lang] ?? rec.en
-}
-
-export default function FaqPage({ params }: { params: { lang: string } }) {
+export default async function FaqPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
+
+  const faqItems = await getFaqItems()
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-16">
@@ -33,8 +32,8 @@ export default function FaqPage({ params }: { params: { lang: string } }) {
             '@type': 'FAQPage',
             mainEntity: faqItems.map((item) => ({
               '@type': 'Question',
-              name: pick(item.q, lang),
-              acceptedAnswer: { '@type': 'Answer', text: pick(item.a, lang) },
+              name: t(item.question, lang),
+              acceptedAnswer: { '@type': 'Answer', text: t(item.answer, lang) },
             })),
           }),
         }}
@@ -49,12 +48,12 @@ export default function FaqPage({ params }: { params: { lang: string } }) {
 
       <div className="space-y-3">
         {faqItems.map((item, i) => (
-          <details key={i} className="group border border-slate-200 rounded-2xl p-5 open:bg-slate-50">
+          <details key={item._id} className="group border border-slate-200 rounded-2xl p-5 open:bg-slate-50">
             <summary className="cursor-pointer font-bold text-slate-900 list-none flex items-start justify-between gap-4">
-              <span>Q{i + 1}. {pick(item.q, lang)}</span>
+              <span>Q{i + 1}. {t(item.question, lang)}</span>
               <span className="shrink-0 text-teal-600 group-open:rotate-180 transition-transform">▾</span>
             </summary>
-            <p className="mt-3 text-slate-600 text-sm leading-relaxed">{pick(item.a, lang)}</p>
+            <p className="mt-3 text-slate-600 text-sm leading-relaxed">{t(item.answer, lang)}</p>
           </details>
         ))}
       </div>

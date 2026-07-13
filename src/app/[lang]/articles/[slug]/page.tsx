@@ -2,44 +2,47 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
-import { articles, getArticleBySlug, getTranslation } from '@/content/articles'
+import { getArticleBySlug, getArticleSlugs } from '@/sanity/lib/fetch'
+import { t } from '@/sanity/lib/localize'
+import { urlForImage } from '@/sanity/lib/image'
+import PortableTextRenderer from '@/components/PortableTextRenderer'
 
 export async function generateStaticParams() {
-  return locales.flatMap(lang =>
-    articles.map(a => ({ lang, slug: a.slug }))
-  )
+  const slugs = await getArticleSlugs()
+  return locales.flatMap((lang) => slugs.map(({ slug }) => ({ lang, slug })))
 }
 
 export async function generateMetadata({ params }: { params: { lang: string; slug: string } }): Promise<Metadata> {
   const lang = params.lang as Locale
-  const article = getArticleBySlug(params.slug)
+  const article = await getArticleBySlug(params.slug)
   if (!article) return {}
-  const t = getTranslation(article, lang)
   return {
-    title: t?.metaTitle ?? t?.title,
-    description: t?.metaDescription ?? t?.excerpt,
+    title: t(article.metaTitle, lang) ?? t(article.title, lang),
+    description: t(article.metaDescription, lang) ?? t(article.excerpt, lang),
     alternates: { canonical: `https://www.sinowin-vn.com/${lang}/articles/${params.slug}` },
   }
 }
 
-export default function ArticlePage({ params }: { params: { lang: string; slug: string } }) {
+export default async function ArticlePage({ params }: { params: { lang: string; slug: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const article = getArticleBySlug(params.slug)
+  const article = await getArticleBySlug(params.slug)
   if (!article) notFound()
 
-  const t = getTranslation(article, lang)
-  if (!t) notFound()
+  const title = t(article.title, lang) ?? ''
+  const excerpt = t(article.excerpt, lang) ?? ''
+  const content = t(article.content, lang)
+  const coverImageUrl = urlForImage(article.coverImage)?.width(1600).url()
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Article',
-        headline: t.title,
-        description: t.excerpt,
-        image: article.coverImage ? `https://www.sinowin-vn.com${article.coverImage}` : undefined,
+        headline: title,
+        description: excerpt,
+        image: coverImageUrl,
         datePublished: article.publishDate,
         author: { '@type': 'Organization', name: 'SINOWIN INDUSTRIAL (VN)' },
         publisher: { '@type': 'Organization', name: 'SINOWIN INDUSTRIAL (VN)', url: 'https://www.sinowin-vn.com' },
@@ -51,21 +54,23 @@ export default function ArticlePage({ params }: { params: { lang: string; slug: 
             ← {lang === 'zh' ? '產業洞察' : lang === 'vi' ? 'Tin tức ngành' : lang === 'ja' ? '業界インサイト' : 'Industry Insights'}
           </a>
         </div>
-        {article.coverImage && (
+        {coverImageUrl && (
           <div style={{ width: '100%', aspectRatio: '16/9', position: 'relative', borderRadius: '12px', overflow: 'hidden', marginBottom: '2rem' }}>
-            <Image src={article.coverImage} alt={t.title} fill style={{ objectFit: 'cover' }} priority />
+            <Image src={coverImageUrl} alt={title} fill style={{ objectFit: 'cover' }} priority />
           </div>
         )}
         <div style={{ fontSize: '0.8rem', color: 'var(--color-muted)', marginBottom: '1rem' }}>
           {article.publishDate} · SINOWIN INDUSTRIAL (VN)
         </div>
         <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: '1.5rem' }}>
-          {t.title}
+          {title}
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--color-muted)', lineHeight: 1.7, marginBottom: '2.5rem', paddingBottom: '2rem', borderBottom: '1px solid var(--color-border)' }}>
-          {t.excerpt}
+          {excerpt}
         </p>
-        <div style={{ lineHeight: 1.8, color: 'var(--color-text)' }} dangerouslySetInnerHTML={{ __html: t.content }} />
+        <div style={{ lineHeight: 1.8, color: 'var(--color-text)' }}>
+          <PortableTextRenderer value={content} />
+        </div>
         <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}>
           <a href={`/${lang}/articles`} style={{ fontSize: '0.875rem', color: 'var(--color-muted)' }}>
             ← {lang === 'zh' ? '返回文章列表' : lang === 'vi' ? 'Quay lại danh sách' : lang === 'ja' ? '一覧に戻る' : 'Back to articles'}
