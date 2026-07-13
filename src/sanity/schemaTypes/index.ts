@@ -1,0 +1,56 @@
+import type { SchemaTypeDefinition } from 'sanity'
+
+import localeString from './objects/localeString'
+import localeText from './objects/localeText'
+import localeBlockContent from './objects/localeBlockContent'
+import rawHtml from './objects/rawHtml'
+import workshopPoint from './objects/workshopPoint'
+import workshopTab from './objects/workshopTab'
+
+import article from './documents/article'
+import workshop from './documents/workshop'
+import certification from './documents/certification'
+import faqItem from './documents/faqItem'
+import companyInfo from './documents/companyInfo'
+import homepageContent from './documents/homepageContent'
+import manufacturingIntro from './documents/manufacturingIntro'
+import navLabels from './documents/navLabels'
+
+export const schema: { types: SchemaTypeDefinition[] } = {
+  types: [
+    // shared localized-field building blocks
+    localeString,
+    localeText,
+    localeBlockContent,
+    rawHtml,
+    // workshop-only nested objects
+    workshopPoint,
+    workshopTab,
+    // repeatable document types
+    article,
+    workshop,
+    certification,
+    faqItem,
+    // singletons (see sanity/structure.ts for the "only one instance" UI treatment)
+    companyInfo,
+    homepageContent,
+    manufacturingIntro,
+    navLabels,
+  ],
+}
+
+// IDs used to pin singleton documents to a single, fixed _id so Studio's
+// structure can link straight to them instead of showing a create/list view.
+export const SINGLETON_TYPES = new Set([
+  'companyInfo',
+  'homepageContent',
+  'manufacturingIntro',
+  'navLabels',
+])
+
+export const SINGLETON_ID: Record<string, string> = {
+  companyInfo: 'companyInfo',
+  homepageContent: 'homepageContent',
+  manufacturingIntro: 'manufacturingIntro',
+  navLabels: 'navLabels',
+}

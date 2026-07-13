@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { locales, type Locale } from '@/lib/i18n'
-import { siteContent } from '@/content/site'
+import { getManufacturingIntro, getWorkshops } from '@/sanity/lib/fetch'
+import { t } from '@/sanity/lib/localize'
 import WorkshopGrid from '@/components/WorkshopGrid'
 
 export async function generateStaticParams() {
@@ -38,11 +39,12 @@ const toleranceTable = [
 
 const HEADING = { zh: '一號廠房｜現有產線佈局', en: 'Factory No.1 | Current Production Workshops', vi: 'Nhà máy số 1 | Bố trí dây chuyền hiện tại', ja: '第一工場｜現有生産ライン配置' }
 
-export default function ManufacturingPage({ params }: { params: { lang: string } }) {
+export default async function ManufacturingPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const mfg = siteContent.manufacturing
+  const [mfg, workshops] = await Promise.all([getManufacturingIntro(), getWorkshops()])
+  const intro = t(mfg?.intro, lang) ?? ''
 
   return (
     <>
@@ -54,7 +56,7 @@ export default function ManufacturingPage({ params }: { params: { lang: string }
             '@type': 'ManufacturingBusiness',
             name: 'SINOWIN INDUSTRIAL (VN)',
             url: `https://www.sinowin-vn.com/${lang}/manufacturing`,
-            description: mfg.intro[lang],
+            description: intro,
           }),
         }}
       />
@@ -62,9 +64,9 @@ export default function ManufacturingPage({ params }: { params: { lang: string }
       <div className="bg-slate-950 text-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-black text-white mb-2">{HEADING[lang]}</h1>
-          <p className="text-slate-400 font-medium mb-12">{mfg.intro[lang]}</p>
+          <p className="text-slate-400 font-medium mb-12">{intro}</p>
 
-          <WorkshopGrid lang={lang} />
+          <WorkshopGrid lang={lang} workshops={workshops} />
         </div>
       </div>
 

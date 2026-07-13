@@ -1,13 +1,14 @@
 import { MetadataRoute } from 'next'
 import { locales } from '@/lib/i18n'
-import { articles } from '@/content/articles'
+import { getArticles } from '@/sanity/lib/fetch'
 
 const baseUrl = 'https://www.sinowin-vn.com'
 
 const pages = ['', '/manufacturing', '/about', '/faq', '/articles']
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = []
+  const articles = await getArticles()
 
   for (const lang of locales) {
     for (const page of pages) {
