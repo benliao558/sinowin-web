@@ -43,6 +43,7 @@ const T = {
   vietnamCardTitle: { zh: '越南北寧基地', en: 'Bac Ninh, Vietnam Site', vi: 'Cơ sở Bắc Ninh, Việt Nam', ja: 'ベトナム・バクニン拠点' },
   vietnamCardDesc: { zh: '機加工全製程包含各項異型研磨，多元表面處理工藝，全方位充磁組裝，實現海外全品項滿足供應。', en: 'Full machining process including custom-profile grinding, diverse surface treatments, and complete magnetizing/assembly for full overseas supply.', vi: 'Quy trình gia công đầy đủ bao gồm mài biên dạng tùy chỉnh, xử lý bề mặt đa dạng và từ hóa/lắp ráp hoàn chỉnh.', ja: '異形研削、多様な表面処理、充磁・組立まで一貫した加工プロセス。' },
   viewTour: { zh: '進入 SINOWIN', en: 'Enter SINOWIN', vi: 'Vào SINOWIN', ja: 'SINOWINへ' },
+  viewTdcm: { zh: '進入 TDCM', en: 'Enter TDCM', vi: 'Vào TDCM', ja: 'TDCMへ' },
   massProduction: { zh: '量產中', en: 'Mass Production', vi: 'Sản xuất hàng loạt', ja: '量産中' },
   indiaCardTitle: { zh: '印度清奈基地', en: 'Chennai, India Site', vi: 'Cơ sở Chennai, Ấn Độ', ja: 'インド・チェンナイ拠点' },
   indiaCardDesc: { zh: '預計 2026 年夏季啟用，擴大對南亞市場的高端供應能力。', en: 'Expected to launch summer 2026, expanding high-end supply capability to the South Asian market.', vi: 'Dự kiến ra mắt mùa hè 2026, mở rộng năng lực cung ứng cao cấp cho thị trường Nam Á.', ja: '2026年夏稼働予定。南アジア市場への高付加価値供給能力を拡大。' },
@@ -233,6 +234,14 @@ export default async function HomePage({ params }: { params: { lang: string } })
                 <div className="h-48 bg-slate-100 relative overflow-hidden">
                   <Image src="/assets/workshops/vietnam-site.webp" alt="Vietnam Site" fill className="object-cover group-hover:scale-110 transition duration-700" />
                   <div className="absolute top-3 left-3 bg-teal-600 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase z-10">{tr(T.massProduction, lang)}</div>
+                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/0 group-hover:bg-slate-900/45 transition-colors duration-300">
+                    <span className="inline-flex items-center gap-2 text-white font-black text-sm uppercase tracking-widest opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                      {tr(T.viewTour, lang)}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
                 <div className="p-6">
                   <h4 className="font-black text-slate-900 mb-2">{tr(T.vietnamCardTitle, lang)}</h4>
@@ -244,6 +253,11 @@ export default async function HomePage({ params }: { params: { lang: string } })
                 <div className="h-48 bg-slate-200 relative">
                   <Image src="/assets/workshops/india-site.jpg" alt="India Site" fill className="object-cover opacity-70" />
                   <div className="absolute top-3 left-3 bg-slate-800 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase">{tr(T.underConstruction, lang)}</div>
+                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/0 group-hover:bg-slate-900/45 transition-colors duration-300">
+                    <span className="inline-flex items-center gap-2 text-white font-black text-sm uppercase tracking-widest opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                      {tr(T.viewTdcm, lang)}
+                    </span>
+                  </div>
                 </div>
                 <div className="p-6 text-slate-400 italic">
                   <h4 className="font-black text-slate-500 mb-2">{tr(T.indiaCardTitle, lang)}</h4>

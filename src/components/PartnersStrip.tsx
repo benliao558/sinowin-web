@@ -42,12 +42,28 @@ function LogoTile({ file }: { file: string }) {
   )
 }
 
+function MarqueeRow({ files, animationClass }: { files: string[]; animationClass: string }) {
+  // Duplicated once so the track can loop seamlessly at -50% translate.
+  const track = [...files, ...files]
+  return (
+    <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+      <div className={`flex w-max ${animationClass}`}>
+        {track.map((file, i) => (
+          <LogoTile key={`${file}-${i}`} file={file} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function PartnersStrip({ lang }: { lang: Locale }) {
   const files = readLogoFiles()
   if (files.length === 0) return null
 
-  // Duplicated once so the marquee track can loop seamlessly at -50% translate.
-  const track = [...files, ...files]
+  // Interleaved (not a straight head/tail split) so an alphabetically-sorted
+  // file listing doesn't cluster visually similar logos into the same row.
+  const rowA = files.filter((_, i) => i % 2 === 0)
+  const rowB = files.filter((_, i) => i % 2 === 1)
 
   return (
     <section className="py-16 md:py-24 bg-white border-t border-slate-100">
@@ -55,12 +71,9 @@ export default function PartnersStrip({ lang }: { lang: Locale }) {
         <h2 className="text-3xl font-black text-slate-900 mb-2">{T.title[lang]}</h2>
         <p className="text-slate-500">{T.subtitle[lang]}</p>
       </div>
-      <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-        <div className="flex w-max animate-marquee">
-          {track.map((file, i) => (
-            <LogoTile key={`${file}-${i}`} file={file} />
-          ))}
-        </div>
+      <div className="space-y-4">
+        <MarqueeRow files={rowA} animationClass="animate-marquee" />
+        <MarqueeRow files={rowB} animationClass="animate-marquee-reverse" />
       </div>
     </section>
   )
