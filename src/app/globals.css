@@ -126,3 +126,26 @@ button, a.btn-cta, .btn-cta {
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee, .animate-marquee-reverse { animation: none; }
 }
+
+/* Circuit-board decoration (Industry Insights section): a traveling dash
+   over a static base line simulates a signal running along the trace,
+   plus a slow opacity pulse on each node. Both are plain CSS so they can
+   be disabled outright under reduced-motion, no JS/SMIL involved. */
+@keyframes circuitFlow {
+  to { stroke-dashoffset: -400; }
+}
+.circuit-flow {
+  stroke-dasharray: 6 130;
+  animation: circuitFlow 7s linear infinite;
+}
+@keyframes circuitPulse {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.95; }
+}
+.circuit-node {
+  animation: circuitPulse 3.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .circuit-flow { animation: none; stroke-dasharray: none; }
+  .circuit-node { animation: none; opacity: 0.5; }
+}

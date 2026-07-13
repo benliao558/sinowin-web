@@ -302,11 +302,12 @@ export default async function HomePage({ params }: { params: { lang: string } })
       </section>
 
        {/* Supply Chain / China-Free differentiation */}
-      <section
-        className="py-16 md:py-24 text-white relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0b1220 0%, #0f172a 45%, #022c22 100%)' }}
-      >
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            className="rounded-3xl md:rounded-[3rem] text-white relative overflow-hidden p-8 sm:p-10 md:p-14"
+            style={{ background: 'linear-gradient(135deg, #0b1220 0%, #0f172a 45%, #022c22 100%)' }}
+          >
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
             <div className="flex-1 text-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
@@ -372,6 +373,7 @@ export default async function HomePage({ params }: { params: { lang: string } })
               </div>
             </div>
           </div>
+          </div>
         </div>
       </section>
 
@@ -412,20 +414,64 @@ export default async function HomePage({ params }: { params: { lang: string } })
       </section>
 
       {/* Industry Insights teaser -> links to /articles (avoids duplicating the Blog modal) */}
-      <section className="py-16 md:py-24 bg-slate-950 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black mb-4">
-            {lang === 'zh' ? '產業洞察' : lang === 'vi' ? 'Tin tức ngành' : lang === 'ja' ? '業界インサイト' : 'Industry Insights'}
-          </h2>
-          <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
-            {lang === 'zh' ? '探索磁材科技的最前沿應用' : lang === 'vi' ? 'Khám phá các ứng dụng tiên tiến nhất của công nghệ vật liệu từ' : lang === 'ja' ? '磁性材料技術の最先端応用を探る' : 'Explore the latest applications in magnet material technology'}
-          </p>
-          <Link
-            href={`/${lang}/articles`}
-            className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black uppercase bg-teal-600 hover:bg-teal-500 text-white text-sm"
+      <section className="py-12 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            className="rounded-3xl md:rounded-[3rem] relative overflow-hidden text-white text-center p-10 sm:p-12 md:p-16"
+            style={{ background: 'linear-gradient(135deg, #020617 0%, #1e293b 55%, #0f172a 100%)' }}
           >
-            {lang === 'zh' ? '閱讀文章' : lang === 'vi' ? 'Đọc bài viết' : lang === 'ja' ? '記事を読む' : 'Read Articles'}
-          </Link>
+            {/* Circuit-board decoration: static trace lines + a traveling
+                dash simulating a signal, slow node pulses. Hidden on mobile
+                (cramped + not worth the extra paint on small screens);
+                pure CSS animation, gated by prefers-reduced-motion in globals.css. */}
+            <div className="absolute inset-0 pointer-events-none select-none hidden md:block" aria-hidden="true">
+              <svg viewBox="0 0 800 280" className="w-full h-full text-teal-300" fill="none" preserveAspectRatio="xMidYMid slice">
+                <g stroke="currentColor" strokeWidth="1.2" opacity="0.22">
+                  <path d="M50 50 L50 140 L130 140" />
+                  <path d="M130 140 L130 220 L60 220" />
+                  <path d="M750 60 L750 150 L670 150" />
+                  <path d="M670 150 L670 230 L740 230" />
+                  <path d="M400 30 L400 80" />
+                  <path d="M400 250 L400 200" />
+                </g>
+                <g stroke="currentColor" strokeWidth="1.6" opacity="0.65">
+                  <path className="circuit-flow" d="M50 50 L50 140 L130 140" style={{ animationDelay: '0s' }} />
+                  <path className="circuit-flow" d="M130 140 L130 220 L60 220" style={{ animationDelay: '-2s' }} />
+                  <path className="circuit-flow" d="M750 60 L750 150 L670 150" style={{ animationDelay: '-4s' }} />
+                  <path className="circuit-flow" d="M670 150 L670 230 L740 230" style={{ animationDelay: '-1s' }} />
+                </g>
+                <g fill="currentColor">
+                  {[
+                    [50, 50, 0],
+                    [130, 140, 0.5],
+                    [60, 220, 1.1],
+                    [750, 60, 0.3],
+                    [670, 150, 0.8],
+                    [740, 230, 1.4],
+                    [400, 30, 0.6],
+                    [400, 250, 1.0],
+                  ].map(([cx, cy, delay], i) => (
+                    <circle key={i} className="circuit-node" cx={cx} cy={cy} r="3.5" style={{ animationDelay: `${-delay}s` }} />
+                  ))}
+                </g>
+              </svg>
+            </div>
+
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <h2 className="text-3xl font-black mb-4">
+                {lang === 'zh' ? '產業洞察' : lang === 'vi' ? 'Tin tức ngành' : lang === 'ja' ? '業界インサイト' : 'Industry Insights'}
+              </h2>
+              <p className="text-slate-400 mb-8">
+                {lang === 'zh' ? '探索磁材科技的最前沿應用' : lang === 'vi' ? 'Khám phá các ứng dụng tiên tiến nhất của công nghệ vật liệu từ' : lang === 'ja' ? '磁性材料技術の最先端応用を探る' : 'Explore the latest applications in magnet material technology'}
+              </p>
+              <Link
+                href={`/${lang}/articles`}
+                className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black uppercase bg-teal-600 hover:bg-teal-500 text-white text-sm"
+              >
+                {lang === 'zh' ? '閱讀文章' : lang === 'vi' ? 'Đọc bài viết' : lang === 'ja' ? '記事を読む' : 'Read Articles'}
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
