@@ -7,6 +7,9 @@ import { getArticles } from '@/sanity/lib/fetch'
 import { t as tt } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
 
+// See src/app/[lang]/page.tsx for why this is needed.
+export const revalidate = 60
+
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }

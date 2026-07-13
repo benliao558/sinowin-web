@@ -7,6 +7,10 @@ import { getNavLabels } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
+// See src/app/[lang]/page.tsx for why this is needed -- without it, nav
+// label edits in Sanity never show up on the live site until the next deploy.
+export const revalidate = 60
+
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }

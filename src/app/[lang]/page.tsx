@@ -4,6 +4,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
 import { getHomepageContent, getCertifications, getActiveJobOpenings } from '@/sanity/lib/fetch'
+
+// Without this, the page is fully static (generateStaticParams below) and
+// only ever re-reads Sanity at build/deploy time -- a Studio publish (e.g.
+// a new job opening) would never appear on the live site until the next
+// deploy. Revalidate every 60s so content edits show up on their own.
+export const revalidate = 60
 import { t } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
 import BrHcjTool from '@/components/BrHcjTool'

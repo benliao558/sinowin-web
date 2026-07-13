@@ -5,6 +5,9 @@ import { getManufacturingIntro, getWorkshops } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import WorkshopGrid from '@/components/WorkshopGrid'
 
+// See src/app/[lang]/page.tsx for why this is needed.
+export const revalidate = 60
+
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }

@@ -4,6 +4,9 @@ import { locales, type Locale } from '@/lib/i18n'
 import { getFaqItems } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 
+// See src/app/[lang]/page.tsx for why this is needed.
+export const revalidate = 60
+
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }

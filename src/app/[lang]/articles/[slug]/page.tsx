@@ -7,6 +7,9 @@ import { t } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
 import PortableTextRenderer from '@/components/PortableTextRenderer'
 
+// See src/app/[lang]/page.tsx for why this is needed.
+export const revalidate = 60
+
 export async function generateStaticParams() {
   const slugs = await getArticleSlugs()
   return locales.flatMap((lang) => slugs.map(({ slug }) => ({ lang, slug })))

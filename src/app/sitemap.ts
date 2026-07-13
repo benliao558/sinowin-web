@@ -2,6 +2,9 @@ import { MetadataRoute } from 'next'
 import { locales } from '@/lib/i18n'
 import { getArticles } from '@/sanity/lib/fetch'
 
+// See src/app/[lang]/page.tsx for why this is needed.
+export const revalidate = 60
+
 const baseUrl = 'https://www.sinowin-vn.com'
 
 const pages = ['', '/manufacturing', '/about', '/faq', '/articles']
