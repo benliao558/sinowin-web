@@ -32,30 +32,33 @@ function nameFromFile(file: string): string {
     .replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
+function LogoTile({ file }: { file: string }) {
+  return (
+    <div className="shrink-0 w-40 h-20 flex items-center justify-center px-4">
+      <div className="relative w-full h-12">
+        <Image src={`/assets/uploads/partners/${file}`} alt={nameFromFile(file)} fill className="object-contain" sizes="160px" />
+      </div>
+    </div>
+  )
+}
+
 export default function PartnersStrip({ lang }: { lang: Locale }) {
   const files = readLogoFiles()
   if (files.length === 0) return null
 
+  // Duplicated once so the marquee track can loop seamlessly at -50% translate.
+  const track = [...files, ...files]
+
   return (
     <section className="py-16 md:py-24 bg-white border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
         <h2 className="text-3xl font-black text-slate-900 mb-2">{T.title[lang]}</h2>
-        <p className="text-slate-500 mb-12">{T.subtitle[lang]}</p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
-          {files.map((file) => (
-            <div
-              key={file}
-              className="h-16 flex items-center justify-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300"
-            >
-              <div className="relative w-full h-10">
-                <Image
-                  src={`/assets/uploads/partners/${file}`}
-                  alt={nameFromFile(file)}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
+        <p className="text-slate-500">{T.subtitle[lang]}</p>
+      </div>
+      <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+        <div className="flex w-max animate-marquee">
+          {track.map((file, i) => (
+            <LogoTile key={`${file}-${i}`} file={file} />
           ))}
         </div>
       </div>

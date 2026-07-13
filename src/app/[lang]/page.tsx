@@ -146,6 +146,26 @@ export default async function HomePage({ params }: { params: { lang: string } })
 
       {/* Hero */}
       <section className="relative hero-gradient pt-16 md:pt-24 pb-16 md:pb-20 overflow-hidden text-left">
+        {/* Decorative background: faint grid texture + magnetic field arcs — purely decorative, sits behind the z-10 text */}
+        <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
+          <div
+            className="absolute inset-0 opacity-[0.05]"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)',
+              backgroundSize: '56px 56px',
+            }}
+          />
+          <svg
+            className="absolute -right-16 md:right-0 top-1/2 -translate-y-1/2 w-[420px] h-[420px] md:w-[560px] md:h-[560px] opacity-[0.14]"
+            viewBox="0 0 400 400"
+            fill="none"
+          >
+            {[40, 85, 130, 175, 220].map((r) => (
+              <ellipse key={r} cx="200" cy="200" rx={r} ry={r * 1.3} stroke="#2dd4bf" strokeWidth="1" />
+            ))}
+          </svg>
+        </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-400/10 border border-teal-400/20 text-teal-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
             <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
@@ -206,7 +226,10 @@ export default async function HomePage({ params }: { params: { lang: string } })
             </div>
 
             <div className="lg:w-1/2 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Link href={`/${lang}/manufacturing`} className="hover-lift enter-fade bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group relative">
+              <Link
+                href={`/${lang}/manufacturing`}
+                className="hover-lift enter-fade bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group relative cursor-pointer hover:border-teal-300"
+              >
                 <div className="h-48 bg-slate-100 relative overflow-hidden">
                   <Image src="/assets/workshops/vietnam-site.webp" alt="Vietnam Site" fill className="object-cover group-hover:scale-110 transition duration-700" />
                   <div className="absolute top-3 left-3 bg-teal-600 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase z-10">{tr(T.massProduction, lang)}</div>

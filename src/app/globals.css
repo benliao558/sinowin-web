@@ -73,19 +73,25 @@ img { max-width: 100%; display: block; }
 
 /* Card hover polish */
 .hover-lift { transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease; }
-.hover-lift:hover { transform: translateY(-4px); box-shadow: 0 16px 32px -12px rgba(2, 6, 23, 0.25); }
+.hover-lift:hover { transform: translateY(-6px); box-shadow: 0 24px 40px -14px rgba(2, 6, 23, 0.3); }
 
 /* Entrance animation for small card-level elements only — pure CSS, no JS.
    Runs automatically on paint, does NOT depend on scroll position or an
    IntersectionObserver, so it can never leave content stuck invisible.
    The "from" state is never opacity:0 (0.55 at most), so even a frozen/
-   mid-animation frame (e.g. a crawler snapshot) still shows real content. */
+   mid-animation frame (e.g. a crawler snapshot) still shows real content.
+   No fill-mode (defaults to "none"): the "to" keyframe already matches the
+   element's normal resting state (opacity:1, transform:none), so dropping
+   fill-mode causes no visual difference once the animation ends -- but it
+   matters because "both"/"forwards" would otherwise pin transform:translateY(0)
+   at the CSS-animation cascade layer forever, which outranks normal :hover
+   rules (like .hover-lift) regardless of specificity and silently breaks them. */
 @keyframes enterFade {
   from { opacity: 0.55; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .enter-fade {
-  animation: enterFade 0.5s ease-out both;
+  animation: enterFade 0.5s ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
   .enter-fade { animation: none; }
@@ -96,3 +102,19 @@ button, a.btn-cta, .btn-cta {
   -webkit-tap-highlight-color: transparent;
 }
 .btn-cta:active { transform: translateY(0) scale(0.97); }
+
+/* Partner logo marquee — track is rendered twice back-to-back (see
+   PartnersStrip.tsx), so translating exactly -50% loops seamlessly. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
