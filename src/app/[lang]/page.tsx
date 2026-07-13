@@ -13,7 +13,6 @@ export const revalidate = 60
 import { t } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
 import BrHcjTool from '@/components/BrHcjTool'
-import CareersModal from '@/components/CareersModal'
 import PartnersStrip from '@/components/PartnersStrip'
 import ContactForm from '@/components/ContactForm'
 
@@ -185,7 +184,17 @@ export default async function HomePage({ params }: { params: { lang: string } })
             {t(home?.heroSubtitle, lang)}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-            <CareersModal lang={lang} jobOpenings={jobOpenings} />
+            <Link
+              href={`/${lang}/careers`}
+              className="btn-cta relative inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black shadow-xl shadow-amber-900/40 uppercase bg-amber-500 hover:bg-amber-400 text-slate-900 text-sm"
+            >
+              {lang === 'zh' ? '加入團隊' : lang === 'vi' ? 'Gia nhập đội ngũ' : lang === 'ja' ? '採用情報' : 'Join Our Team'}
+              {jobOpenings.length > 0 && (
+                <span className="absolute -top-2 -right-2 min-w-[1.5rem] h-6 px-1.5 rounded-full bg-teal-500 text-white text-xs font-black flex items-center justify-center border-2 border-white">
+                  {jobOpenings.length}
+                </span>
+              )}
+            </Link>
             <a
               href="https://www.yensonic.com/"
               target="_blank"

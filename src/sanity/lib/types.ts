@@ -71,10 +71,16 @@ export type SanityFaqItem = {
   order?: number
 }
 
+// { preset, custom } is the current shape (see departmentField schema). The
+// bare LocaleString union covers documents written before that schema
+// change -- old data isn't migrated automatically, so the frontend needs to
+// keep understanding both shapes. See src/lib/departments.ts.
+export type JobDepartment = { preset?: string; custom?: LocaleString }
+
 export type SanityJobOpening = {
   _id: string
   title: LocaleString
-  department?: LocaleString
+  department?: JobDepartment | LocaleString
   location?: LocaleString
   employmentType?: LocaleString
   description?: LocaleText

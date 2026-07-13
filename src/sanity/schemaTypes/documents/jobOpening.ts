@@ -10,7 +10,7 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({ name: 'title', title: 'Job Title', type: 'localeString', validation: (Rule) => Rule.required() }),
-    defineField({ name: 'department', title: 'Department', type: 'localeString' }),
+    defineField({ name: 'department', title: 'Department', type: 'departmentField' }),
     defineField({
       name: 'location',
       title: 'Location',
@@ -44,8 +44,9 @@ export default defineType({
     { title: 'Posted date, newest first', name: 'postedDateDesc', by: [{ field: 'postedDate', direction: 'desc' }] },
   ],
   preview: {
-    select: { title: 'title.zh', dept: 'department.zh', active: 'isActive', posted: 'postedDate' },
-    prepare({ title, dept, active, posted }) {
+    select: { title: 'title.zh', deptPreset: 'department.preset', deptCustom: 'department.custom.zh', active: 'isActive', posted: 'postedDate' },
+    prepare({ title, deptPreset, deptCustom, active, posted }) {
+      const dept = deptPreset === 'other' ? deptCustom : deptPreset
       return {
         title: title || '(untitled)',
         subtitle: `${active ? '🟢 Open' : '⚪ Closed'}${dept ? ' · ' + dept : ''}${posted ? ' · ' + posted : ''}`,
