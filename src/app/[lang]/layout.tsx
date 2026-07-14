@@ -6,7 +6,7 @@ import { locales, hreflangMap, type Locale } from '@/lib/i18n'
 import { getNavLabels } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
-import MobileNav from '@/components/MobileNav'
+import { MobileNavProvider, MobileNavButton, MobileNavPanel } from '@/components/MobileNav'
 import { CAREERS_LABEL, CHINA_BASE_LABEL, PHONEIN_GROUP_LABEL } from '@/lib/nav-copy'
 
 // See src/app/[lang]/page.tsx for why this is needed -- without it, nav
@@ -62,7 +62,7 @@ export default async function LocaleLayout({
   ]
 
   return (
-    <>
+    <MobileNavProvider>
       {/* hreflang tags */}
       {locales.map((l) => (
         <link
@@ -79,11 +79,11 @@ export default async function LocaleLayout({
       />
         <div className="sinowin-site-header fixed top-0 left-0 right-0 z-[9999] bg-slate-950/80 backdrop-blur-md border-b border-white/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            <Link href={baseUrl} className="inline-flex items-center gap-3 text-white/80 hover:text-white transition min-w-0 shrink-0">
-              <span className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-sm shadow-slate-900/10">
+            <Link href={baseUrl} className="inline-flex items-center gap-3 text-white/80 hover:text-white transition min-w-0 overflow-hidden">
+              <span className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-sm shadow-slate-900/10 shrink-0">
                 <Image src="/assets/logo-sn.png" alt="Sinowin" width={32} height={32} className="w-8 h-8 object-contain" />
               </span>
-              <span className="font-black text-xl tracking-tighter whitespace-nowrap min-w-0 truncate">
+              <span className="font-black text-xl tracking-tighter whitespace-nowrap overflow-hidden text-ellipsis min-w-0 block">
                 <span className="text-emerald-400">{lang === 'zh' ? '華榮實業' : 'Sinowin'}</span>{' '}
                 <span className="text-white/90">{lang === 'zh' ? '（越南）有限公司' : 'Industrial (Vietnam)'}</span>
               </span>
@@ -106,10 +106,11 @@ export default async function LocaleLayout({
               >
                 {lang === 'zh' ? '一鍵申請樣品' : lang === 'vi' ? 'YÊU CẦU MẪU' : lang === 'ja' ? 'サンプル請求' : 'REQUEST SAMPLE'}
               </Link>
-              <MobileNav lang={lang} items={navItems} />
+              <MobileNavButton />
             </div>
           </div>
         </div>
+        <MobileNavPanel lang={lang} items={navItems} />
         <div className="h-20" aria-hidden="true" />
 
         <main>{children}</main>
@@ -144,6 +145,6 @@ export default async function LocaleLayout({
             © {new Date().getFullYear()} {lang === 'zh' ? '華榮實業（越南）有限公司。保留所有權利。' : lang === 'vi' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. Đã đăng ký bản quyền.' : lang === 'ja' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. 無断複写・転載を禁じます。' : 'SINOWIN Industrial (Vietnam) Co., Ltd. All rights reserved.'}
           </p>
         </footer>
-    </>
+    </MobileNavProvider>
   )
 }

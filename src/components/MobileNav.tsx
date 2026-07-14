@@ -1,24 +1,35 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState, type RefObject } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { locales, localeNames, type Locale } from '@/lib/i18n'
 
 export type MobileNavItem = { href: string; label: string }
 
+type Ctx = { open: boolean; setOpen: (v: boolean) => void; buttonRef: RefObject<HTMLButtonElement> }
+const MobileNavContext = createContext<Ctx | null>(null)
+
+function useMobileNav() {
+  const ctx = useContext(MobileNavContext)
+  if (!ctx) throw new Error('MobileNavButton/MobileNavPanel must be rendered inside MobileNavProvider')
+  return ctx
+}
+
 /**
- * Mobile hamburger menu, shared header. All nav links (and language links)
- * are always present in the rendered HTML -- only visually hidden via CSS
- * until opened -- so crawlers reading raw HTML still see the full internal
- * link graph even though the panel is collapsed by default. `open` only
- * controls opacity/pointer-events/tabIndex, never conditional rendering.
+ * Shares open/close state between the toggle button (inside the header,
+ * which has backdrop-blur) and the full-viewport panel. They MUST be
+ * siblings in the DOM, not the panel nested inside the header: a
+ * backdrop-filter ancestor establishes the containing block for
+ * position:fixed descendants, so a panel nested inside the (80px-tall)
+ * header would have its `top`/`bottom` resolved against the HEADER's box
+ * instead of the viewport -- collapsing it to zero height and making it
+ * invisible even though its opacity/pointer-events toggle correctly. This
+ * was the root cause of the panel not appearing on real devices.
  */
-export default function MobileNav({ lang, items }: { lang: Locale; items: MobileNavItem[] }) {
+export function MobileNavProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const pathname = usePathname() || `/${lang}`
-  const segments = pathname.split('/')
 
   useEffect(() => {
     if (!open) return
@@ -37,6 +48,45 @@ export default function MobileNav({ lang, items }: { lang: Locale; items: Mobile
     }
   }, [open])
 
+  return <MobileNavContext.Provider value={{ open, setOpen, buttonRef }}>{children}</MobileNavContext.Provider>
+}
+
+export function MobileNavButton() {
+  const { open, setOpen, buttonRef } = useMobileNav()
+  return (
+    <button
+      ref={buttonRef}
+      type="button"
+      aria-expanded={open}
+      aria-controls="mobile-nav-panel"
+      aria-label={open ? 'Close menu' : 'Open menu'}
+      onClick={() => setOpen(!open)}
+      className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition shrink-0"
+    >
+      {open ? (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      ) : (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      )}
+    </button>
+  )
+}
+
+/**
+ * Must be rendered as a sibling of the header (see MobileNavProvider doc
+ * comment) -- not nested inside it. All links (nav items + language
+ * switcher) are always present in the rendered HTML, only CSS-hidden until
+ * open, so crawlers reading raw HTML still see the full internal link graph.
+ */
+export function MobileNavPanel({ lang, items }: { lang: Locale; items: MobileNavItem[] }) {
+  const { open, setOpen } = useMobileNav()
+  const pathname = usePathname() || `/${lang}`
+  const segments = pathname.split('/')
+
   function hrefForLocale(l: Locale): string {
     const targetSegments = [...segments]
     targetSegments[1] = l
@@ -44,69 +94,47 @@ export default function MobileNav({ lang, items }: { lang: Locale; items: Mobile
   }
 
   return (
-    <>
-      <button
-        ref={buttonRef}
-        type="button"
-        aria-expanded={open}
-        aria-controls="mobile-nav-panel"
-        aria-label={open ? 'Close menu' : 'Open menu'}
-        onClick={() => setOpen((v) => !v)}
-        className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition shrink-0"
-      >
-        {open ? (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-        )}
-      </button>
+    <div
+      id="mobile-nav-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden={!open}
+      className={`md:hidden fixed inset-x-0 top-20 bottom-0 z-[9998] bg-slate-950/98 backdrop-blur-md overflow-y-auto transition-opacity duration-200 ${
+        open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setOpen(false)
+      }}
+    >
+      <nav className="max-w-7xl mx-auto px-6 py-8 flex flex-col">
+        {items.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+            className="py-4 text-lg font-black uppercase tracking-wide text-white/80 hover:text-white border-b border-white/5 transition"
+          >
+            {item.label}
+          </Link>
+        ))}
 
-      <div
-        id="mobile-nav-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-hidden={!open}
-        className={`md:hidden fixed inset-x-0 top-20 bottom-0 z-[9998] bg-slate-950/98 backdrop-blur-md overflow-y-auto transition-opacity duration-200 ${
-          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setOpen(false)
-        }}
-      >
-        <nav className="max-w-7xl mx-auto px-6 py-8 flex flex-col">
-          {items.map((item) => (
+        <div className="flex flex-wrap items-center gap-2 pt-6 mt-2">
+          {locales.map((l) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={l}
+              href={hrefForLocale(l)}
               tabIndex={open ? 0 : -1}
               onClick={() => setOpen(false)}
-              className="py-4 text-lg font-black uppercase tracking-wide text-white/80 hover:text-white border-b border-white/5 transition"
+              className={`px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border transition ${
+                l === lang ? 'border-white text-white' : 'border-white/15 text-white/50 hover:text-white hover:border-white/30'
+              }`}
             >
-              {item.label}
+              {localeNames[l]}
             </Link>
           ))}
-
-          <div className="flex flex-wrap items-center gap-2 pt-6 mt-2">
-            {locales.map((l) => (
-              <Link
-                key={l}
-                href={hrefForLocale(l)}
-                tabIndex={open ? 0 : -1}
-                onClick={() => setOpen(false)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border transition ${
-                  l === lang ? 'border-white text-white' : 'border-white/15 text-white/50 hover:text-white hover:border-white/30'
-                }`}
-              >
-                {localeNames[l]}
-              </Link>
-            ))}
-          </div>
-        </nav>
-      </div>
-    </>
+        </div>
+      </nav>
+    </div>
   )
 }
