@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { locales, type Locale } from '@/lib/i18n'
-import { getHomepageContent, getCertifications, getActiveJobOpenings } from '@/sanity/lib/fetch'
+import { getHomepageContent, getCertifications } from '@/sanity/lib/fetch'
 
 // Without this, the page is fully static (generateStaticParams below) and
 // only ever re-reads Sanity at build/deploy time -- a Studio publish (e.g.
@@ -15,6 +15,39 @@ import { urlForImage } from '@/sanity/lib/image'
 import BrHcjTool from '@/components/BrHcjTool'
 import PartnersStrip from '@/components/PartnersStrip'
 import ContactForm from '@/components/ContactForm'
+
+type L = Partial<Record<Locale, string>>
+
+// zh/en authored; vi/ja intentionally omitted -- resolved via tr() fallback (vi->en, ja->en).
+const heroCta = {
+  sample: { zh: '一鍵申請樣品', en: 'REQUEST SAMPLE', vi: 'YÊU CẦU MẪU', ja: 'サンプル請求' } as L,
+  manufacturing: { zh: '製造能力', en: 'Manufacturing' } as L,
+  supplyChain: { zh: '供應鏈韌性', en: 'Supply Chain Resilience' } as L,
+}
+
+const footprint = {
+  heading: { zh: '集團版圖', en: 'Global footprint' } as L,
+  vietnam: {
+    name: { zh: '越南 · 北寧', en: 'Vietnam · Bac Ninh' } as L,
+    desc: { zh: '精密磁材加工　2,000 噸／年', en: 'Precision magnet processing　2,000 MT/year' } as L,
+    badge: { zh: '量產中', en: 'In production' } as L,
+  },
+  china: {
+    name: { zh: '中國', en: 'China' } as L,
+    desc: { zh: '母公司華殷集團生產基地', en: 'Parent group manufacturing base' } as L,
+    badge: { zh: '集團據點', en: 'Group site' } as L,
+  },
+  india: {
+    name: { zh: '印度 · 清奈', en: 'India · Chennai' } as L,
+    desc: { zh: '生產中心', en: 'Production centre' } as L,
+    badge: { zh: '建設中', en: 'Under construction' } as L,
+  },
+  note: {
+    zh: 'SINOWIN 越南廠提供去中化設備專線選項，供有供應鏈合規需求的客戶選用。',
+    en: 'Our Vietnam facility offers a China-free equipment line for customers with supply chain compliance requirements.',
+  } as L,
+  link: { zh: '了解供應鏈韌性', en: 'Supply chain resilience' } as L,
+}
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -39,20 +72,6 @@ export async function generateMetadata({ params }: { params: { lang: string } })
 
 const T = {
   eyebrow: { zh: '越南垂直整合磁材製造商', en: 'Vertically Integrated Magnet Manufacturer in Vietnam', vi: 'Nhà sản xuất nam châm tích hợp dọc tại Việt Nam', ja: 'ベトナムの垂直統合型磁石メーカー' },
-  networkTitle: { zh: '全球製造基地佈局', en: 'Global Manufacturing Network', vi: 'Mạng lưới sản xuất toàn cầu', ja: 'グローバル製造ネットワーク' },
-  networkLead: { zh: 'SINOWIN 致力於構建具備高度韌性的供應鏈。目前已在越南北寧建立成熟產線，並積極佈建印度清奈生產中心。', en: 'SINOWIN is building a highly resilient supply chain — an established production line in Bac Ninh, Vietnam, and an upcoming site in Chennai, India.', vi: 'SINOWIN đang xây dựng chuỗi cung ứng có khả năng phục hồi cao — dây chuyền sản xuất tại Bắc Ninh, Việt Nam và cơ sở sắp tới tại Chennai, Ấn Độ.', ja: 'SINOWINはベトナム・バクニンの確立された生産ラインと、インド・チェンナイの新拠点により、強靭なサプライチェーンを構築しています。' },
-  vietnamName: { zh: '越南北寧', en: 'Bac Ninh, Vietnam', vi: 'Bắc Ninh, Việt Nam', ja: 'ベトナム・バクニン' },
-  vietnamAddr: 'Lot B3, B4, B5, Dinh Tram Industrial Park, Nenh Ward, Bac Ninh Province, Vietnam',
-  indiaName: { zh: '印度清奈', en: 'Chennai, India', vi: 'Chennai, Ấn Độ', ja: 'インド・チェンナイ' },
-  indiaAddr: { zh: '建設中 | Tamil Nadu, India', en: 'Construction in progress | Tamil Nadu, India', vi: 'Đang xây dựng | Tamil Nadu, Ấn Độ', ja: '建設中 | タミル・ナードゥ州、インド' },
-  vietnamCardTitle: { zh: '越南北寧基地', en: 'Bac Ninh, Vietnam Site', vi: 'Cơ sở Bắc Ninh, Việt Nam', ja: 'ベトナム・バクニン拠点' },
-  vietnamCardDesc: { zh: '機加工全製程包含各項異型研磨，多元表面處理工藝，全方位充磁組裝，實現海外全品項滿足供應。', en: 'Full machining process including custom-profile grinding, diverse surface treatments, and complete magnetizing/assembly for full overseas supply.', vi: 'Quy trình gia công đầy đủ bao gồm mài biên dạng tùy chỉnh, xử lý bề mặt đa dạng và từ hóa/lắp ráp hoàn chỉnh.', ja: '異形研削、多様な表面処理、充磁・組立まで一貫した加工プロセス。' },
-  viewTour: { zh: '進入 SINOWIN', en: 'Enter SINOWIN', vi: 'Vào SINOWIN', ja: 'SINOWINへ' },
-  viewTdcm: { zh: '進入 TDCM', en: 'Enter TDCM', vi: 'Vào TDCM', ja: 'TDCMへ' },
-  massProduction: { zh: '量產中', en: 'Mass Production', vi: 'Sản xuất hàng loạt', ja: '量産中' },
-  indiaCardTitle: { zh: '印度清奈基地', en: 'Chennai, India Site', vi: 'Cơ sở Chennai, Ấn Độ', ja: 'インド・チェンナイ拠点' },
-  indiaCardDesc: { zh: '預計 2026 年夏季啟用，擴大對南亞市場的高端供應能力。', en: 'Expected to launch summer 2026, expanding high-end supply capability to the South Asian market.', vi: 'Dự kiến ra mắt mùa hè 2026, mở rộng năng lực cung ứng cao cấp cho thị trường Nam Á.', ja: '2026年夏稼働予定。南アジア市場への高付加価値供給能力を拡大。' },
-  underConstruction: { zh: '建設中', en: 'Under Construction', vi: 'Đang xây dựng', ja: '建設中' },
   certTitle: { zh: '認證與管理體系', en: 'Certifications & Management Systems', vi: 'Chứng nhận & Hệ thống quản lý', ja: '認証・管理システム' },
   obtained: { zh: '已獲取', en: 'Obtained', vi: 'Đã đạt được', ja: '取得済み' },
   verifying: { zh: '審核中', en: 'Under Audit', vi: 'Đang được đánh giá', ja: '審査中' },
@@ -115,7 +134,7 @@ export default async function HomePage({ params }: { params: { lang: string } })
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const [home, certifications, jobOpenings] = await Promise.all([getHomepageContent(), getCertifications(), getActiveJobOpenings()])
+  const [home, certifications] = await Promise.all([getHomepageContent(), getCertifications()])
 
   return (
     <>
@@ -185,102 +204,71 @@ export default async function HomePage({ params }: { params: { lang: string } })
             {t(home?.heroSubtitle, lang)}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+            <a
+              href={`/${lang}#sample-request-section`}
+              className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-medium uppercase text-sm tracking-wide"
+              style={{ background: '#0FBF9B', color: '#04231C' }}
+            >
+              {tr(heroCta.sample, lang)}
+            </a>
             <Link
-              href={`/${lang}/careers`}
-              className="btn-cta relative inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black shadow-xl shadow-amber-900/40 uppercase bg-amber-500 hover:bg-amber-400 text-slate-900 text-sm"
+              href={`/${lang}/manufacturing`}
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-medium text-sm border-[0.5px] border-[#39414F] hover:border-[#4A5364] text-[#B8C0CC] transition-colors"
             >
-              {lang === 'zh' ? '加入團隊' : lang === 'vi' ? 'Gia nhập đội ngũ' : lang === 'ja' ? '採用情報' : 'Join Our Team'}
-              {jobOpenings.length > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[1.5rem] h-6 px-1.5 rounded-full bg-teal-500 text-white text-xs font-black flex items-center justify-center border-2 border-white">
-                  {jobOpenings.length}
-                </span>
-              )}
+              {tr(heroCta.manufacturing, lang)}
             </Link>
-            <a
-              href="https://www.yensonic.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black uppercase bg-teal-600 hover:bg-teal-500 text-white text-sm"
+            <Link
+              href={`/${lang}/about#supply-chain`}
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-medium text-sm border-[0.5px] border-[#39414F] hover:border-[#4A5364] text-[#B8C0CC] transition-colors"
             >
-              {lang === 'zh' ? '中國生產基地' : lang === 'vi' ? 'Cơ sở sản xuất Trung Quốc' : lang === 'ja' ? '中国生産拠点' : 'China Production Base'}
-            </a>
-            <a
-              href="https://www.phoneingroup.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-black uppercase bg-sky-600 hover:bg-sky-500 text-white text-sm"
-            >
-              {lang === 'zh' ? '了解華殷集團' : lang === 'vi' ? 'Về Phonein Group' : lang === 'ja' ? 'Phonein Groupについて' : 'About Phonein Group'}
-            </a>
+              {tr(heroCta.supplyChain, lang)}
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Global Manufacturing Network */}
-      <section id="about" className="py-16 md:py-24 bg-white relative overflow-hidden text-left border-b border-slate-100">
+      {/* Global Footprint -- a factual disclosure of group sites (incl. the
+          China parent-group base), not a promotional button. See spec:
+          compliance buyers who find the China connection via due-diligence
+          databases on their own read an undisclosed one as concealment;
+          disclosing it here reads as transparency instead. */}
+      <section id="footprint" className="py-16 md:py-24" style={{ background: '#0A0D14' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-16 items-start">
-            <div className="lg:w-1/2">
-              <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight">
-                {tr(T.networkTitle, lang)}
-                <span className="block text-lg font-medium text-slate-400 mt-1">Global Manufacturing Network</span>
-              </h2>
-              <p className="text-lg leading-relaxed font-medium text-slate-600 mb-6">{tr(T.networkLead, lang)}</p>
-              <div className="space-y-4">
-                <div className="flex gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <div>
-                    <p className="font-bold text-slate-800 text-lg">{tr(T.vietnamName, lang)}</p>
-                    <p className="text-xs text-slate-500 font-bold tracking-tight">{T.vietnamAddr}</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <div>
-                    <p className="font-bold text-slate-800 text-lg">{tr(T.indiaName, lang)}</p>
-                    <p className="text-xs text-slate-500 font-bold tracking-tight italic text-amber-600">{tr(T.indiaAddr, lang)}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <h2 className="text-3xl font-black mb-10 text-white">{tr(footprint.heading, lang)}</h2>
 
-            <div className="lg:w-1/2 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Link
-                href={`/${lang}/manufacturing`}
-                className="hover-lift enter-fade bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group relative cursor-pointer hover:border-teal-300"
-              >
-                <div className="h-48 bg-slate-100 relative overflow-hidden">
-                  <Image src="/assets/workshops/vietnam-site.webp" alt="Vietnam Site" fill className="object-cover group-hover:scale-110 transition duration-700" />
-                  <div className="absolute top-3 left-3 bg-teal-600 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase z-10">{tr(T.massProduction, lang)}</div>
-                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/0 group-hover:bg-slate-900/45 transition-colors duration-300">
-                    <span className="inline-flex items-center gap-2 text-white font-black text-sm uppercase tracking-widest opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                      {tr(T.viewTour, lang)}
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h4 className="font-black text-slate-900 mb-2">{tr(T.vietnamCardTitle, lang)}</h4>
-                  <p className="text-xs text-slate-500 font-bold leading-relaxed">{tr(T.vietnamCardDesc, lang)}</p>
-                </div>
-              </Link>
-
-              <div className="hover-lift enter-fade bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group grayscale" style={{ animationDelay: '80ms' }}>
-                <div className="h-48 bg-slate-200 relative">
-                  <Image src="/assets/workshops/india-site.jpg" alt="India Site" fill className="object-cover opacity-70" />
-                  <div className="absolute top-3 left-3 bg-slate-800 text-white text-[9px] font-black px-2 py-1 rounded-full uppercase">{tr(T.underConstruction, lang)}</div>
-                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/0 group-hover:bg-slate-900/45 transition-colors duration-300">
-                    <span className="inline-flex items-center gap-2 text-white font-black text-sm uppercase tracking-widest opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                      {tr(T.viewTdcm, lang)}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6 text-slate-400 italic">
-                  <h4 className="font-black text-slate-500 mb-2">{tr(T.indiaCardTitle, lang)}</h4>
-                  <p className="text-xs text-slate-400 font-bold leading-relaxed">{tr(T.indiaCardDesc, lang)}</p>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-xl p-6" style={{ background: '#171C26', border: '1px solid #39414F' }}>
+              <h3 className="font-black text-lg mb-2" style={{ color: '#FFFFFF' }}>{tr(footprint.vietnam.name, lang)}</h3>
+              <p className="text-sm mb-5" style={{ color: '#8A93A3' }}>{tr(footprint.vietnam.desc, lang)}</p>
+              <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#E8EDF4', color: '#0F131A' }}>
+                {tr(footprint.vietnam.badge, lang)}
+              </span>
             </div>
+            <div className="rounded-xl p-6" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
+              <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.china.name, lang)}</h3>
+              <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.china.desc, lang)}</p>
+              <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A', color: '#7E8593' }}>
+                {tr(footprint.china.badge, lang)}
+              </span>
+            </div>
+            <div className="rounded-xl p-6" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
+              <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.india.name, lang)}</h3>
+              <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.india.desc, lang)}</p>
+              <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A', color: '#7E8593' }}>
+                {tr(footprint.india.badge, lang)}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-10 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ borderTop: '1px solid #1F2530' }}>
+            <p className="text-sm max-w-2xl" style={{ color: '#8A93A3' }}>{tr(footprint.note, lang)}</p>
+            <Link
+              href={`/${lang}/about#supply-chain`}
+              className="shrink-0 text-sm font-bold transition-colors"
+              style={{ color: '#8A93A3' }}
+            >
+              {tr(footprint.link, lang)} →
+            </Link>
           </div>
         </div>
       </section>

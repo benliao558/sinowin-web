@@ -6,6 +6,8 @@ import { locales, hreflangMap, type Locale } from '@/lib/i18n'
 import { getNavLabels } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import MobileNav from '@/components/MobileNav'
+import { CAREERS_LABEL } from '@/lib/nav-copy'
 
 // See src/app/[lang]/page.tsx for why this is needed -- without it, nav
 // label edits in Sanity never show up on the live site until the next deploy.
@@ -49,6 +51,15 @@ export default async function LocaleLayout({
 
   const nav = await getNavLabels()
   const baseUrl = `/${lang}`
+
+  const navItems = [
+    { href: `${baseUrl}/manufacturing`, label: t(nav?.manufacturing, lang) ?? '' },
+    { href: `${baseUrl}/about`, label: t(nav?.about, lang) ?? '' },
+    { href: `${baseUrl}/faq`, label: t(nav?.faq, lang) ?? '' },
+    { href: `${baseUrl}/articles`, label: t(nav?.articles, lang) ?? '' },
+    { href: `${baseUrl}/careers`, label: t(nav?.careers, lang) ?? '' },
+    { href: `${baseUrl}#contact`, label: t(nav?.contact, lang) ?? '' },
+  ]
 
   return (
     <>
@@ -95,6 +106,7 @@ export default async function LocaleLayout({
               >
                 {lang === 'zh' ? '一鍵申請樣品' : lang === 'vi' ? 'YÊU CẦU MẪU' : lang === 'ja' ? 'サンプル請求' : 'REQUEST SAMPLE'}
               </Link>
+              <MobileNav lang={lang} items={navItems} />
             </div>
           </div>
         </div>
@@ -103,6 +115,12 @@ export default async function LocaleLayout({
         <main>{children}</main>
 
         <footer className="bg-slate-950 text-slate-500 py-14 border-t border-white/5 text-center">
+          <Link
+            href={`${baseUrl}/careers`}
+            className="inline-block mb-8 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition"
+          >
+            {CAREERS_LABEL[lang]}
+          </Link>
           <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-2">SINOWIN Industrial (Vietnam) Co., Ltd.</p>
           <p className="text-[10px] font-bold uppercase">
             © {new Date().getFullYear()} {lang === 'zh' ? '華榮實業（越南）有限公司。保留所有權利。' : lang === 'vi' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. Đã đăng ký bản quyền.' : lang === 'ja' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. 無断複写・転載を禁じます。' : 'SINOWIN Industrial (Vietnam) Co., Ltd. All rights reserved.'}

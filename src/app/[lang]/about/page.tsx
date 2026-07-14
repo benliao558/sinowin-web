@@ -329,7 +329,7 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
       </section>
 
       {/* Supply Chain Resilience */}
-      <section className="py-16 md:py-24" style={{ borderTop: '1px solid #1F2530' }}>
+      <section id="supply-chain" className="py-16 md:py-24" style={{ borderTop: '1px solid #1F2530' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AboutReveal index={5}>
             <p className="text-xs font-black uppercase tracking-widest mb-2" style={{ color: '#6B7280' }}>{t(supplyChain.eyebrow, lang)}</p>
