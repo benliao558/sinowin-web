@@ -237,12 +237,17 @@ export default async function HomePage({ params }: { params: { lang: string } })
           <h2 className="text-3xl font-black mb-10 text-white">{tr(footprint.heading, lang)}</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-xl p-6" style={{ background: '#171C26', border: '1px solid #39414F' }}>
-              <h3 className="font-black text-lg mb-2" style={{ color: '#FFFFFF' }}>{tr(footprint.vietnam.name, lang)}</h3>
-              <p className="text-sm mb-5" style={{ color: '#8A93A3' }}>{tr(footprint.vietnam.desc, lang)}</p>
-              <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#E8EDF4', color: '#0F131A' }}>
-                {tr(footprint.vietnam.badge, lang)}
-              </span>
+            <div className="rounded-xl overflow-hidden" style={{ background: '#171C26', border: '1px solid #39414F' }}>
+              <div className="h-32 relative">
+                <Image src="/assets/workshops/vietnam-site.webp" alt="Vietnam Site" fill className="object-cover" />
+              </div>
+              <div className="p-6">
+                <h3 className="font-black text-lg mb-2" style={{ color: '#FFFFFF' }}>{tr(footprint.vietnam.name, lang)}</h3>
+                <p className="text-sm mb-5" style={{ color: '#8A93A3' }}>{tr(footprint.vietnam.desc, lang)}</p>
+                <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#E8EDF4', color: '#0F131A' }}>
+                  {tr(footprint.vietnam.badge, lang)}
+                </span>
+              </div>
             </div>
             <div className="rounded-xl p-6" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
               <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.china.name, lang)}</h3>
@@ -251,12 +256,17 @@ export default async function HomePage({ params }: { params: { lang: string } })
                 {tr(footprint.china.badge, lang)}
               </span>
             </div>
-            <div className="rounded-xl p-6" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
-              <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.india.name, lang)}</h3>
-              <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.india.desc, lang)}</p>
-              <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A', color: '#7E8593' }}>
-                {tr(footprint.india.badge, lang)}
-              </span>
+            <div className="rounded-xl overflow-hidden" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
+              <div className="h-32 relative grayscale opacity-60">
+                <Image src="/assets/workshops/india-site.jpg" alt="India Site" fill className="object-cover" />
+              </div>
+              <div className="p-6">
+                <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.india.name, lang)}</h3>
+                <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.india.desc, lang)}</p>
+                <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A', color: '#7E8593' }}>
+                  {tr(footprint.india.badge, lang)}
+                </span>
+              </div>
             </div>
           </div>
 

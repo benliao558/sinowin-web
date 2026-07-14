@@ -7,7 +7,7 @@ import { getNavLabels } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import MobileNav from '@/components/MobileNav'
-import { CAREERS_LABEL } from '@/lib/nav-copy'
+import { CAREERS_LABEL, CHINA_BASE_LABEL, PHONEIN_GROUP_LABEL } from '@/lib/nav-copy'
 
 // See src/app/[lang]/page.tsx for why this is needed -- without it, nav
 // label edits in Sanity never show up on the live site until the next deploy.
@@ -115,12 +115,30 @@ export default async function LocaleLayout({
         <main>{children}</main>
 
         <footer className="bg-slate-950 text-slate-500 py-14 border-t border-white/5 text-center">
-          <Link
-            href={`${baseUrl}/careers`}
-            className="inline-block mb-8 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition"
-          >
-            {CAREERS_LABEL[lang]}
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 px-4">
+            <Link
+              href={`${baseUrl}/careers`}
+              className="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition"
+            >
+              {CAREERS_LABEL[lang]}
+            </Link>
+            <a
+              href="https://www.yensonic.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition"
+            >
+              {CHINA_BASE_LABEL[lang]}
+            </a>
+            <a
+              href="https://www.phoneingroup.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition"
+            >
+              {PHONEIN_GROUP_LABEL[lang]}
+            </a>
+          </div>
           <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-2">SINOWIN Industrial (Vietnam) Co., Ltd.</p>
           <p className="text-[10px] font-bold uppercase">
             © {new Date().getFullYear()} {lang === 'zh' ? '華榮實業（越南）有限公司。保留所有權利。' : lang === 'vi' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. Đã đăng ký bản quyền.' : lang === 'ja' ? 'SINOWIN Industrial (Vietnam) Co., Ltd. 無断複写・転載を禁じます。' : 'SINOWIN Industrial (Vietnam) Co., Ltd. All rights reserved.'}
