@@ -6,6 +6,9 @@ import { getArticleBySlug, getArticleSlugs } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
 import PortableTextRenderer from '@/components/PortableTextRenderer'
+import Breadcrumb from '@/components/Breadcrumb'
+
+const ARTICLES_LABEL: Record<Locale, string> = { zh: '產業洞察', en: 'Articles', vi: 'Tin tức ngành', ja: '業界インサイト' }
 
 // See src/app/[lang]/page.tsx for why this is needed.
 export const revalidate = 60
@@ -76,9 +79,11 @@ export default async function ArticlePage({ params }: { params: { lang: string; 
 
       <article style={{ maxWidth: '800px', margin: '0 auto', padding: '3rem 2rem' }}>
         <div style={{ marginBottom: '2rem' }}>
-          <a href={`/${lang}/articles`} style={{ fontSize: '0.875rem', color: 'var(--color-muted)' }}>
-            ← {lang === 'zh' ? '產業洞察' : lang === 'vi' ? 'Tin tức ngành' : lang === 'ja' ? '業界インサイト' : 'Industry Insights'}
-          </a>
+          <Breadcrumb
+            lang={lang}
+            variant="light"
+            items={[{ label: ARTICLES_LABEL[lang], href: `/${lang}/articles` }, { label: title }]}
+          />
         </div>
         {coverImageUrl && (
           <div style={{ width: '100%', aspectRatio: '16/9', position: 'relative', borderRadius: '12px', overflow: 'hidden', marginBottom: '2rem' }}>

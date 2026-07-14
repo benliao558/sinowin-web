@@ -6,6 +6,9 @@ import { locales, type Locale } from '@/lib/i18n'
 import { getArticles } from '@/sanity/lib/fetch'
 import { t as tt } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
+import Breadcrumb from '@/components/Breadcrumb'
+
+const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '產業洞察', en: 'Articles', vi: 'Tin tức ngành', ja: '業界インサイト' }
 
 // See src/app/[lang]/page.tsx for why this is needed.
 export const revalidate = 60
@@ -60,6 +63,9 @@ export default async function ArticlesPage({ params }: { params: { lang: string 
 
   return (
     <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '3rem 2rem' }}>
+      <div style={{ marginBottom: '1.5rem' }}>
+        <Breadcrumb lang={lang} variant="light" items={[{ label: BREADCRUMB_LABEL[lang] }]} />
+      </div>
       <h1 style={{ fontSize: '2.5rem', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: '0.75rem' }}>
         {lang === 'zh' ? '產業洞察' : lang === 'vi' ? 'Tin tức ngành' : lang === 'ja' ? '業界インサイト' : 'Industry Insights'}
       </h1>

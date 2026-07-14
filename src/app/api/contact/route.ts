@@ -7,8 +7,21 @@ const TO_EMAIL = 'info@sinowin-vn.com'
 // sinowin-vn.com is verified in Resend (SPF/DKIM/DMARC records added 2026-07-11).
 const FROM_EMAIL = 'SINOWIN Website <contact@sinowin-vn.com>'
 
+const SUBJECT_TAG: Record<string, string> = {
+  price: '[價格]',
+  risk: '[避險]',
+  evaluating: '[評估中]',
+}
+
 export async function POST(req: Request) {
-  let body: { name?: string; email?: string; message?: string }
+  let body: {
+    name?: string
+    email?: string
+    message?: string
+    optimizingFor?: string
+    optimizingForKey?: string
+    sourcingRestrictions?: string[]
+  }
   try {
     body = await req.json()
   } catch {
@@ -18,6 +31,9 @@ export async function POST(req: Request) {
   const name = (body.name || '').trim()
   const email = (body.email || '').trim()
   const message = (body.message || '').trim()
+  const optimizingFor = (body.optimizingFor || '').trim()
+  const optimizingForKey = (body.optimizingForKey || '').trim()
+  const sourcingRestrictions = Array.isArray(body.sourcingRestrictions) ? body.sourcingRestrictions.filter((r) => typeof r === 'string' && r.trim()) : []
 
   if (!name || !email || !message) {
     return NextResponse.json({ ok: false, error: 'Missing required fields' }, { status: 400 })
@@ -34,13 +50,20 @@ export async function POST(req: Request) {
 
   const resend = new Resend(apiKey)
 
+  const tag = SUBJECT_TAG[optimizingForKey] || ''
+  const subject = tag ? `${tag} 詢價 — ${name}` : `[Website Contact] ${name}`
+  const textLines = [`Name: ${name}`, `Email: ${email}`]
+  if (optimizingFor) textLines.push(`Optimizing for: ${optimizingFor}`)
+  if (sourcingRestrictions.length) textLines.push(`Sourcing policy restrictions: ${sourcingRestrictions.join(', ')}`)
+  textLines.push('', 'Message:', message)
+
   try {
     const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: TO_EMAIL,
       replyTo: email,
-      subject: `[Website Contact] ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      subject,
+      text: textLines.join('\n'),
     })
     if (error) {
       console.error('Resend error:', error)

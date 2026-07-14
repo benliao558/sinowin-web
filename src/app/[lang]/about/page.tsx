@@ -1,15 +1,25 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { locales, type Locale } from '@/lib/i18n'
+import { t } from '@/sanity/lib/localize'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
 
+const META_DESCRIPTION: Partial<Record<Locale, string>> = {
+  zh: 'SINOWIN 越南廠：異形磁鐵與高複雜度製造，並建有去中化產線，2026 Q4 就緒，因應戰略礦產出口管制與供應鏈合規需求。',
+  en: 'SINOWIN Vietnam: custom-shaped magnets and high-complexity manufacturing, plus a China-free production line ready Q4 2026 to meet strategic mineral export control and supply chain compliance requirements.',
+}
+
+const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '關於我們', en: 'About', vi: 'Về chúng tôi', ja: '会社概要' }
+
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
   const lang = params.lang as Locale
   return {
     title: lang === 'zh' ? '關於我們 — SINOWIN' : lang === 'vi' ? 'Về chúng tôi — SINOWIN' : lang === 'ja' ? '会社概要 — SINOWIN' : 'About Us — SINOWIN',
+    description: t(META_DESCRIPTION, lang),
     alternates: { canonical: `https://www.sinowin-vn.com/${lang}/about` },
   }
 }
@@ -75,6 +85,71 @@ const content = {
   },
 }
 
+// zh/en authored; vi/ja intentionally omitted -- resolved via t() fallback (vi->en, ja->en).
+type L = Partial<Record<Locale, string>>
+const supplyChain = {
+  eyebrow: { zh: '供應鏈韌性', en: 'Supply chain resilience' } as L,
+  h2: { zh: '兩條產線。由您決定哪一條接您的單。', en: 'Two production lines. You choose which one runs your order.' } as L,
+  lead: {
+    zh: '多數供應商只給你一條供應鏈、一種風險。我們建了第二條，讓合規需求不必變成採購難題。',
+    en: "Most suppliers give you one supply chain and one risk profile. We built a second line so compliance requirements don't have to become a sourcing problem.",
+  } as L,
+  standard: {
+    title: { zh: '主力產線', en: 'Standard line' } as L,
+    badge: { zh: '常態產線', en: 'Default' } as L,
+    body: {
+      zh: '採用業界標準設備，在成本與交期上維持競爭力。多數訂單由此產線生產。',
+      en: 'Industry-standard equipment, competitive on cost and lead time. This line runs most orders.',
+    } as L,
+  },
+  chinaFree: {
+    title: { zh: '去中化產線', en: 'China-free line' } as L,
+    badge: { zh: '2026 Q4 就緒', en: 'Ready Q4 2026' } as L,
+    body: {
+      zh: '機加工、充磁、測試三大核心製程不涉中國設備。設備已完成採購，預計 2026 年 10 月到廠，第四季完成調機與試產。',
+      en: "No Chinese equipment in machining, magnetizing, or testing. Equipment is on order, with delivery expected October 2026 and commissioning through Q4.",
+    } as L,
+  },
+  timeline: {
+    heading: { zh: '為什麼是現在', en: 'Why now' } as L,
+    events: [
+      {
+        month: { zh: '7 月', en: 'July' } as L,
+        text: {
+          zh: '中國商務部第 26 號公告生效，建立戰略礦產出口管制違規檢舉機制，可檢舉範圍包含經第三國轉運規避管制。',
+          en: 'MOFCOM Announcement No. 26 takes effect, establishing a reporting mechanism for strategic mineral export control violations. Reportable conduct includes routing exports through third countries to circumvent controls.',
+        } as L,
+      },
+      {
+        month: { zh: '10 月', en: 'October' } as L,
+        text: {
+          zh: 'SINOWIN 去中化設備預計到廠，啟動調機與試產。',
+          en: "SINOWIN's China-free equipment expected on site; commissioning begins.",
+        } as L,
+      },
+      {
+        month: { zh: '11 月', en: 'November' } as L,
+        text: {
+          zh: '中國域外管轄條款執法啟動。使用中國原產受管制材料、且用於受限下游應用的製造商，可能面臨監管行動。',
+          en: "China's extraterritorial provisions come into force. Manufacturers using Chinese-origin controlled materials in restricted downstream applications may face regulatory action.",
+        } as L,
+      },
+    ],
+    body: {
+      zh: '合規稽核、送樣與驗證本來就需要數月。若貴司需在 11 月前完成供應鏈調整，現在是啟動評估的時間點——我們的產線就緒時程，可與您的導入排程對齊。',
+      en: "Compliance audit, sampling, and validation take months regardless. If you need your supply chain resolved before November, this is the point to start scoping — our line comes online on the same timeline as your qualification cycle.",
+    } as L,
+    note: {
+      zh: '時程以設備到廠與驗證進度為準，我們會在專案評估時同步更新。',
+      en: "Timelines are subject to equipment delivery and validation progress. We'll keep you updated during project scoping.",
+    } as L,
+  },
+  cta: {
+    question: { zh: '您要的是價格，還是避險？', en: 'Price, or risk mitigation — which are you optimizing for?' } as L,
+    button: { zh: '開始洽詢', en: 'Start an enquiry' } as L,
+  },
+}
+
 export default function AboutPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
@@ -89,6 +164,48 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
         name: lang === 'zh' ? '關於 SINOWIN' : 'About SINOWIN',
         url: `https://www.sinowin-vn.com/${lang}/about`,
       })}} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Does SINOWIN offer a China-free supply chain option?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'SINOWIN operates two production lines. The standard line uses industry-standard equipment and remains competitive on cost and lead time. A separate China-free line, covering machining, magnetizing, and testing, has been ordered with delivery expected October 2026 and commissioning through Q4 2026. Timelines are subject to equipment delivery and validation progress.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Which processes are covered by the China-free line?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'The China-free line covers three core processes: machining, magnetizing, and testing. No Chinese-origin equipment is used in these processes.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Why should we start supply chain scoping now rather than later?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "China's extraterritorial export control provisions come into force in November 2026. Manufacturers using Chinese-origin controlled materials in restricted downstream applications may face regulatory action. Compliance audit, sampling, and validation typically take several months, so buyers who need their supply chain resolved before November should begin scoping now.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Where is SINOWIN located?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'SINOWIN Industrial (Vietnam) Co., Ltd. is a precision magnet processing facility in Bac Ninh Province, Vietnam, with 2,000 metric tons of annual processing capacity.',
+            },
+          },
+        ],
+      })}} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <Breadcrumb lang={lang} variant="dark" items={[{ label: BREADCRUMB_LABEL[lang] }]} />
+      </div>
 
       {/* Hero */}
       <section className="relative hero-gradient pt-16 pb-16 overflow-hidden">
@@ -160,6 +277,67 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Supply Chain Resilience */}
+      <section className="py-16 md:py-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2">{t(supplyChain.eyebrow, lang)}</p>
+          <h2 className="text-2xl md:text-3xl font-black mb-6 max-w-[30ch]">{t(supplyChain.h2, lang)}</h2>
+          <p className="text-slate-400 text-base leading-relaxed font-medium max-w-[60ch] mb-10">{t(supplyChain.lead, lang)}</p>
+
+          <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+            <div className="glass rounded-[2rem] p-6 sm:p-8">
+              <h3 className="text-lg font-black mb-3">{t(supplyChain.standard.title, lang)}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed mb-5">{t(supplyChain.standard.body, lang)}</p>
+              <span className="inline-flex items-center px-3 py-1 bg-white/5 border border-white/10 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest">
+                {t(supplyChain.standard.badge, lang)}
+              </span>
+            </div>
+            <div className="glass rounded-[2rem] p-6 sm:p-8 border-2 border-teal-400/40">
+              <h3 className="text-lg font-black mb-3">{t(supplyChain.chinaFree.title, lang)}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed mb-5">{t(supplyChain.chinaFree.body, lang)}</p>
+              <span className="inline-flex items-center px-3 py-1 bg-teal-400/10 border border-teal-400/20 text-teal-300 text-[10px] font-black rounded-full uppercase tracking-widest">
+                {t(supplyChain.chinaFree.badge, lang)}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-10 bg-slate-900 rounded-[2rem] p-6 sm:p-10">
+            <h3 className="text-lg font-black mb-8 flex items-center gap-2.5">
+              <span className="w-2 h-6 bg-teal-400 rounded-full inline-block" />
+              {t(supplyChain.timeline.heading, lang)}
+            </h3>
+
+            <div className="relative mb-8">
+              <div className="hidden sm:block absolute top-[5px] left-[10%] right-[10%] h-px bg-white/10" />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 relative">
+                {supplyChain.timeline.events.map((ev, i) => (
+                  <div key={i} className="flex sm:flex-col items-start sm:items-center gap-3 sm:text-center">
+                    <span className="w-2.5 h-2.5 rounded-full bg-teal-400 shrink-0 mt-1 sm:mt-0" />
+                    <div>
+                      <div className="text-sm font-black text-teal-300">{t(ev.month, lang)}</div>
+                      <div className="text-xs text-slate-400 mt-1 sm:max-w-[220px] sm:mx-auto">{t(ev.text, lang)}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <p className="text-slate-300 text-sm leading-relaxed mb-4">{t(supplyChain.timeline.body, lang)}</p>
+            <p className="text-slate-500 text-xs leading-relaxed border-t border-white/5 pt-4">{t(supplyChain.timeline.note, lang)}</p>
+          </div>
+
+          <div className="mt-10 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-slate-300 font-bold text-sm sm:text-base">{t(supplyChain.cta.question, lang)}</p>
+            <a
+              href={`/${lang}#contact`}
+              className="btn-cta shrink-0 inline-flex items-center justify-center px-6 py-3 bg-teal-500 text-slate-900 font-black rounded-2xl transition shadow-xl active:scale-95 uppercase text-xs tracking-widest"
+            >
+              {t(supplyChain.cta.button, lang)} →
+            </a>
           </div>
         </div>
       </section>

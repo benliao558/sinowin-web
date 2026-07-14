@@ -4,6 +4,9 @@ import { locales, type Locale } from '@/lib/i18n'
 import { getManufacturingIntro, getWorkshops } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import WorkshopGrid from '@/components/WorkshopGrid'
+import Breadcrumb from '@/components/Breadcrumb'
+
+const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '製造能力', en: 'Manufacturing', vi: 'Năng lực sản xuất', ja: '製造能力' }
 
 // See src/app/[lang]/page.tsx for why this is needed.
 export const revalidate = 60
@@ -66,6 +69,9 @@ export default async function ManufacturingPage({ params }: { params: { lang: st
 
       <div className="bg-slate-950 text-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-6">
+            <Breadcrumb lang={lang} variant="dark" items={[{ label: BREADCRUMB_LABEL[lang] }]} />
+          </div>
           <h1 className="text-3xl font-black text-white mb-2">{HEADING[lang]}</h1>
           <p className="text-slate-400 font-medium mb-12">{intro}</p>
 
