@@ -152,7 +152,8 @@ export default async function HomePage({ params }: { params: { lang: string } })
 
       {/* Hero */}
       <section className="relative hero-gradient pt-16 md:pt-24 pb-16 md:pb-20 overflow-hidden text-left">
-        {/* Decorative background: faint grid texture + magnetic field arcs — purely decorative, sits behind the z-10 text */}
+        {/* Decorative background: faint grid texture + concentric rings (pulsing, see .hero-ring) — purely decorative, sits behind the z-10 text.
+            These were previously ellipses (ry = rx * 1.3), which read as stretched/deformed rather than true circles -- now perfect circles. */}
         <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
           <div
             className="absolute inset-0 opacity-[0.05]"
@@ -167,8 +168,8 @@ export default async function HomePage({ params }: { params: { lang: string } })
             viewBox="0 0 400 400"
             fill="none"
           >
-            {[40, 85, 130, 175, 220].map((r) => (
-              <ellipse key={r} cx="200" cy="200" rx={r} ry={r * 1.3} stroke="#2dd4bf" strokeWidth="1" />
+            {[40, 85, 130, 175, 220].map((r, i) => (
+              <circle key={r} className="hero-ring" cx="200" cy="200" r={r} stroke="#2dd4bf" strokeWidth="1" style={{ animationDelay: `${i * 0.5}s` }} />
             ))}
           </svg>
         </div>
@@ -378,7 +379,7 @@ export default async function HomePage({ params }: { params: { lang: string } })
 
             <div className="shrink-0 mx-auto md:mx-0">
               <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-teal-400/10 border border-teal-400/20 flex items-center justify-center">
-                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.4" className="w-24 h-24 md:w-32 md:h-32 text-teal-300">
+                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.4" className="globe-spin w-24 h-24 md:w-32 md:h-32 text-teal-300">
                   <circle cx="50" cy="50" r="38" />
                   <ellipse cx="50" cy="50" rx="16" ry="38" />
                   <path d="M12 50h76" />

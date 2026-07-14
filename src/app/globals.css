@@ -149,3 +149,33 @@ button, a.btn-cta, .btn-cta {
   .circuit-flow { animation: none; stroke-dasharray: none; }
   .circuit-node { animation: none; opacity: 0.5; }
 }
+
+/* Hero decorative rings: a slow radial pulse rather than rotation -- true
+   concentric circles are rotationally symmetric, so spinning them produces
+   no visible motion at all. A staggered opacity breathe reads as a faint
+   magnetic-field/sonar pulse radiating outward, which fits the brand
+   without competing with the hero text for attention. */
+@keyframes heroRingPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+.hero-ring {
+  animation: heroRingPulse 7s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ring { animation: none; opacity: 0.7; }
+}
+
+/* Supply-chain globe: unlike the hero rings, the lat/long lines make the
+   globe asymmetric, so a slow continuous spin reads clearly as motion
+   without needing a fast/attention-grabbing speed. */
+@keyframes slowSpin {
+  to { transform: rotate(360deg); }
+}
+.globe-spin {
+  animation: slowSpin 44s linear infinite;
+  transform-origin: 50% 50%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .globe-spin { animation: none; }
+}
