@@ -147,14 +147,19 @@ function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale
   const corner = CORNER_STYLE[character.corner]
 
   return (
-    // self-start: a CSS grid row stretches every item to match its tallest
-    // sibling by default, which left this wrapper's actual box far taller
-    // than the visible card underneath -- and since that's the containing
-    // block for the absolutely-positioned character, "bottom: -2rem" landed
-    // relative to the invisible stretched edge instead of the real card
-    // bottom, leaving the character stranded far below it.
-    <div className="relative self-start">
-      <div className={`relative z-0 bg-gradient-to-br from-slate-800 to-teal-950 border border-white/10 rounded-3xl p-6 sm:p-8 ${corner.pad} min-h-[17rem] sm:min-h-[19rem]`}>
+    // Grid rows stretch every item to match the tallest sibling by default
+    // (align-items: stretch) -- that's exactly what we want here so same-row
+    // cards share one height and bottom-anchored characters share one "floor"
+    // line, instead of each card sizing to its own content and leaving
+    // characters standing at different heights depending on how much text
+    // their card happened to have. The card panel below uses h-full to
+    // actually fill that stretched wrapper (a plain min-height wouldn't --
+    // it'd stay at its own content height and leave the wrapper's extra
+    // stretched space empty, which is what previously left the
+    // bottom-anchored character's containing block taller than the visible
+    // card and stranded it below the card's real bottom edge).
+    <div className="relative">
+      <div className={`relative z-0 h-full bg-gradient-to-br from-slate-800 to-teal-950 border border-white/10 rounded-3xl p-6 sm:p-8 ${corner.pad} min-h-[17rem] sm:min-h-[19rem]`}>
         <h2 className="text-xl font-black text-white mb-3">{title}</h2>
         <div className="flex flex-wrap gap-2 mb-4">
           {department && (
