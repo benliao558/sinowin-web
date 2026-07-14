@@ -9,11 +9,6 @@ const MANPOWER_FILES: string[] = [
   '26_vietnamese_female_06.png', '27_vietnamese_male_07.png', '28_vietnamese_female_08.png', '29_vietnamese_male_09.png', '30_vietnamese_female_10.png',
 ]
 
-// Top-left is deliberately excluded: that's where the card's title/tags sit,
-// so a full-body character anchored there would risk covering them.
-export type Corner = 'bottom-right' | 'bottom-left' | 'top-right'
-const CORNERS: Corner[] = ['bottom-right', 'bottom-left', 'top-right']
-
 // Simple deterministic string hash (FNV-1a) -- not for security, just for a
 // stable, well-distributed job._id -> index mapping.
 function hashString(input: string, seed = 0): number {
@@ -25,7 +20,7 @@ function hashString(input: string, seed = 0): number {
   return h >>> 0
 }
 
-export type CardCharacter = { file: string; corner: Corner }
+export type CardCharacter = { file: string }
 
 // Manual pin: the "PM 專案管理師" job's hash happened to land on a male
 // character; the user specifically asked for this listing to show a female
@@ -58,6 +53,5 @@ export function assignCharacters(jobIds: string[]): CardCharacter[] {
   }
   return jobIds.map((id, i) => ({
     file: CHARACTER_OVERRIDES[id] ?? MANPOWER_FILES[assigned[i]],
-    corner: CORNERS[hashString(id, 0x9e3779b1) % CORNERS.length],
   }))
 }

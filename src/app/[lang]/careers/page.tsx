@@ -4,7 +4,7 @@ import { locales, type Locale } from '@/lib/i18n'
 import { getActiveJobOpenings } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import { getDepartmentLabel, getDepartmentColor } from '@/lib/departments'
-import { assignCharacters, type CardCharacter, type Corner } from '@/lib/manpower'
+import { assignCharacters, type CardCharacter } from '@/lib/manpower'
 import ExpandableDescription from '@/components/ExpandableDescription'
 import type { SanityJobOpening } from '@/sanity/lib/types'
 
@@ -47,29 +47,27 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
 }
 
-// The character sits in one corner of the card (top-left is off-limits --
-// that's where the title/tags live) at full-body size, layered *above* the
-// card (z-10 vs the content's z-0) so it can naturally overlap the card's
-// edge. Overlap with the actual text is avoided structurally, not by
-// hoping they don't collide: CORNER_STYLE.pad reserves a matching gutter
-// down the character's side of the content column, so text simply never
-// flows into the space the character occupies, regardless of how tall any
-// individual card ends up being.
-// object-bottom/object-top: within the fixed CHARACTER_BOX, keep the
-// character's feet flush with the bottom for corners anchored at the
-// card's bottom edge, and its head flush with the top for the one anchored
-// at the top -- otherwise object-contain centers it, floating away from
-// the edge it's supposed to be standing on.
-const CORNER_STYLE: Record<Corner, { img: string; pad: string; objectPosition: string }> = {
-  'bottom-right': { img: '-right-4 -bottom-4 sm:-right-8 sm:-bottom-8', pad: 'pr-28 sm:pr-32', objectPosition: 'bottom' },
-  'bottom-left': { img: '-left-4 -bottom-4 sm:-left-8 sm:-bottom-8', pad: 'pl-28 sm:pl-32', objectPosition: 'bottom' },
-  'top-right': { img: '-right-4 -top-4 sm:-right-8 sm:-top-8', pad: 'pr-28 sm:pr-32', objectPosition: 'top' },
-}
+// Every card's character is fixed to the bottom-right corner now (no more
+// random corner assignment -- simpler, and it means a character always
+// unambiguously belongs to the card it's standing in front of). Full-body,
+// layered *above* the card (z-10 vs the content's z-0) so it can naturally
+// overlap the card's edge; CARD_PAD reserves a matching gutter down the
+// right side of the content column so text structurally never flows into
+// the space the character occupies, regardless of how tall any individual
+// card ends up being.
+const CARD_IMG_POSITION = '-right-4 -bottom-4 sm:-right-8 sm:-bottom-8'
+const CARD_PAD = 'pr-28 sm:pr-32'
 
-// Just a grounding shadow so the character reads as standing in front of
-// the card -- the earlier version added a teal rim-light glow too, but that
-// read as an unwanted glowing border rather than a clean illustration.
-const CHARACTER_FILTER = 'drop-shadow(0 10px 16px rgba(0,0,0,0.55))'
+// No drop-shadow filter here (an earlier version had one for a grounding
+// effect). Confirmed by testing: `filter` forces the browser to composite
+// the character via an offscreen layer, and wherever that layer straddled
+// two different backgrounds (the card's gradient vs the page's own
+// background, exactly the case here since the character overlaps the
+// card's edge), it rendered a visible hard seam right through the middle of
+// the character where the two backgrounds met -- reported as a "cut in
+// half" line. Removing the filter removes the seam entirely; the character
+// still reads as sitting in front of the card from the z-index layering and
+// the natural edge of the art itself.
 
 // The 30 source crops aren't uniform: the Vietnamese-team row in the
 // original reference sheet was noticeably shorter than the Indian/American
@@ -144,7 +142,6 @@ function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale
   const location = t(job.location, lang)
   const employmentType = t(job.employmentType, lang)
   const description = t(job.description, lang)
-  const corner = CORNER_STYLE[character.corner]
 
   return (
     // Grid rows stretch every item to match the tallest sibling by default
@@ -159,7 +156,7 @@ function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale
     // bottom-anchored character's containing block taller than the visible
     // card and stranded it below the card's real bottom edge).
     <div className="relative">
-      <div className={`relative z-0 h-full bg-gradient-to-br from-slate-800 to-teal-950 border border-white/10 rounded-3xl p-6 sm:p-8 ${corner.pad} min-h-[17rem] sm:min-h-[19rem]`}>
+      <div className={`relative z-0 h-full bg-gradient-to-br from-slate-800 to-teal-950 border border-white/10 rounded-3xl p-6 sm:p-8 ${CARD_PAD} min-h-[17rem] sm:min-h-[19rem]`}>
         <h2 className="text-xl font-black text-white mb-3">{title}</h2>
         <div className="flex flex-wrap gap-2 mb-4">
           {department && (
@@ -179,8 +176,8 @@ function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale
         src={`/manpower/${character.file}`}
         alt=""
         aria-hidden="true"
-        className={`absolute z-10 pointer-events-none select-none ${CHARACTER_BOX} ${corner.img}`}
-        style={{ filter: CHARACTER_FILTER, objectPosition: corner.objectPosition }}
+        className={`absolute z-10 pointer-events-none select-none ${CHARACTER_BOX} ${CARD_IMG_POSITION}`}
+        style={{ objectPosition: 'bottom' }}
       />
     </div>
   )
