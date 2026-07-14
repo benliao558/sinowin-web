@@ -4,7 +4,8 @@ import { locales, type Locale } from '@/lib/i18n'
 import { getActiveJobOpenings } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import { getDepartmentLabel, getDepartmentColor } from '@/lib/departments'
-import { assignCharacters, type CardCharacter, type FloatDirection } from '@/lib/manpower'
+import { assignCharacters, type CardCharacter, type Corner } from '@/lib/manpower'
+import ExpandableDescription from '@/components/ExpandableDescription'
 import type { SanityJobOpening } from '@/sanity/lib/types'
 
 // See src/app/[lang]/page.tsx for why this is needed.
@@ -30,33 +31,80 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
 }
 
-// The character always anchors near the top of the card and only its float
-// direction changes -- so however it's offset, it never drifts down into the
-// text zone, which the opaque content panel below sits above (z-10) anyway.
-// All 4 directions escape upward past the card's top edge, varying only in
-// magnitude and horizontal anchor. Two things this avoids, both found while
-// testing: (1) a literal sideways escape -- on a single-column mobile layout
-// there's no neighboring card to peek toward, and the 16px edge padding
-// meant the character was either clipped off-screen or, pulled back in,
-// hidden behind its own card's opaque panel; (2) a "downward" escape using a
-// positive top offset -- whether it actually pokes out below the card
-// depends on the character's height exceeding that specific card's content
-// height, which a short description can easily fail, making it invisible.
-// A negative-top escape is unconditional: it always clears the panel.
-// The escape distance for "up" is set to exactly match the grid's row gap
-// (gap-y-16/sm:gap-y-20 below), so the visible sliver -- however tall the
-// character actually is -- never crosses into the card in the row above.
-const FLOAT_POSITION: Record<FloatDirection, string> = {
-  up: 'left-1/2 -translate-x-1/2 -top-16 sm:-top-20',
-  down: 'left-1/2 -translate-x-1/2 -top-10 sm:-top-12',
-  left: 'left-4 sm:left-6 -top-12 sm:-top-16',
-  right: 'right-4 sm:right-6 -top-12 sm:-top-16',
+// The character sits in one corner of the card (top-left is off-limits --
+// that's where the title/tags live) at full-body size, layered *above* the
+// card (z-10 vs the content's z-0) so it can naturally overlap the card's
+// edge. Overlap with the actual text is avoided structurally, not by
+// hoping they don't collide: CORNER_STYLE.pad reserves a matching gutter
+// down the character's side of the content column, so text simply never
+// flows into the space the character occupies, regardless of how tall any
+// individual card ends up being.
+const CORNER_STYLE: Record<Corner, { img: string; pad: string }> = {
+  'bottom-right': { img: '-right-4 -bottom-4 sm:-right-8 sm:-bottom-8', pad: 'pr-28 sm:pr-32' },
+  'bottom-left': { img: '-left-4 -bottom-4 sm:-left-8 sm:-bottom-8', pad: 'pl-28 sm:pl-32' },
+  'top-right': { img: '-right-4 -top-4 sm:-right-8 sm:-top-8', pad: 'pr-28 sm:pr-32' },
 }
 
-// Two stacked drop-shadows: a grounding dark shadow for depth, plus a soft
-// teal rim glow so the character's navy polo doesn't blend into the card's
-// dark background (this was a real, confirmed issue during testing).
-const CHARACTER_FILTER = 'drop-shadow(0 8px 14px rgba(0,0,0,0.55)) drop-shadow(0 0 10px rgba(45,212,191,0.4))'
+// Two stacked drop-shadows: a grounding dark shadow so the character reads
+// as standing in front of the card, plus a soft teal rim glow so the navy
+// polo doesn't blend into the card's dark background (a real, confirmed
+// issue during testing).
+const CHARACTER_FILTER = 'drop-shadow(0 10px 16px rgba(0,0,0,0.6)) drop-shadow(0 0 12px rgba(45,212,191,0.4))'
+
+// Real job descriptions turned out to be inconsistently formatted between
+// locales -- the Chinese text separates "主要職責" from the intro with a
+// blank line, but the English text uses a single newline (and adds a
+// "Description:" label the Chinese text doesn't have) -- so a plain
+// paragraph-break split worked for one locale and leaked the section header
+// into the collapsed summary for the other. Detecting the header lines by
+// keyword, with a character-budget/sentence-boundary fallback for whatever
+// it misses, is robust to that inconsistency either way.
+const LABEL_PREFIX = /^(description|說明|说明|説明|概要|mô tả)[:：]\s*/i
+const SECTION_HEADERS = [
+  '主要職責', '主要职责', '職責說明', '條件要求', '应征条件', '應徵條件', '任職資格', '任职资格',
+  'key responsibilities', 'responsibilities', 'requirements', 'qualifications',
+  'trách nhiệm chính', 'trách nhiệm', 'yêu cầu',
+  '主な職務', '職務内容', '応募資格', '必須要件', '応募条件',
+]
+const SUMMARY_CHAR_BUDGET = 200
+const SENTENCE_END = ['。', '.', '！', '!', '？', '?']
+
+function splitDescription(raw: string): { summary: string; rest: string | null } {
+  const description = raw.replace(LABEL_PREFIX, '').trim()
+  const lines = description.split('\n')
+
+  let cutIndex = lines.length
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim().toLowerCase()
+    if (line && SECTION_HEADERS.some((h) => line.startsWith(h))) {
+      cutIndex = i
+      break
+    }
+  }
+
+  let summary = lines.slice(0, cutIndex).join('\n').trim()
+  let rest = lines.slice(cutIndex).join('\n').trim()
+
+  if (summary.length > SUMMARY_CHAR_BUDGET) {
+    const truncated = summary.slice(0, SUMMARY_CHAR_BUDGET)
+    const sentenceBoundary = Math.max(...SENTENCE_END.map((ch) => truncated.lastIndexOf(ch)))
+    if (sentenceBoundary > SUMMARY_CHAR_BUDGET * 0.4) {
+      // Clean stop at the end of a sentence -- no ellipsis needed.
+      rest = (summary.slice(sentenceBoundary + 1) + (rest ? '\n\n' + rest : '')).trim()
+      summary = summary.slice(0, sentenceBoundary + 1).trim()
+    } else {
+      // No sentence end within budget (a single long run-on sentence, seen
+      // in real data) -- snap to the last word boundary instead of cutting
+      // a word in half, and mark it as truncated with an ellipsis.
+      const wordBoundary = truncated.lastIndexOf(' ')
+      const cutAt = wordBoundary > SUMMARY_CHAR_BUDGET * 0.5 ? wordBoundary : SUMMARY_CHAR_BUDGET
+      rest = (summary.slice(cutAt) + (rest ? '\n\n' + rest : '')).trim()
+      summary = summary.slice(0, cutAt).trim() + '…'
+    }
+  }
+
+  return { summary, rest: rest || null }
+}
 
 function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale; character: CardCharacter }) {
   const title = t(job.title, lang) ?? ''
@@ -65,17 +113,17 @@ function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale
   const location = t(job.location, lang)
   const employmentType = t(job.employmentType, lang)
   const description = t(job.description, lang)
+  const corner = CORNER_STYLE[character.corner]
 
   return (
-    <div className="relative">
-      <img
-        src={`/manpower/${character.file}`}
-        alt=""
-        aria-hidden="true"
-        className={`absolute z-0 w-20 sm:w-24 h-auto pointer-events-none select-none ${FLOAT_POSITION[character.direction]}`}
-        style={{ filter: CHARACTER_FILTER }}
-      />
-      <div className="relative z-10 bg-slate-900 border border-white/10 rounded-3xl p-6 sm:p-8 pt-16 sm:pt-20 min-h-[19rem]">
+    // self-start: a CSS grid row stretches every item to match its tallest
+    // sibling by default, which left this wrapper's actual box far taller
+    // than the visible card underneath -- and since that's the containing
+    // block for the absolutely-positioned character, "bottom: -2rem" landed
+    // relative to the invisible stretched edge instead of the real card
+    // bottom, leaving the character stranded far below it.
+    <div className="relative self-start">
+      <div className={`relative z-0 bg-gradient-to-br from-slate-800 to-teal-950 border border-white/10 rounded-3xl p-6 sm:p-8 ${corner.pad} min-h-[17rem] sm:min-h-[19rem]`}>
         <h2 className="text-xl font-black text-white mb-3">{title}</h2>
         <div className="flex flex-wrap gap-2 mb-4">
           {department && (
@@ -86,8 +134,18 @@ function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale
           {location && <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-bold">{location}</span>}
           {employmentType && <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-bold">{employmentType}</span>}
         </div>
-        {description && <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line">{description}</p>}
+        {description && (() => {
+          const { summary, rest } = splitDescription(description)
+          return <ExpandableDescription summary={summary} rest={rest} lang={lang} />
+        })()}
       </div>
+      <img
+        src={`/manpower/${character.file}`}
+        alt=""
+        aria-hidden="true"
+        className={`absolute z-10 h-56 sm:h-64 w-auto pointer-events-none select-none ${corner.img}`}
+        style={{ filter: CHARACTER_FILTER }}
+      />
     </div>
   )
 }
