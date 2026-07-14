@@ -4,6 +4,7 @@ import { locales, type Locale } from '@/lib/i18n'
 import { getActiveJobOpenings } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import { getDepartmentLabel, getDepartmentColor } from '@/lib/departments'
+import { assignCharacters, type CardCharacter, type FloatDirection } from '@/lib/manpower'
 import type { SanityJobOpening } from '@/sanity/lib/types'
 
 // See src/app/[lang]/page.tsx for why this is needed.
@@ -29,7 +30,35 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
 }
 
-function JobCard({ job, lang }: { job: SanityJobOpening; lang: Locale }) {
+// The character always anchors near the top of the card and only its float
+// direction changes -- so however it's offset, it never drifts down into the
+// text zone, which the opaque content panel below sits above (z-10) anyway.
+// All 4 directions escape upward past the card's top edge, varying only in
+// magnitude and horizontal anchor. Two things this avoids, both found while
+// testing: (1) a literal sideways escape -- on a single-column mobile layout
+// there's no neighboring card to peek toward, and the 16px edge padding
+// meant the character was either clipped off-screen or, pulled back in,
+// hidden behind its own card's opaque panel; (2) a "downward" escape using a
+// positive top offset -- whether it actually pokes out below the card
+// depends on the character's height exceeding that specific card's content
+// height, which a short description can easily fail, making it invisible.
+// A negative-top escape is unconditional: it always clears the panel.
+// The escape distance for "up" is set to exactly match the grid's row gap
+// (gap-y-16/sm:gap-y-20 below), so the visible sliver -- however tall the
+// character actually is -- never crosses into the card in the row above.
+const FLOAT_POSITION: Record<FloatDirection, string> = {
+  up: 'left-1/2 -translate-x-1/2 -top-16 sm:-top-20',
+  down: 'left-1/2 -translate-x-1/2 -top-10 sm:-top-12',
+  left: 'left-4 sm:left-6 -top-12 sm:-top-16',
+  right: 'right-4 sm:right-6 -top-12 sm:-top-16',
+}
+
+// Two stacked drop-shadows: a grounding dark shadow for depth, plus a soft
+// teal rim glow so the character's navy polo doesn't blend into the card's
+// dark background (this was a real, confirmed issue during testing).
+const CHARACTER_FILTER = 'drop-shadow(0 8px 14px rgba(0,0,0,0.55)) drop-shadow(0 0 10px rgba(45,212,191,0.4))'
+
+function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale; character: CardCharacter }) {
   const title = t(job.title, lang) ?? ''
   const department = getDepartmentLabel(job.department, lang)
   const departmentColor = getDepartmentColor(job.department)
@@ -38,18 +67,27 @@ function JobCard({ job, lang }: { job: SanityJobOpening; lang: Locale }) {
   const description = t(job.description, lang)
 
   return (
-    <div className="bg-slate-900 border border-white/10 rounded-3xl p-6 sm:p-8">
-      <h2 className="text-xl font-black text-white mb-3">{title}</h2>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {department && (
-          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ${departmentColor.bg} ${departmentColor.text}`}>
-            {department}
-          </span>
-        )}
-        {location && <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-bold">{location}</span>}
-        {employmentType && <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-bold">{employmentType}</span>}
+    <div className="relative">
+      <img
+        src={`/manpower/${character.file}`}
+        alt=""
+        aria-hidden="true"
+        className={`absolute z-0 w-20 sm:w-24 h-auto pointer-events-none select-none ${FLOAT_POSITION[character.direction]}`}
+        style={{ filter: CHARACTER_FILTER }}
+      />
+      <div className="relative z-10 bg-slate-900 border border-white/10 rounded-3xl p-6 sm:p-8 pt-16 sm:pt-20 min-h-[19rem]">
+        <h2 className="text-xl font-black text-white mb-3">{title}</h2>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {department && (
+            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ${departmentColor.bg} ${departmentColor.text}`}>
+              {department}
+            </span>
+          )}
+          {location && <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-bold">{location}</span>}
+          {employmentType && <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-bold">{employmentType}</span>}
+        </div>
+        {description && <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line">{description}</p>}
       </div>
-      {description && <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line">{description}</p>}
     </div>
   )
 }
@@ -59,17 +97,18 @@ export default async function CareersPage({ params }: { params: { lang: string }
   if (!locales.includes(lang)) notFound()
 
   const jobOpenings = await getActiveJobOpenings()
+  const characters = assignCharacters(jobOpenings.map((job) => job._id))
 
   return (
     <div className="min-h-screen bg-slate-950 py-16 px-4 sm:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl sm:text-4xl font-black text-white mb-4 text-center">{T.title[lang]}</h1>
         <p className="text-slate-300 leading-relaxed mb-12 text-center max-w-2xl mx-auto">{T.desc[lang]}</p>
 
         {jobOpenings.length > 0 ? (
-          <div className="space-y-4 mb-10">
-            {jobOpenings.map((job) => (
-              <JobCard key={job._id} job={job} lang={lang} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 sm:gap-y-20 mb-10">
+            {jobOpenings.map((job, i) => (
+              <JobCard key={job._id} job={job} lang={lang} character={characters[i]} />
             ))}
           </div>
         ) : (

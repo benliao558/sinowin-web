@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "file": "01_indian_male_01.png",
+    "team": "indian",
+    "gender": "male"
+  },
+  {
+    "id": 2,
+    "file": "02_indian_female_02.png",
+    "team": "indian",
+    "gender": "female"
+  },
+  {
+    "id": 3,
+    "file": "03_indian_male_03.png",
+    "team": "indian",
+    "gender": "male"
+  },
+  {
+    "id": 4,
+    "file": "04_indian_female_04.png",
+    "team": "indian",
+    "gender": "female"
+  },
+  {
+    "id": 5,
+    "file": "05_indian_male_05.png",
+    "team": "indian",
+    "gender": "male"
+  },
+  {
+    "id": 6,
+    "file": "06_indian_male_06.png",
+    "team": "indian",
+    "gender": "male"
+  },
+  {
+    "id": 7,
+    "file": "07_indian_female_07.png",
+    "team": "indian",
+    "gender": "female"
+  },
+  {
+    "id": 8,
+    "file": "08_indian_male_08.png",
+    "team": "indian",
+    "gender": "male"
+  },
+  {
+    "id": 9,
+    "file": "09_indian_female_09.png",
+    "team": "indian",
+    "gender": "female"
+  },
+  {
+    "id": 10,
+    "file": "10_indian_male_10.png",
+    "team": "indian",
+    "gender": "male"
+  },
+  {
+    "id": 11,
+    "file": "11_american_male_01.png",
+    "team": "american",
+    "gender": "male"
+  },
+  {
+    "id": 12,
+    "file": "12_american_female_02.png",
+    "team": "american",
+    "gender": "female"
+  },
+  {
+    "id": 13,
+    "file": "13_american_male_03.png",
+    "team": "american",
+    "gender": "male"
+  },
+  {
+    "id": 14,
+    "file": "14_american_female_04.png",
+    "team": "american",
+    "gender": "female"
+  },
+  {
+    "id": 15,
+    "file": "15_american_male_05.png",
+    "team": "american",
+    "gender": "male"
+  },
+  {
+    "id": 16,
+    "file": "16_american_female_06.png",
+    "team": "american",
+    "gender": "female"
+  },
+  {
+    "id": 17,
+    "file": "17_american_male_07.png",
+    "team": "american",
+    "gender": "male"
+  },
+  {
+    "id": 18,
+    "file": "18_american_female_08.png",
+    "team": "american",
+    "gender": "female"
+  },
+  {
+    "id": 19,
+    "file": "19_american_male_09.png",
+    "team": "american",
+    "gender": "male"
+  },
+  {
+    "id": 20,
+    "file": "20_american_female_10.png",
+    "team": "american",
+    "gender": "female"
+  },
+  {
+    "id": 21,
+    "file": "21_vietnamese_male_01.png",
+    "team": "vietnamese",
+    "gender": "male"
+  },
+  {
+    "id": 22,
+    "file": "22_vietnamese_female_02.png",
+    "team": "vietnamese",
+    "gender": "female"
+  },
+  {
+    "id": 23,
+    "file": "23_vietnamese_male_03.png",
+    "team": "vietnamese",
+    "gender": "male"
+  },
+  {
+    "id": 24,
+    "file": "24_vietnamese_female_04.png",
+    "team": "vietnamese",
+    "gender": "female"
+  },
+  {
+    "id": 25,
+    "file": "25_vietnamese_male_05.png",
+    "team": "vietnamese",
+    "gender": "male"
+  },
+  {
+    "id": 26,
+    "file": "26_vietnamese_female_06.png",
+    "team": "vietnamese",
+    "gender": "female"
+  },
+  {
+    "id": 27,
+    "file": "27_vietnamese_male_07.png",
+    "team": "vietnamese",
+    "gender": "male"
+  },
+  {
+    "id": 28,
+    "file": "28_vietnamese_female_08.png",
+    "team": "vietnamese",
+    "gender": "female"
+  },
+  {
+    "id": 29,
+    "file": "29_vietnamese_male_09.png",
+    "team": "vietnamese",
+    "gender": "male"
+  },
+  {
+    "id": 30,
+    "file": "30_vietnamese_female_10.png",
+    "team": "vietnamese",
+    "gender": "female"
+  }
+]
