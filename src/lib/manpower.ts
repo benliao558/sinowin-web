@@ -27,6 +27,16 @@ function hashString(input: string, seed = 0): number {
 
 export type CardCharacter = { file: string; corner: Corner }
 
+// Manual pin: the "PM 專案管理師" job's hash happened to land on a male
+// character; the user specifically asked for this listing to show a female
+// one instead. Keyed by Sanity document _id rather than title, since title
+// text differs per locale -- if this job is ever deleted and recreated in
+// Sanity (a new _id), this silently falls back to the normal hash-based
+// assignment below rather than breaking.
+const CHARACTER_OVERRIDES: Record<string, string> = {
+  'dac9084f-ecc7-4954-b55a-5def6d42a80b': '12_american_female_02.png',
+}
+
 // Deterministic per-job character assignment: the same job _id always maps
 // to the same base character, so a page refresh never swaps anyone out. A
 // single left-to-right pass over the currently displayed list then nudges
@@ -47,7 +57,7 @@ export function assignCharacters(jobIds: string[]): CardCharacter[] {
     assigned.push(idx)
   }
   return jobIds.map((id, i) => ({
-    file: MANPOWER_FILES[assigned[i]],
+    file: CHARACTER_OVERRIDES[id] ?? MANPOWER_FILES[assigned[i]],
     corner: CORNERS[hashString(id, 0x9e3779b1) % CORNERS.length],
   }))
 }

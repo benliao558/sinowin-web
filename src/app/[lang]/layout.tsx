@@ -83,6 +83,7 @@ export default async function LocaleLayout({
               <Link className="nav-link hover:text-white transition" href={`${baseUrl}/about`}>{t(nav?.about, lang)}</Link>
               <Link className="nav-link hover:text-white transition" href={`${baseUrl}/faq`}>{t(nav?.faq, lang)}</Link>
               <Link className="nav-link hover:text-white transition" href={`${baseUrl}/articles`}>{t(nav?.articles, lang)}</Link>
+              <Link className="nav-link hover:text-white transition" href={`${baseUrl}/careers`}>{t(nav?.careers, lang)}</Link>
               <Link className="nav-link hover:text-white transition" href={`${baseUrl}#contact`}>{t(nav?.contact, lang)}</Link>
             </nav>
 

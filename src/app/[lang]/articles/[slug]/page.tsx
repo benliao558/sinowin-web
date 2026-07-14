@@ -19,10 +19,33 @@ export async function generateMetadata({ params }: { params: { lang: string; slu
   const lang = params.lang as Locale
   const article = await getArticleBySlug(params.slug)
   if (!article) return {}
+
+  const title = t(article.metaTitle, lang) ?? t(article.title, lang) ?? ''
+  const description = t(article.metaDescription, lang) ?? t(article.excerpt, lang) ?? ''
+  const url = `https://www.sinowin-vn.com/${lang}/articles/${params.slug}`
+  // Prefer the article's own cover image so shares actually preview the
+  // piece being shared, not a generic site card -- fall back to the site
+  // default only if this article has none.
+  const ogImageUrl = urlForImage(article.coverImage)?.width(1200).height(630).fit('crop').url()
+
   return {
-    title: t(article.metaTitle, lang) ?? t(article.title, lang),
-    description: t(article.metaDescription, lang) ?? t(article.excerpt, lang),
-    alternates: { canonical: `https://www.sinowin-vn.com/${lang}/articles/${params.slug}` },
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      publishedTime: article.publishDate,
+      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : [{ url: '/assets/og-default.jpg', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImageUrl ?? '/assets/og-default.jpg'],
+    },
   }
 }
 

@@ -14,11 +14,35 @@ export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
 
+const ARTICLES_DESC: Record<Locale, string> = {
+  zh: '磁材技術、供應鏈、市場深度分析。',
+  en: 'Deep analysis on magnet technology, supply chain, and markets.',
+  vi: 'Phân tích chuyên sâu về công nghệ nam châm, chuỗi cung ứng, thị trường.',
+  ja: '磁石技術、サプライチェーン、市場の詳細分析。',
+}
+
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
   const lang = params.lang as Locale
+  const title = lang === 'zh' ? '產業洞察 — SINOWIN' : 'Industry Insights — SINOWIN'
+  const description = ARTICLES_DESC[lang]
+  const url = `https://www.sinowin-vn.com/${lang}/articles`
   return {
-    title: lang === 'zh' ? '產業洞察 — SINOWIN' : 'Industry Insights — SINOWIN',
-    alternates: { canonical: `https://www.sinowin-vn.com/${lang}/articles` },
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'website',
+      images: [{ url: '/assets/og-default.jpg', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/assets/og-default.jpg'],
+    },
   }
 }
 

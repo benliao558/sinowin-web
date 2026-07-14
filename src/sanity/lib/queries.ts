@@ -100,4 +100,4 @@ export const homepageContentQuery = `*[_type == "homepageContent"][0]{
 
 export const manufacturingIntroQuery = `*[_type == "manufacturingIntro"][0]{ pageTitle, intro }`
 
-export const navLabelsQuery = `*[_type == "navLabels"][0]{ home, manufacturing, about, faq, articles, contact }`
+export const navLabelsQuery = `*[_type == "navLabels"][0]{ home, manufacturing, about, faq, articles, careers, contact }`

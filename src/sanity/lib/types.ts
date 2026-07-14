@@ -116,5 +116,6 @@ export type SanityNavLabels = {
   about: LocaleString
   faq: LocaleString
   articles: LocaleString
+  careers: LocaleString
   contact: LocaleString
 } | null

@@ -11,6 +11,7 @@ export default defineType({
     defineField({ name: 'about', title: 'About', type: 'localeString' }),
     defineField({ name: 'faq', title: 'FAQ', type: 'localeString' }),
     defineField({ name: 'articles', title: 'Articles', type: 'localeString' }),
+    defineField({ name: 'careers', title: 'Careers', type: 'localeString' }),
     defineField({ name: 'contact', title: 'Contact', type: 'localeString' }),
   ],
   preview: {

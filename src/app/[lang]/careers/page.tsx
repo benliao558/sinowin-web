@@ -24,10 +24,26 @@ const T = {
 
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
   const lang = params.lang as Locale
+  const title = `${T.title[lang]} — SINOWIN Careers`
+  const description = T.desc[lang]
+  const url = `https://www.sinowin-vn.com/${lang}/careers`
   return {
-    title: `${T.title[lang]} — SINOWIN Careers`,
-    description: T.desc[lang],
-    alternates: { canonical: `https://www.sinowin-vn.com/${lang}/careers` },
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'website',
+      images: [{ url: '/assets/og-careers.jpg', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/assets/og-careers.jpg'],
+    },
   }
 }
 
@@ -39,17 +55,32 @@ export async function generateMetadata({ params }: { params: { lang: string } })
 // down the character's side of the content column, so text simply never
 // flows into the space the character occupies, regardless of how tall any
 // individual card ends up being.
-const CORNER_STYLE: Record<Corner, { img: string; pad: string }> = {
-  'bottom-right': { img: '-right-4 -bottom-4 sm:-right-8 sm:-bottom-8', pad: 'pr-28 sm:pr-32' },
-  'bottom-left': { img: '-left-4 -bottom-4 sm:-left-8 sm:-bottom-8', pad: 'pl-28 sm:pl-32' },
-  'top-right': { img: '-right-4 -top-4 sm:-right-8 sm:-top-8', pad: 'pr-28 sm:pr-32' },
+// object-bottom/object-top: within the fixed CHARACTER_BOX, keep the
+// character's feet flush with the bottom for corners anchored at the
+// card's bottom edge, and its head flush with the top for the one anchored
+// at the top -- otherwise object-contain centers it, floating away from
+// the edge it's supposed to be standing on.
+const CORNER_STYLE: Record<Corner, { img: string; pad: string; objectPosition: string }> = {
+  'bottom-right': { img: '-right-4 -bottom-4 sm:-right-8 sm:-bottom-8', pad: 'pr-28 sm:pr-32', objectPosition: 'bottom' },
+  'bottom-left': { img: '-left-4 -bottom-4 sm:-left-8 sm:-bottom-8', pad: 'pl-28 sm:pl-32', objectPosition: 'bottom' },
+  'top-right': { img: '-right-4 -top-4 sm:-right-8 sm:-top-8', pad: 'pr-28 sm:pr-32', objectPosition: 'top' },
 }
 
-// Two stacked drop-shadows: a grounding dark shadow so the character reads
-// as standing in front of the card, plus a soft teal rim glow so the navy
-// polo doesn't blend into the card's dark background (a real, confirmed
-// issue during testing).
-const CHARACTER_FILTER = 'drop-shadow(0 10px 16px rgba(0,0,0,0.6)) drop-shadow(0 0 12px rgba(45,212,191,0.4))'
+// Just a grounding shadow so the character reads as standing in front of
+// the card -- the earlier version added a teal rim-light glow too, but that
+// read as an unwanted glowing border rather than a clean illustration.
+const CHARACTER_FILTER = 'drop-shadow(0 10px 16px rgba(0,0,0,0.55))'
+
+// The 30 source crops aren't uniform: the Vietnamese-team row in the
+// original reference sheet was noticeably shorter than the Indian/American
+// rows, so those files are ~190px tall natively vs ~250-285px for the
+// others (see src/lib/manpower.ts). Displaying everyone at a fixed height
+// with auto width let that native ratio dictate the apparent footprint,
+// so the rounder/shorter files rendered visibly wider and stockier next to
+// the others. Fixing both width AND height with object-contain (like the
+// partner-logo sizing pass) puts every character in an identical box
+// regardless of native proportions.
+const CHARACTER_BOX = 'h-56 w-28 sm:h-64 sm:w-32 object-contain'
 
 // Real job descriptions turned out to be inconsistently formatted between
 // locales -- the Chinese text separates "主要職責" from the intro with a
@@ -143,8 +174,8 @@ function JobCard({ job, lang, character }: { job: SanityJobOpening; lang: Locale
         src={`/manpower/${character.file}`}
         alt=""
         aria-hidden="true"
-        className={`absolute z-10 h-56 sm:h-64 w-auto pointer-events-none select-none ${corner.img}`}
-        style={{ filter: CHARACTER_FILTER }}
+        className={`absolute z-10 pointer-events-none select-none ${CHARACTER_BOX} ${corner.img}`}
+        style={{ filter: CHARACTER_FILTER, objectPosition: corner.objectPosition }}
       />
     </div>
   )
