@@ -3,6 +3,9 @@ import type { Metadata } from 'next'
 import { locales, type Locale } from '@/lib/i18n'
 import { t } from '@/sanity/lib/localize'
 import Breadcrumb from '@/components/Breadcrumb'
+import AboutReveal from '@/components/about/AboutReveal'
+import HeroStats, { type HeroStat } from '@/components/about/HeroStats'
+import Countdown from '@/components/about/Countdown'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -112,6 +115,10 @@ const supplyChain = {
   },
   timeline: {
     heading: { zh: '為什麼是現在', en: 'Why now' } as L,
+    countdown: {
+      zh: '距 11 月執法啟動還有 {days} 天',
+      en: '{days} days until November enforcement',
+    } as L,
     events: [
       {
         month: { zh: '7 月', en: 'July' } as L,
@@ -128,10 +135,15 @@ const supplyChain = {
         } as L,
       },
       {
+        // Split purely for inline emphasis styling (rule: 11 月 must read
+        // heaviest) -- the concatenation lead+emphasis+rest is byte-for-byte
+        // identical to the single-string version used before this visual pass.
         month: { zh: '11 月', en: 'November' } as L,
-        text: {
-          zh: '中國域外管轄條款執法啟動。使用中國原產受管制材料、且用於受限下游應用的製造商，可能面臨監管行動。',
-          en: "China's extraterritorial provisions come into force. Manufacturers using Chinese-origin controlled materials in restricted downstream applications may face regulatory action.",
+        lead: { zh: '中國域外管轄條款', en: "China's extraterritorial provisions " } as L,
+        emphasis: { zh: '執法啟動', en: 'come into force' } as L,
+        rest: {
+          zh: '。使用中國原產受管制材料、且用於受限下游應用的製造商，可能面臨監管行動。',
+          en: ' in November 2026. Manufacturers using Chinese-origin controlled materials in restricted downstream applications may face regulatory action.',
         } as L,
       },
     ],
@@ -150,14 +162,25 @@ const supplyChain = {
   },
 }
 
+const heroStatsContent: { value: number; decimals?: number; comma?: boolean; unit?: string; label: L }[] = [
+  { value: 2000, comma: true, label: { zh: '噸／年加工產能', en: 'MT/year processing capacity' } },
+  { value: 0.005, decimals: 3, unit: 'mm', label: { zh: '平行度公差', en: 'Parallelism tolerance' } },
+  { value: 200, unit: '°C', label: { zh: 'EH 高溫等級', en: 'EH high-temp grade' } },
+  { value: 2, label: { zh: '條獨立產線', en: 'independent production lines' } },
+]
+
+const TIMELINE_TEXT_COLOR: Record<number, string> = { 0: '#6A7180', 1: '#8A93A3', 2: '#FFFFFF' }
+const TIMELINE_LINE_COLOR: Record<number, string> = { 0: '#262C37', 1: '#39414F', 2: '#FFFFFF' }
+
 export default function AboutPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
   const c = content
+  const heroStats: HeroStat[] = heroStatsContent.map((s) => ({ ...s, label: t(s.label, lang) ?? '' }))
 
   return (
-    <div className="bg-slate-950 text-white">
+    <div className="about-page-bg text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
@@ -208,137 +231,198 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
       </div>
 
       {/* Hero */}
-      <section className="relative hero-gradient pt-16 pb-16 overflow-hidden">
+      <section className="relative pt-16 pb-16 overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-500/10 border border-teal-500/20 text-teal-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 mb-6 text-xs font-black uppercase tracking-widest" style={{ color: '#6B7280' }}>
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#39414F' }} />
             SINOWIN | ABOUT
           </div>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6 text-white">
             {lang === 'zh' ? '關於華榮' : lang === 'vi' ? 'Về SINOWIN' : lang === 'ja' ? 'SINOWINについて' : 'About SINOWIN'}
           </h1>
-          <p className="text-slate-300/90 text-lg leading-relaxed font-medium max-w-2xl">{c.hero[lang]}</p>
+          <p className="text-lg leading-relaxed font-medium max-w-2xl mb-10" style={{ color: '#8A93A3' }}>{c.hero[lang]}</p>
+
+          <div className="relative h-px w-full max-w-2xl overflow-hidden mb-10" style={{ background: '#1F2530' }}>
+            <span
+              className="about-divider-scan absolute inset-y-0 w-1/5"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)' }}
+            />
+          </div>
+
+          <AboutReveal index={0}>
+            <HeroStats stats={heroStats} />
+          </AboutReveal>
         </div>
       </section>
 
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          <article className="lg:col-span-7 glass rounded-[2rem] p-8 sm:p-10">
-            <h2 className="text-2xl font-black mb-2">About SINOWIN</h2>
-            <div className="w-16 h-1.5 bg-teal-500 rounded-full mb-8" />
-            <div className="space-y-6 text-slate-300 text-[15px] sm:text-base leading-relaxed font-medium">
-              <p>{c.p1[lang]}</p>
-              <p>{c.p2[lang]}</p>
-              <p>{c.p3[lang]}</p>
-              <p>{c.p4[lang]}</p>
-            </div>
-          </article>
-
-          <aside className="lg:col-span-5 space-y-6">
-            <div className="glass-soft rounded-[2rem] border border-white/10 p-6 sm:p-7">
-              <p className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2">Manufacturing System</p>
-              <h3 className="text-xl font-black mb-2">{c.manufacturing.title[lang]}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">{c.manufacturing.subtitle[lang]}</p>
-              <div className="grid grid-cols-2 gap-3">
-                {c.manufacturing.cards.map((card) => (
-                  <div key={card.label} className="glass rounded-2xl p-4">
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">{card.label}</div>
-                    <div className="font-black text-sm mb-1">{card.title[lang]}</div>
-                    <div className="text-xs text-slate-400">{card.body[lang]}</div>
-                  </div>
-                ))}
+          <AboutReveal index={1} className="lg:col-span-7">
+            <article className="rounded-[2rem] p-8 sm:p-10 h-full" style={{ background: '#12161F', border: '1px solid #1F2530' }}>
+              <h2 className="text-2xl font-black mb-2" style={{ color: '#E4E9F2' }}>About SINOWIN</h2>
+              <div className="w-16 h-1.5 rounded-full mb-8" style={{ background: '#39414F' }} />
+              <div className="space-y-6 text-[15px] sm:text-base leading-relaxed font-medium" style={{ color: '#8A93A3' }}>
+                <p>{c.p1[lang]}</p>
+                <p>{c.p2[lang]}</p>
+                <p>{c.p3[lang]}</p>
+                <p>{c.p4[lang]}</p>
               </div>
-            </div>
-          </aside>
+            </article>
+          </AboutReveal>
+
+          <AboutReveal index={2} className="lg:col-span-5">
+            <aside className="space-y-6 h-full">
+              <div className="rounded-[2rem] p-6 sm:p-7" style={{ background: '#12161F', border: '1px solid #1F2530' }}>
+                <p className="text-xs font-black uppercase tracking-widest mb-2" style={{ color: '#6B7280' }}>Manufacturing System</p>
+                <h3 className="text-xl font-black mb-2" style={{ color: '#E4E9F2' }}>{c.manufacturing.title[lang]}</h3>
+                <p className="text-sm leading-relaxed mb-6" style={{ color: '#8A93A3' }}>{c.manufacturing.subtitle[lang]}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {c.manufacturing.cards.map((card) => (
+                    <div key={card.label} className="rounded-2xl p-4" style={{ background: '#171C26', border: '1px solid #39414F' }}>
+                      <div className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6B7280' }}>{card.label}</div>
+                      <div className="font-black text-sm mb-1 text-white">{card.title[lang]}</div>
+                      <div className="text-xs" style={{ color: '#8A93A3' }}>{card.body[lang]}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </AboutReveal>
         </div>
       </section>
 
-      <section className="py-16 md:py-24 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-10">
-          <div className="hover-lift glass rounded-[2rem] p-8 sm:p-10">
-            <p className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2">What We Focus On</p>
-            <h2 className="text-2xl font-black mb-6">{c.focusOn.title[lang]}</h2>
-            <div className="space-y-2">
-              {c.focusOn.items[lang].map((item: string) => (
-                <div key={item} className="glass-soft rounded-2xl px-5 py-4 border border-white/10 flex items-center gap-3 text-sm text-slate-300">
-                  <span className="w-1.5 h-1.5 rounded-full bg-teal-400 shrink-0" />
-                  {item}
-                </div>
-              ))}
+      <section className="py-16 md:py-24" style={{ borderTop: '1px solid #1F2530' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 lg:gap-16">
+          <AboutReveal index={3}>
+            <div>
+              <h2 className="text-2xl font-black mb-6" style={{ color: '#E4E9F2' }}>{c.focusOn.title[lang]}</h2>
+              <div className="space-y-0">
+                {c.focusOn.items[lang].map((item: string) => (
+                  <p
+                    key={item}
+                    className="pl-4 py-1 text-sm"
+                    style={{ borderLeft: '2px solid #39414F', lineHeight: 2.1, color: '#8A93A3' }}
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="hover-lift glass rounded-[2rem] p-8 sm:p-10">
-            <p className="text-rose-400 text-xs font-black uppercase tracking-widest mb-2">What We Don&apos;t</p>
-            <h2 className="text-2xl font-black mb-6">{c.dontDo.title[lang]}</h2>
-            <div className="space-y-2">
-              {c.dontDo.items[lang].map((item: string) => (
-                <div key={item} className="glass-soft rounded-2xl px-5 py-4 border border-white/10 flex items-center gap-3 text-sm text-slate-300">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
-                  {item}
-                </div>
-              ))}
+          </AboutReveal>
+          <AboutReveal index={4}>
+            <div>
+              <h2 className="text-2xl font-black mb-6" style={{ color: '#79818F' }}>{c.dontDo.title[lang]}</h2>
+              <div className="space-y-0">
+                {c.dontDo.items[lang].map((item: string) => (
+                  <p
+                    key={item}
+                    className="pl-4 py-1 text-sm"
+                    style={{ borderLeft: '2px solid #262C37', lineHeight: 2.1, color: '#6A7180' }}
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
             </div>
-          </div>
+          </AboutReveal>
         </div>
       </section>
 
       {/* Supply Chain Resilience */}
-      <section className="py-16 md:py-24 border-t border-white/5">
+      <section className="py-16 md:py-24" style={{ borderTop: '1px solid #1F2530' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-teal-400 text-xs font-black uppercase tracking-widest mb-2">{t(supplyChain.eyebrow, lang)}</p>
-          <h2 className="text-2xl md:text-3xl font-black mb-6 max-w-[30ch]">{t(supplyChain.h2, lang)}</h2>
-          <p className="text-slate-400 text-base leading-relaxed font-medium max-w-[60ch] mb-10">{t(supplyChain.lead, lang)}</p>
+          <AboutReveal index={5}>
+            <p className="text-xs font-black uppercase tracking-widest mb-2" style={{ color: '#6B7280' }}>{t(supplyChain.eyebrow, lang)}</p>
+            <h2 className="text-2xl md:text-3xl font-black mb-6 max-w-[30ch] text-white">{t(supplyChain.h2, lang)}</h2>
+            <p className="text-base leading-relaxed font-medium max-w-[60ch] mb-10" style={{ color: '#8A93A3' }}>{t(supplyChain.lead, lang)}</p>
+          </AboutReveal>
 
-          <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
-            <div className="glass rounded-[2rem] p-6 sm:p-8">
-              <h3 className="text-lg font-black mb-3">{t(supplyChain.standard.title, lang)}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-5">{t(supplyChain.standard.body, lang)}</p>
-              <span className="inline-flex items-center px-3 py-1 bg-white/5 border border-white/10 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest">
-                {t(supplyChain.standard.badge, lang)}
-              </span>
-            </div>
-            <div className="glass rounded-[2rem] p-6 sm:p-8 border-2 border-teal-400/40">
-              <h3 className="text-lg font-black mb-3">{t(supplyChain.chinaFree.title, lang)}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-5">{t(supplyChain.chinaFree.body, lang)}</p>
-              <span className="inline-flex items-center px-3 py-1 bg-teal-400/10 border border-teal-400/20 text-teal-300 text-[10px] font-black rounded-full uppercase tracking-widest">
-                {t(supplyChain.chinaFree.badge, lang)}
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-10 bg-slate-900 rounded-[2rem] p-6 sm:p-10">
-            <h3 className="text-lg font-black mb-8 flex items-center gap-2.5">
-              <span className="w-2 h-6 bg-teal-400 rounded-full inline-block" />
-              {t(supplyChain.timeline.heading, lang)}
-            </h3>
-
-            <div className="relative mb-8">
-              <div className="hidden sm:block absolute top-[5px] left-[10%] right-[10%] h-px bg-white/10" />
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 relative">
-                {supplyChain.timeline.events.map((ev, i) => (
-                  <div key={i} className="flex sm:flex-col items-start sm:items-center gap-3 sm:text-center">
-                    <span className="w-2.5 h-2.5 rounded-full bg-teal-400 shrink-0 mt-1 sm:mt-0" />
-                    <div>
-                      <div className="text-sm font-black text-teal-300">{t(ev.month, lang)}</div>
-                      <div className="text-xs text-slate-400 mt-1 sm:max-w-[220px] sm:mx-auto">{t(ev.text, lang)}</div>
-                    </div>
-                  </div>
-                ))}
+          <AboutReveal index={5}>
+            <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+              <div className="rounded-[2rem] p-6 sm:p-8" style={{ background: '#12161F', border: '1px solid #1F2530' }}>
+                <h3 className="text-lg font-black mb-3 text-white">{t(supplyChain.standard.title, lang)}</h3>
+                <p className="text-sm leading-relaxed mb-5" style={{ color: '#8A93A3' }}>{t(supplyChain.standard.body, lang)}</p>
+                <span
+                  className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest"
+                  style={{ background: '#1A1F2A', color: '#7E8593' }}
+                >
+                  {t(supplyChain.standard.badge, lang)}
+                </span>
+              </div>
+              <div
+                className="about-china-free-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 transition-colors"
+                style={{ background: '#171C26', border: '1px solid #2E4A43' }}
+              >
+                <div className="about-china-free-glow pointer-events-none absolute inset-0" />
+                <div className="relative">
+                  <h3 className="text-lg font-black mb-3 text-white">{t(supplyChain.chinaFree.title, lang)}</h3>
+                  <p className="text-sm leading-relaxed mb-5" style={{ color: '#8A93A3' }}>{t(supplyChain.chinaFree.body, lang)}</p>
+                  <span
+                    className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest"
+                    style={{ background: '#E8EDF4', color: '#0F131A' }}
+                  >
+                    {t(supplyChain.chinaFree.badge, lang)}
+                  </span>
+                </div>
               </div>
             </div>
+          </AboutReveal>
 
-            <p className="text-slate-300 text-sm leading-relaxed mb-4">{t(supplyChain.timeline.body, lang)}</p>
-            <p className="text-slate-500 text-xs leading-relaxed border-t border-white/5 pt-4">{t(supplyChain.timeline.note, lang)}</p>
-          </div>
+          <AboutReveal index={5}>
+            <div className="mt-10 rounded-[2rem] p-6 sm:p-10" style={{ background: '#10141C', border: '1px solid #222833' }}>
+              <div className="flex flex-wrap items-baseline justify-between gap-3 mb-8">
+                <h3 className="text-lg font-black flex items-center gap-2.5 text-white">
+                  <span className="w-2 h-6 rounded-full inline-block" style={{ background: 'rgba(255,255,255,0.4)' }} />
+                  {t(supplyChain.timeline.heading, lang)}
+                </h3>
+                <Countdown template={t(supplyChain.timeline.countdown, lang) ?? ''} />
+              </div>
 
-          <div className="mt-10 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-slate-300 font-bold text-sm sm:text-base">{t(supplyChain.cta.question, lang)}</p>
-            <a
-              href={`/${lang}#contact`}
-              className="btn-cta shrink-0 inline-flex items-center justify-center px-6 py-3 bg-teal-500 text-slate-900 font-black rounded-2xl transition shadow-xl active:scale-95 uppercase text-xs tracking-widest"
-            >
-              {t(supplyChain.cta.button, lang)} →
-            </a>
-          </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-8">
+                {supplyChain.timeline.events.map((ev, i) => {
+                  const isNov = i === 2
+                  return (
+                    <div key={i} className="pl-3.5" style={{ borderLeft: `2px solid ${TIMELINE_LINE_COLOR[i]}` }}>
+                      <div
+                        className="font-black flex items-center gap-2"
+                        style={{ color: TIMELINE_TEXT_COLOR[i], fontSize: isNov ? 17 : 14 }}
+                      >
+                        {isNov && <span className="about-pulse-dot inline-block w-[7px] h-[7px] rounded-full bg-white shrink-0" />}
+                        {t(ev.month, lang)}
+                      </div>
+                      <div className="text-xs mt-1.5 leading-relaxed" style={{ color: i === 0 ? '#6A7180' : '#8A93A3' }}>
+                        {isNov ? (
+                          <>
+                            {t(ev.lead, lang)}
+                            <span style={{ color: '#FFFFFF', fontWeight: 500 }}>{t(ev.emphasis, lang)}</span>
+                            {t(ev.rest, lang)}
+                          </>
+                        ) : (
+                          t(ev.text, lang)
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              <p className="text-sm leading-relaxed mb-4" style={{ color: '#E4E9F2' }}>{t(supplyChain.timeline.body, lang)}</p>
+              <p className="text-xs leading-relaxed pt-4" style={{ color: '#6B7280', borderTop: '1px solid #1F2530' }}>{t(supplyChain.timeline.note, lang)}</p>
+            </div>
+          </AboutReveal>
+
+          <AboutReveal index={5}>
+            <div className="mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid #1F2530' }}>
+              <p className="font-bold text-sm sm:text-base" style={{ color: '#E4E9F2' }}>{t(supplyChain.cta.question, lang)}</p>
+              <a
+                href={`/${lang}#contact`}
+                className="btn-cta shrink-0 inline-flex items-center justify-center px-6 py-3 font-black rounded-2xl transition shadow-xl active:scale-95 uppercase text-xs tracking-widest"
+                style={{ background: '#0FBF9B', color: '#04231C' }}
+              >
+                {t(supplyChain.cta.button, lang)} →
+              </a>
+            </div>
+          </AboutReveal>
         </div>
       </section>
     </div>

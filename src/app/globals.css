@@ -179,3 +179,89 @@ button, a.btn-cta, .btn-cta {
 @media (prefers-reduced-motion: reduce) {
   .globe-spin { animation: none; }
 }
+
+/* ============================================================
+   About page visual system (scoped to /[lang]/about only --
+   see src/app/[lang]/about/page.tsx). Green is reserved for the
+   CTA button; everything else is communicated through lightness
+   tiers (page bg -> card -> accent card) and a single white
+   accent for emphasis, not color.
+   ============================================================ */
+
+/* Page background: one low-alpha green light top-left, not a
+   gradient wash -- keeps green scarce so the CTA still reads as
+   the only saturated color on the page. */
+.about-page-bg {
+  background:
+    radial-gradient(800px 500px at 10% -5%, rgba(15,191,155,0.10), rgba(10,13,20,0) 60%),
+    #0A0D14;
+}
+
+/* Hero divider: a thin light sweeps across once every 4.5s --
+   the page's one purely-ambient effect ("the line is running"). */
+@keyframes aboutDividerScan {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(520%); }
+}
+.about-divider-scan {
+  animation: aboutDividerScan 4.5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-divider-scan { animation: none; opacity: 0; }
+}
+
+/* Scroll-triggered fade-in for page sections, toggled by
+   AboutReveal.tsx. Default state (no JS / reduced-motion) is
+   fully visible -- AboutReveal only ever ADDS the "pending"
+   (invisible) class after mount, right before it starts
+   observing, so content already on screen never depends on JS
+   running in order to be seen (crawlers, JS errors, etc. all
+   see normal, fully-opaque content). */
+.about-reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+.about-reveal.about-reveal-pending {
+  opacity: 0;
+  transform: translateY(8px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-reveal.about-reveal-pending { opacity: 1; transform: none; }
+}
+
+/* China-free line card: a low-alpha breathing glow signals "not
+   fully here yet"; hover intensifies it as the page's one
+   deliberately loud interaction. The standard line card gets
+   neither -- it's the "normal, already here" line. */
+@keyframes aboutChinaFreeGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.about-china-free-glow {
+  animation: aboutChinaFreeGlow 4s ease-in-out infinite;
+  background: radial-gradient(circle at 85% 15%, rgba(15,191,155,0.13), transparent 65%);
+  transition: background 200ms ease;
+}
+.about-china-free-card:hover .about-china-free-glow {
+  background: radial-gradient(circle at 85% 15%, rgba(15,191,155,0.22), transparent 65%);
+}
+.about-china-free-card:hover {
+  border-color: #3F6B60;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-china-free-glow { animation: none; opacity: 0.75; }
+}
+
+/* November timeline marker: a pulsing dot reads as pressure --
+   the deadline is "ticking". July/October have no dot. */
+@keyframes aboutPulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+}
+.about-pulse-dot {
+  animation: aboutPulseDot 2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-pulse-dot { animation: none; opacity: 1; transform: scale(1); }
+}
