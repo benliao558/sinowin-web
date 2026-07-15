@@ -15,8 +15,10 @@ const T = {
   optimizingForOptions: {
     zh: ['價格與交期', '供應鏈避險', '還在評估中'],
     en: ['Price and lead time', 'Supply chain risk mitigation', 'Still evaluating'],
-    vi: ['Giá và thời gian giao hàng', 'Giảm thiểu rủi ro chuỗi cung ứng', 'Đang trong quá trình đánh giá'],
-    ja: ['価格とリードタイム', 'サプライチェーンのリスク低減', '検討中'],
+    // vi/ja neutralized to "supply chain flexibility" framing (2026-07-15) --
+    // zh/en keep the risk-mitigation marketing framing intentionally.
+    vi: ['Giá và thời gian giao hàng', 'Linh hoạt chuỗi cung ứng', 'Đang trong quá trình đánh giá'],
+    ja: ['価格とリードタイム', 'サプライチェーンの柔軟性', '検討中'],
   },
   sourcingRestrictions: { zh: '您的採購政策限制範圍是？（可複選）', en: 'What does your sourcing policy restrict? (select all that apply)', vi: 'Chính sách mua hàng của bạn hạn chế điều gì? (chọn tất cả các mục phù hợp)', ja: '貴社の調達方針で制限されるものは？（複数選択可）' },
   sourcingRestrictionOptions: {
