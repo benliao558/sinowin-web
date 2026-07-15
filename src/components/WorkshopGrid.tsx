@@ -1,10 +1,10 @@
-import { Fragment } from 'react'
 import Image from 'next/image'
 import type { SanityWorkshop, LocaleString } from '@/sanity/lib/types'
 import type { LocalWorkshop } from '@/lib/localWorkshops'
 import { urlForImage } from '@/sanity/lib/image'
 import { t } from '@/sanity/lib/localize'
 import type { Locale } from '@/lib/i18n'
+import WorkshopModalScript from './WorkshopModalScript'
 
 type Workshop = SanityWorkshop | LocalWorkshop
 
@@ -19,6 +19,13 @@ const CORE_EQUIPMENT_LABEL: Record<Locale, string> = {
   ja: 'コア設備',
 }
 
+const CLOSE_LABEL: Record<Locale, string> = {
+  zh: '關閉',
+  en: 'Close',
+  vi: 'Đóng',
+  ja: '閉じる',
+}
+
 // zh is guaranteed on every field in the migrated data, so this always
 // returns a string for the fields WorkshopGrid renders.
 function tt(text: LocaleString | undefined, lang: Locale): string {
@@ -30,14 +37,14 @@ function resolveImage(image: unknown, width: number): string | undefined {
   return urlForImage(image as Parameters<typeof urlForImage>[0])?.width(width).url()
 }
 
-function WorkshopDetail({ workshop, lang }: { workshop: Workshop; lang: Locale }) {
+function WorkshopDetail({ workshop, lang, titleId }: { workshop: Workshop; lang: Locale; titleId: string }) {
   const cardImageUrl = resolveImage(workshop.cardImage, 1200)
 
   return (
-    <div className="rounded-[2rem] border border-white/10 overflow-hidden" style={{ background: '#171C26' }}>
+    <div>
       <div className="p-6 sm:p-8 border-b border-white/10">
         {workshop.badge && <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: '#6B7280' }}>{workshop.badge}</span>}
-        <h3 className="text-2xl font-black text-white mt-1">{tt(workshop.cardTitle, lang)}</h3>
+        <h3 id={titleId} className="text-2xl font-black text-white mt-1">{tt(workshop.cardTitle, lang)}</h3>
         {workshop.subtitle && <p className="text-slate-400 text-sm font-medium mt-1">{tt(workshop.subtitle, lang)}</p>}
       </div>
 
@@ -170,7 +177,7 @@ function SurfaceTreatmentDetail({ workshop, lang }: { workshop: LocalWorkshop; l
                 <tr key={row.process} style={{ borderTop: '0.5px solid #1F2530' }}>
                   <td className="px-4 py-3 font-black" style={{ color: isBest ? '#FFFFFF' : '#D8DEE7' }}>{row.process}</td>
                   <td className="px-4 py-3" style={{ color: '#8A93A3' }}>{tt(row.characteristics, lang)}</td>
-                  <td className="px-4 py-3 font-mono" style={{ color: isBest ? '#FFFFFF' : '#8A93A3', fontWeight: isBest ? 700 : 400 }}>{row.sst}</td>
+                  <td className="px-4 py-3 font-mono" style={{ color: isBest ? '#FFFFFF' : '#8A93A3', fontWeight: isBest ? 700 : 400 }}>{tt(row.sst, lang)}</td>
                   <td className="px-4 py-3 font-mono" style={{ color: '#8A93A3' }}>{row.thickness}</td>
                 </tr>
               )
@@ -198,38 +205,57 @@ function SurfaceTreatmentDetail({ workshop, lang }: { workshop: LocalWorkshop; l
 
 export default function WorkshopGrid({ lang, workshops }: { lang: Locale; workshops: Workshop[] }) {
   return (
-    <div className="wsg-grid">
-      {workshops.map((w, i) => {
-        const thumbUrl = resolveImage(w.cardImage, 600)
-        return (
-          <Fragment key={w.workshopId}>
-            <details
-              name="workshop-accordion"
-              className="wsg-card-details text-left rounded-3xl overflow-hidden transition-colors"
+    <div>
+      <div className="wsg-grid">
+        {workshops.map((w, i) => {
+          const thumbUrl = resolveImage(w.cardImage, 600)
+          const modalId = `modal-${w.workshopId}`
+          return (
+            <a
+              key={w.workshopId}
+              href={`#${modalId}`}
+              className="wsg-card block text-left rounded-3xl overflow-hidden transition-colors"
               style={{ background: '#12161F', border: '0.5px solid #1F2530' }}
-              id={w.workshopId === 'surface-treatment' ? 'surface-treatment' : undefined}
+              aria-haspopup="dialog"
             >
-              <summary className="block">
-                <div className="h-56 overflow-hidden relative bg-slate-800">
-                  {thumbUrl && <Image src={thumbUrl} alt={tt(w.cardTitle, lang)} fill className="object-cover" />}
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs bg-white/5 border border-white/10 text-white/70">
-                      {i + 1}
-                    </div>
-                    <span className="wsg-card-title text-xl font-black" style={{ color: '#D8DEE7' }}>{tt(w.cardTitle, lang)}</span>
+              <div className="h-56 overflow-hidden relative bg-slate-800">
+                {thumbUrl && <Image src={thumbUrl} alt={tt(w.cardTitle, lang)} fill className="object-cover" />}
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs bg-white/5 border border-white/10 text-white/70">
+                    {i + 1}
                   </div>
-                  <p className="text-slate-300/90 text-xs font-bold leading-relaxed">{tt(w.cardDesc, lang)}</p>
+                  <span className="text-xl font-black" style={{ color: '#D8DEE7' }}>{tt(w.cardTitle, lang)}</span>
                 </div>
-              </summary>
-            </details>
-            <div className="wsg-panel">
-              <WorkshopDetail workshop={w} lang={lang} />
+                <p className="text-slate-300/90 text-xs font-bold leading-relaxed">{tt(w.cardDesc, lang)}</p>
+              </div>
+            </a>
+          )
+        })}
+      </div>
+
+      <div className="wsg-modals">
+        {workshops.map((w) => {
+          const modalId = `modal-${w.workshopId}`
+          const titleId = `${modalId}-title`
+          return (
+            <div key={w.workshopId} id={modalId} className="wsg-modal-target" role="dialog" aria-modal="true" aria-labelledby={titleId}>
+              <a href="#_close" className="wsg-modal-backdrop" aria-label={CLOSE_LABEL[lang]} tabIndex={-1} />
+              <div className="wsg-modal-box" tabIndex={-1}>
+                <a href="#_close" className="wsg-modal-close-btn" aria-label={CLOSE_LABEL[lang]}>
+                  ✕
+                </a>
+                <div className="wsg-modal-scroll">
+                  <WorkshopDetail workshop={w} lang={lang} titleId={titleId} />
+                </div>
+              </div>
             </div>
-          </Fragment>
-        )
-      })}
+          )
+        })}
+      </div>
+
+      <WorkshopModalScript />
     </div>
   )
 }

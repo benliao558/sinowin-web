@@ -340,31 +340,31 @@ button, a.btn-cta, .btn-cta {
 }
 
 /* ============================================================
-   Workshop grid (Manufacturing page): inline-expand accordion.
-   Pure HTML/CSS, no JS -- <details name="..."> gives native
-   one-open-at-a-time behavior. Content is always in the SSR HTML;
-   only display/grid-template-columns are toggled, so crawlers and
-   no-JS visitors see everything.
+   Workshop grid (Manufacturing page): modal detail view.
+   Pure CSS via :target -- no JS required for the modal to open,
+   close, or be reachable. This replaces an earlier inline-expand
+   accordion: that version gave the detail panel an unconditional
+   grid-column:1/-1 (only hidden via max-height:0 when closed), so
+   every panel -- even collapsed ones -- was still a full-span grid
+   item, and CSS grid auto-placement forces a row break after any
+   full-span item regardless of how many cards preceded it. That
+   silently wrecked the 3-column card grid into a single column at
+   all times. A modal sidesteps the problem entirely: it's
+   position:fixed, fully removed from the grid's layout algorithm,
+   so the card grid is never touched by opening/closing anything.
 
-   Earlier version gave .wsg-panel an unconditional grid-column:1/-1
-   (just hidden via max-height:0 when closed) so it could span full
-   width once opened -- but an *unconditional* full-span grid item
-   forces a row break after every single card regardless of open
-   state, which silently wrecked the 3-column grid into a single
-   column at all times, open or not. Fix: panels are display:none
-   (zero grid footprint) until their own <details> opens. While
-   anything is open, :has() collapses the WHOLE grid to one column,
-   so the open card's panel always lands directly beneath it with
-   no leftover empty cells -- instead of trying to keep a responsive
-   3/2/1-column row-aware full-span insertion working in pure CSS,
-   which isn't reliably possible without JS-computed layout.
-   ============================================================ */
+   All 8 workshops' full detail content is always in the SSR HTML
+   (inside #modal-{workshopId}), just display:none until its own
+   :target matches -- crawlers and no-JS visitors can still open it
+   via a plain anchor click (real browser navigation, not JS).
+   WorkshopModalScript.tsx adds body-scroll-lock / Esc-to-close /
+   focus management as progressive enhancement only; none of that
+   is required for the content to be reachable or readable. */
 
 .wsg-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  transition: grid-template-columns 250ms ease;
 }
 @media (min-width: 768px) {
   .wsg-grid { grid-template-columns: repeat(2, 1fr); }
@@ -372,33 +372,87 @@ button, a.btn-cta, .btn-cta {
 @media (min-width: 1024px) {
   .wsg-grid { grid-template-columns: repeat(3, 1fr); }
 }
-.wsg-grid:has(.wsg-card-details[open]) {
-  grid-template-columns: 1fr;
-}
-@media (prefers-reduced-motion: reduce) {
-  .wsg-grid { transition: none; }
-}
 
-.wsg-card-details > summary {
-  list-style: none;
+.wsg-card {
   cursor: pointer;
 }
-.wsg-card-details > summary::-webkit-details-marker {
-  display: none;
-}
-.wsg-card-details[open] > summary {
+.wsg-card:hover {
   border-color: #39414F !important;
 }
-.wsg-card-details[open] > summary .wsg-card-title {
-  color: #FFFFFF !important;
+
+.wsg-modal-target {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+.wsg-modal-target:target {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  overflow-y: auto;
+}
+.wsg-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(10, 13, 20, 0.8);
+  backdrop-filter: blur(8px);
+  cursor: default;
+}
+.wsg-modal-box {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 900px;
+  margin: auto 0;
+  border-radius: 2rem;
+  background: #171C26;
+  border: 1px solid #39414F;
+  max-height: calc(100vh - 6rem);
+  display: flex;
+  flex-direction: column;
+}
+.wsg-modal-scroll {
+  overflow-y: auto;
+  border-radius: inherit;
+}
+.wsg-modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #D8DEE7;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+.wsg-modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
 }
 
-.wsg-panel {
-  display: none;
-}
-.wsg-card-details[open] + .wsg-panel {
-  display: block;
-  grid-column: 1 / -1;
+@media (max-width: 640px) {
+  .wsg-modal-target:target {
+    padding: 0;
+    align-items: stretch;
+  }
+  .wsg-modal-box {
+    max-width: 100%;
+    max-height: none;
+    min-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+  }
 }
 
 /* Equipment/process tabs inside a workshop's expanded panel -- CSS radio

@@ -11,7 +11,7 @@ import type { LocaleString, LocaleText } from '@/sanity/lib/types'
 export type ProcessTableRow = {
   process: string
   characteristics: LocaleString
-  sst: string
+  sst: LocaleString
   thickness: string
 }
 
@@ -44,7 +44,7 @@ export type LocalWorkshop = {
 export const surfaceTreatmentWorkshop: LocalWorkshop = {
   _id: 'local-surface-treatment',
   workshopId: 'surface-treatment',
-  cardImage: '/assets/workshops/spray1.webp',
+  cardImage: '/assets/workshops/plating_line1.webp',
   badge: 'SURFACE TREATMENT',
   cardTitle: {
     zh: '表面處理車間',
@@ -75,31 +75,31 @@ export const surfaceTreatmentWorkshop: LocalWorkshop = {
       {
         process: 'Ni-Cu-Ni',
         characteristics: { zh: '鎳銅鎳 · 最常用 · 金屬光澤 · 耐磨', en: 'Ni-Cu-Ni · most common · metallic finish · wear-resistant' },
-        sst: '>48h',
+        sst: { zh: '可達 >48h', en: 'Up to >48h' },
         thickness: '10–20μm',
       },
       {
         process: 'Epoxy',
         characteristics: { zh: '環氧噴塗 · 最高耐蝕 · 絕緣 · 黑色霧面', en: 'Epoxy spray · highest corrosion resistance · insulating · matte black' },
-        sst: '500h',
+        sst: { zh: '可達 500h', en: 'Up to 500h' },
         thickness: '10–20μm',
       },
       {
         process: 'E-coating',
         characteristics: { zh: '電泳 · 均勻覆蓋 · 複雜形狀 · 絕緣', en: 'Electrophoretic · uniform coverage · complex shapes · insulating' },
-        sst: 'On request',
+        sst: { zh: '依需求提供', en: 'On request' },
         thickness: 'Per spec',
       },
       {
         process: 'Cu-Ni-P',
         characteristics: { zh: '銅鎳磷 · 高硬度 · 耐蝕 · 化學鍍', en: 'Cu-Ni-P · high hardness · corrosion-resistant · electroless' },
-        sst: '240h',
+        sst: { zh: '可達 240h', en: 'Up to 240h' },
         thickness: '10–20μm',
       },
       {
         process: 'Zinc',
         characteristics: { zh: '鋅 · 經濟 · 適合一般環境', en: 'Zinc · economical · suited to general environments' },
-        sst: '>24h',
+        sst: { zh: '可達 >24h', en: 'Up to >24h' },
         thickness: '10–20μm',
       },
     ],
@@ -113,14 +113,17 @@ export const surfaceTreatmentWorkshop: LocalWorkshop = {
     items: [
       { label: { zh: '附著力', en: 'Adhesion' }, value: { zh: '百格測試 (Cross-cut)', en: 'Cross-cut test' } },
       { label: { zh: '潔淨度', en: 'Cleanliness' }, value: { zh: '達因測試 (Dyne test)', en: 'Dyne test' } },
-      { label: { zh: '耐蝕性', en: 'Corrosion resistance' }, value: { zh: '中性鹽霧測試 (NSS)', en: 'Neutral salt spray (NSS)' } },
+      { label: { zh: '耐蝕性', en: 'Corrosion resistance' }, value: { zh: '中性鹽霧測試（NSS / ASTM B117）', en: 'Neutral salt spray (NSS / ASTM B117)' } },
     ],
   },
+  // gallery[0] matches cardImage and is skipped by the modal's "other
+  // process photos" strip (WorkshopGrid.tsx does gallery.slice(1)) --
+  // plating_line1 must stay first here since it's now the card/hero image.
   gallery: [
-    { src: '/assets/workshops/spray1.webp', alt: 'SINOWIN 越南廠自動噴塗生產線' },
-    { src: '/assets/workshops/spray2.webp', alt: 'SINOWIN 越南廠自動噴塗生產線' },
     { src: '/assets/workshops/plating_line1.webp', alt: 'SINOWIN 越南廠多槽鍍液生產線' },
     { src: '/assets/workshops/plating_line2.webp', alt: 'SINOWIN 越南廠多槽鍍液生產線' },
+    { src: '/assets/workshops/spray1.webp', alt: 'SINOWIN 越南廠自動噴塗生產線' },
+    { src: '/assets/workshops/spray2.webp', alt: 'SINOWIN 越南廠自動噴塗生產線' },
     { src: '/assets/workshops/e-ing.webp', alt: 'SINOWIN 越南廠電泳處理生產線' },
   ],
 }
