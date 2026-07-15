@@ -342,13 +342,42 @@ button, a.btn-cta, .btn-cta {
 /* ============================================================
    Workshop grid (Manufacturing page): inline-expand accordion.
    Pure HTML/CSS, no JS -- <details name="..."> gives native
-   one-open-at-a-time behavior, and the detail panel is a grid
-   sibling (not nested inside <details>) so it can span the full
-   grid width and land directly under the row that was clicked,
-   which native <details> content alone can't do inside a grid.
-   Content is always in the DOM/SSR HTML; only display/max-height
-   are toggled, so crawlers and no-JS visitors see everything.
+   one-open-at-a-time behavior. Content is always in the SSR HTML;
+   only display/grid-template-columns are toggled, so crawlers and
+   no-JS visitors see everything.
+
+   Earlier version gave .wsg-panel an unconditional grid-column:1/-1
+   (just hidden via max-height:0 when closed) so it could span full
+   width once opened -- but an *unconditional* full-span grid item
+   forces a row break after every single card regardless of open
+   state, which silently wrecked the 3-column grid into a single
+   column at all times, open or not. Fix: panels are display:none
+   (zero grid footprint) until their own <details> opens. While
+   anything is open, :has() collapses the WHOLE grid to one column,
+   so the open card's panel always lands directly beneath it with
+   no leftover empty cells -- instead of trying to keep a responsive
+   3/2/1-column row-aware full-span insertion working in pure CSS,
+   which isn't reliably possible without JS-computed layout.
    ============================================================ */
+
+.wsg-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  transition: grid-template-columns 250ms ease;
+}
+@media (min-width: 768px) {
+  .wsg-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .wsg-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.wsg-grid:has(.wsg-card-details[open]) {
+  grid-template-columns: 1fr;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wsg-grid { transition: none; }
+}
 
 .wsg-card-details > summary {
   list-style: none;
@@ -365,18 +394,11 @@ button, a.btn-cta, .btn-cta {
 }
 
 .wsg-panel {
-  grid-column: 1 / -1;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 300ms ease, opacity 300ms ease;
+  display: none;
 }
 .wsg-card-details[open] + .wsg-panel {
-  max-height: 6000px;
-  opacity: 1;
-}
-@media (prefers-reduced-motion: reduce) {
-  .wsg-panel { transition: none; }
+  display: block;
+  grid-column: 1 / -1;
 }
 
 /* Equipment/process tabs inside a workshop's expanded panel -- CSS radio

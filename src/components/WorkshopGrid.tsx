@@ -198,7 +198,7 @@ function SurfaceTreatmentDetail({ workshop, lang }: { workshop: LocalWorkshop; l
 
 export default function WorkshopGrid({ lang, workshops }: { lang: Locale; workshops: Workshop[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="wsg-grid">
       {workshops.map((w, i) => {
         const thumbUrl = resolveImage(w.cardImage, 600)
         return (
@@ -207,7 +207,6 @@ export default function WorkshopGrid({ lang, workshops }: { lang: Locale; worksh
               name="workshop-accordion"
               className="wsg-card-details text-left rounded-3xl overflow-hidden transition-colors"
               style={{ background: '#12161F', border: '0.5px solid #1F2530' }}
-              open={i === 0}
               id={w.workshopId === 'surface-treatment' ? 'surface-treatment' : undefined}
             >
               <summary className="block">
