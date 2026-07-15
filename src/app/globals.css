@@ -265,3 +265,76 @@ button, a.btn-cta, .btn-cta {
 @media (prefers-reduced-motion: reduce) {
   .about-pulse-dot { animation: none; opacity: 1; transform: scale(1); }
 }
+
+/* ============================================================
+   FAQ page visual system (scoped to /[lang]/faq only -- see
+   src/app/[lang]/faq/page.tsx). Same four rules as the About
+   page: green reserved for the bottom CTA, lightness tiers
+   instead of color for hierarchy, white for emphasis, green
+   glow only as light, never as fill.
+   ============================================================ */
+
+/* Page background: two low-alpha green lights (top-left, bottom-right),
+   not a gradient wash -- keeps green scarce. */
+.faq-page-bg {
+  background:
+    radial-gradient(ellipse 90% 45% at 10% -8%, rgba(15,191,155,0.13), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 95% 100%, rgba(15,191,155,0.07), transparent 60%),
+    #0A0D14;
+}
+
+/* An open question glows on its own (not hover) -- the light follows
+   attention: whichever question you're reading is the one that's lit. */
+.faq-item { position: relative; overflow: hidden; }
+@keyframes faqGlowBreathe {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
+.faq-item[open]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 30%, rgba(15,191,155,0.10), transparent 65%);
+  animation: faqGlowBreathe 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-item[open]::before { animation: none; opacity: 0.7; }
+}
+
+/* Category label: a faint light travels the accent bar once every 5s --
+   the page's one purely-ambient effect. */
+@keyframes faqCategorySweep {
+  0% { transform: translateY(-120%); }
+  100% { transform: translateY(420%); }
+}
+.faq-category-sweep {
+  animation: faqCategorySweep 5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-category-sweep { animation: none; opacity: 0; }
+}
+
+/* Scroll-triggered fade-in, FAQ page only -- same safe-by-default pattern
+   as .about-reveal: fully visible unless JS explicitly marks it "pending"
+   after mount, so content never depends on JS running to be seen. */
+.faq-reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+.faq-reveal.faq-reveal-pending {
+  opacity: 0;
+  transform: translateY(8px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-reveal.faq-reveal-pending { opacity: 1; transform: none; }
+}
+
+.faq-cta-btn {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.faq-cta-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(15, 191, 155, 0.32);
+}
