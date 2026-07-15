@@ -5,8 +5,14 @@ import { getManufacturingIntro, getWorkshops } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import WorkshopGrid from '@/components/WorkshopGrid'
 import Breadcrumb from '@/components/Breadcrumb'
+import { surfaceTreatmentWorkshop } from '@/lib/localWorkshops'
 
 const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '製造能力', en: 'Manufacturing', vi: 'Năng lực sản xuất', ja: '製造能力' }
+
+const META_DESCRIPTION: Partial<Record<Locale, string>> = {
+  zh: 'SINOWIN 越南廠製造能力：多線切、激光切割、研磨、倒角、組裝充磁、測試實驗室、輔具加工，以及表面處理車間（鎳銅鎳、環氧、電泳、銅鎳磷、鋅鍍層，鹽霧測試與厚度規格）。',
+  en: 'SINOWIN Vietnam manufacturing capabilities: multi-wire cutting, laser cutting, grinding, chamfering, assembly & magnetizing, testing lab, fixture/tooling, and a surface treatment workshop (Ni-Cu-Ni, epoxy, e-coating, Cu-Ni-P, zinc — salt spray ratings and coating thickness).',
+}
 
 // See src/app/[lang]/page.tsx for why this is needed.
 export const revalidate = 60
@@ -25,6 +31,7 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
   return {
     title: titles[lang],
+    description: t(META_DESCRIPTION, lang),
     alternates: {
       canonical: `https://www.sinowin-vn.com/${lang}/manufacturing`,
     },
@@ -49,8 +56,9 @@ export default async function ManufacturingPage({ params }: { params: { lang: st
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const [mfg, workshops] = await Promise.all([getManufacturingIntro(), getWorkshops()])
+  const [mfg, fetchedWorkshops] = await Promise.all([getManufacturingIntro(), getWorkshops()])
   const intro = t(mfg?.intro, lang) ?? ''
+  const workshops = [...fetchedWorkshops, surfaceTreatmentWorkshop]
 
   return (
     <>

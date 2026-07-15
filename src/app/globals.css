@@ -338,3 +338,84 @@ button, a.btn-cta, .btn-cta {
   transform: translateY(-1px);
   box-shadow: 0 4px 18px rgba(15, 191, 155, 0.32);
 }
+
+/* ============================================================
+   Workshop grid (Manufacturing page): inline-expand accordion.
+   Pure HTML/CSS, no JS -- <details name="..."> gives native
+   one-open-at-a-time behavior, and the detail panel is a grid
+   sibling (not nested inside <details>) so it can span the full
+   grid width and land directly under the row that was clicked,
+   which native <details> content alone can't do inside a grid.
+   Content is always in the DOM/SSR HTML; only display/max-height
+   are toggled, so crawlers and no-JS visitors see everything.
+   ============================================================ */
+
+.wsg-card-details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.wsg-card-details > summary::-webkit-details-marker {
+  display: none;
+}
+.wsg-card-details[open] > summary {
+  border-color: #39414F !important;
+}
+.wsg-card-details[open] > summary .wsg-card-title {
+  color: #FFFFFF !important;
+}
+
+.wsg-panel {
+  grid-column: 1 / -1;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 300ms ease, opacity 300ms ease;
+}
+.wsg-card-details[open] + .wsg-panel {
+  max-height: 6000px;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wsg-panel { transition: none; }
+}
+
+/* Equipment/process tabs inside a workshop's expanded panel -- CSS radio
+   pattern, generic (not per-workshop IDs) via structural nth-of-type
+   matching, so this one ruleset covers every workshop's tab group. */
+.wsg-tabs input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.wsg-tab-panels > * {
+  display: none;
+}
+/* .wsg-tab-labels/.wsg-tab-panels live inside wrapper divs (.wsg-tab-aside /
+   .wsg-tab-main) used for the responsive grid split -- those wrappers are
+   the actual siblings of the radio inputs, so the sibling combinator has to
+   reach through them via a descendant selector, not target the labels/panels
+   directly. */
+.wsg-tabs input:nth-of-type(1):checked ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(1),
+.wsg-tabs input:nth-of-type(2):checked ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(2),
+.wsg-tabs input:nth-of-type(3):checked ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(3),
+.wsg-tabs input:nth-of-type(4):checked ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(4),
+.wsg-tabs input:nth-of-type(5):checked ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(5) {
+  background: rgba(15, 191, 155, 0.15);
+  border-color: rgba(94, 234, 212, 0.4);
+  color: #FFFFFF;
+}
+.wsg-tabs input:nth-of-type(1):checked ~ .wsg-tab-main .wsg-tab-panels > *:nth-child(1),
+.wsg-tabs input:nth-of-type(2):checked ~ .wsg-tab-main .wsg-tab-panels > *:nth-child(2),
+.wsg-tabs input:nth-of-type(3):checked ~ .wsg-tab-main .wsg-tab-panels > *:nth-child(3),
+.wsg-tabs input:nth-of-type(4):checked ~ .wsg-tab-main .wsg-tab-panels > *:nth-child(4),
+.wsg-tabs input:nth-of-type(5):checked ~ .wsg-tab-main .wsg-tab-panels > *:nth-child(5) {
+  display: block;
+}
+.wsg-tabs input:nth-of-type(1):focus-visible ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(1),
+.wsg-tabs input:nth-of-type(2):focus-visible ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(2),
+.wsg-tabs input:nth-of-type(3):focus-visible ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(3),
+.wsg-tabs input:nth-of-type(4):focus-visible ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(4),
+.wsg-tabs input:nth-of-type(5):focus-visible ~ .wsg-tab-aside .wsg-tab-labels label:nth-child(5) {
+  outline: 2px solid #5EEAD4;
+  outline-offset: 2px;
+}
