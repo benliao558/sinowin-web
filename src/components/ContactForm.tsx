@@ -13,10 +13,11 @@ const T = {
   },
   optimizingFor: { zh: '這個專案，您優先考量的是？', en: 'For this project, what are you optimizing for?', vi: 'Đối với dự án này, bạn ưu tiên điều gì?', ja: '本プロジェクトで最も重視されるのは？' },
   optimizingForOptions: {
-    zh: ['價格與交期', '供應鏈避險', '還在評估中'],
-    en: ['Price and lead time', 'Supply chain risk mitigation', 'Still evaluating'],
-    // vi/ja neutralized to "supply chain flexibility" framing (2026-07-15) --
-    // zh/en keep the risk-mitigation marketing framing intentionally.
+    // De-politicized 2026-07-16 (group risk decision, all locales): "risk
+    // mitigation" framing replaced with neutral "flexibility" framing.
+    // See translation-drafts/depoliticization-master.md.
+    zh: ['價格與交期', '供應鏈彈性', '還在評估中'],
+    en: ['Price and lead time', 'Supply chain flexibility', 'Still evaluating'],
     vi: ['Giá và thời gian giao hàng', 'Linh hoạt chuỗi cung ứng', 'Đang trong quá trình đánh giá'],
     ja: ['価格とリードタイム', 'サプライチェーンの柔軟性', '検討中'],
   },

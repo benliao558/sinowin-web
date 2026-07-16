@@ -12,7 +12,9 @@ const notoSansTC = Noto_Sans_TC({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.sinowin-vn.com'),
   title: 'SINOWIN INDUSTRIAL (VN) — Precision Magnet Processing',
-  description: 'Vietnam-based precision magnet processing with 2,000 MT/year capacity, China-free supply chain, ISO 9001/14001/45001 certified.',
+  // De-politicized 2026-07-16 (group risk decision): see
+  // translation-drafts/depoliticization-master.md.
+  description: 'Vietnam-based precision magnet processing with 2,000 MT/year capacity, multi-region supply chain, ISO 9001/14001/45001 certified.',
   openGraph: {
     siteName: 'SINOWIN Industrial (Vietnam)',
     type: 'website',

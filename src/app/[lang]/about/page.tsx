@@ -5,15 +5,17 @@ import { t } from '@/sanity/lib/localize'
 import Breadcrumb from '@/components/Breadcrumb'
 import AboutReveal from '@/components/about/AboutReveal'
 import HeroStats, { type HeroStat } from '@/components/about/HeroStats'
-import Countdown from '@/components/about/Countdown'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
 
+// De-politicized 2026-07-16 (group risk decision, all locales): removed
+// "strategic mineral export control" framing, replaced with neutral
+// multi-region supply chain language. See translation-drafts/depoliticization-master.md.
 const META_DESCRIPTION: Partial<Record<Locale, string>> = {
-  zh: 'SINOWIN 越南廠：異形磁鐵與高複雜度製造，並建有去中化產線，2026 Q4 就緒，因應戰略礦產出口管制與供應鏈合規需求。',
-  en: 'SINOWIN Vietnam: custom-shaped magnets and high-complexity manufacturing, plus a China-free production line ready Q4 2026 to meet strategic mineral export control and supply chain compliance requirements.',
+  zh: 'SINOWIN 越南廠：異形磁鐵與高複雜度製造，並建有獨立設備產線，2026 Q4 就緒，提供多國供應鏈彈性選擇。',
+  en: 'SINOWIN Vietnam: custom-shaped magnets and high-complexity manufacturing, plus an independent equipment line ready Q4 2026, offering multi-region supply chain flexibility.',
 }
 
 const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '關於我們', en: 'About', vi: 'Về chúng tôi', ja: '会社概要' }
@@ -105,51 +107,30 @@ const supplyChain = {
       en: 'Industry-standard equipment, competitive on cost and lead time. This line runs most orders.',
     } as L,
   },
-  chinaFree: {
-    title: { zh: '去中化產線', en: 'China-free line' } as L,
+  // De-politicized 2026-07-16 (group risk decision, all locales): was
+  // "chinaFree" / "去中化產線" -- renamed and reframed as a neutral
+  // independent-equipment-line narrative, no China-specific framing.
+  // See translation-drafts/depoliticization-master.md.
+  independentLine: {
+    title: { zh: '獨立設備專線', en: 'Independent equipment line' } as L,
     badge: { zh: '2026 Q4 就緒', en: 'Ready Q4 2026' } as L,
     body: {
-      zh: '機加工、充磁、測試三大核心製程不涉中國設備。設備已完成採購，預計 2026 年 10 月到廠，第四季完成調機與試產。',
-      en: "No Chinese equipment in machining, magnetizing, or testing. Equipment is on order, with delivery expected October 2026 and commissioning through Q4.",
+      zh: '機加工、充磁、測試三大核心製程採獨立設備配置，可依客戶需求彈性調整供應來源。設備已完成採購，預計 2026 年 10 月到廠，第四季完成調機與試產。',
+      en: 'Machining, magnetizing, and testing run on an independently configured equipment line, with sourcing adjusted flexibly to customer requirements. Equipment is on order, with delivery expected October 2026 and commissioning through Q4.',
     } as L,
   },
-  timeline: {
-    heading: { zh: '為什麼是現在', en: 'Why now' } as L,
-    countdown: {
-      zh: '距 11 月執法啟動還有 {days} 天',
-      en: '{days} days until November enforcement',
-    } as L,
-    events: [
-      {
-        month: { zh: '7 月', en: 'July' } as L,
-        text: {
-          zh: '中國商務部第 26 號公告生效，建立戰略礦產出口管制違規檢舉機制，可檢舉範圍包含經第三國轉運規避管制。',
-          en: 'MOFCOM Announcement No. 26 takes effect, establishing a reporting mechanism for strategic mineral export control violations. Reportable conduct includes routing exports through third countries to circumvent controls.',
-        } as L,
-      },
-      {
-        month: { zh: '10 月', en: 'October' } as L,
-        text: {
-          zh: 'SINOWIN 去中化設備預計到廠，啟動調機與試產。',
-          en: "SINOWIN's China-free equipment expected on site; commissioning begins.",
-        } as L,
-      },
-      {
-        // Split purely for inline emphasis styling (rule: 11 月 must read
-        // heaviest) -- the concatenation lead+emphasis+rest is byte-for-byte
-        // identical to the single-string version used before this visual pass.
-        month: { zh: '11 月', en: 'November' } as L,
-        lead: { zh: '中國域外管轄條款', en: "China's extraterritorial provisions " } as L,
-        emphasis: { zh: '執法啟動', en: 'come into force' } as L,
-        rest: {
-          zh: '。使用中國原產受管制材料、且用於受限下游應用的製造商，可能面臨監管行動。',
-          en: ' in November 2026. Manufacturers using Chinese-origin controlled materials in restricted downstream applications may face regulatory action.',
-        } as L,
-      },
-    ],
+  // Replaces the old "timeline" (heading "Why now" + countdown + three
+  // dated events referencing specific PRC regulations/enforcement dates).
+  // De-politicized version keeps only the neutral, self-controlled fact
+  // (equipment arrival + Q4 readiness) as a single paragraph -- no
+  // regulation names, no enforcement dates, no countdown. Heading text
+  // finalized by Ben 2026-07-16, applies to all four locales explicitly
+  // (not fallback) since it's now a fixed cross-language term.
+  deployment: {
+    heading: { zh: '供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' } as L,
     body: {
-      zh: '合規稽核、送樣與驗證本來就需要數月。若貴司需在 11 月前完成供應鏈調整，現在是啟動評估的時間點——我們的產線就緒時程，可與您的導入排程對齊。',
-      en: "Compliance audit, sampling, and validation take months regardless. If you need your supply chain resolved before November, this is the point to start scoping — our line comes online on the same timeline as your qualification cycle.",
+      zh: '獨立設備專線預計 2026 年 10 月到廠，第四季完成安裝與試產，為貴公司的供應鏈增加一個選項。若貴公司正在尋找備援方案或希望讓供應來源多元化，現在是適合展開討論的時間點——我們可以配合貴公司的規劃安排評估時程。',
+      en: "Our independent equipment line is expected to arrive on site in October 2026, with installation and trial production completed in Q4 — adding another option to your supply chain. If you're looking for backup capacity or want to diversify your sourcing, this is a good time to start the conversation — we can align the evaluation timeline with your own planning.",
     } as L,
     note: {
       zh: '時程以設備到廠與驗證進度為準，我們會在專案評估時同步更新。',
@@ -157,7 +138,7 @@ const supplyChain = {
     } as L,
   },
   cta: {
-    question: { zh: '您要的是價格，還是避險？', en: 'Price, or risk mitigation — which are you optimizing for?' } as L,
+    question: { zh: '您要的是價格，還是供應鏈彈性？', en: 'Price, or supply chain flexibility — which are you optimizing for?' } as L,
     button: { zh: '開始洽詢', en: 'Start an enquiry' } as L,
   },
 }
@@ -168,9 +149,6 @@ const heroStatsContent: { value: number; decimals?: number; comma?: boolean; uni
   { value: 200, unit: '°C', label: { zh: 'EH 高溫等級', en: 'EH high-temp grade' } },
   { value: 2, label: { zh: '條獨立產線', en: 'independent production lines' } },
 ]
-
-const TIMELINE_TEXT_COLOR: Record<number, string> = { 0: '#6A7180', 1: '#8A93A3', 2: '#FFFFFF' }
-const TIMELINE_LINE_COLOR: Record<number, string> = { 0: '#262C37', 1: '#39414F', 2: '#FFFFFF' }
 
 export default function AboutPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
@@ -187,24 +165,28 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
         name: lang === 'zh' ? '關於 SINOWIN' : 'About SINOWIN',
         url: `https://www.sinowin-vn.com/${lang}/about`,
       })}} />
+      {/* De-politicized 2026-07-16 (group risk decision): this JSON-LD is
+          machine-read by search/AI engines, so the old China-specific
+          regulatory framing here was higher-risk than the same words in
+          on-page copy. See translation-drafts/depoliticization-master.md. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
         mainEntity: [
           {
             '@type': 'Question',
-            name: 'Does SINOWIN offer a China-free supply chain option?',
+            name: 'Does SINOWIN offer flexible supply chain options?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'SINOWIN operates two production lines. The standard line uses industry-standard equipment and remains competitive on cost and lead time. A separate China-free line, covering machining, magnetizing, and testing, has been ordered with delivery expected October 2026 and commissioning through Q4 2026. Timelines are subject to equipment delivery and validation progress.',
+              text: 'SINOWIN operates two production lines. The standard line uses industry-standard equipment and remains competitive on cost and lead time. A separate independent equipment line, covering machining, magnetizing, and testing, has been ordered with delivery expected October 2026 and commissioning through Q4 2026. Timelines are subject to equipment delivery and validation progress.',
             },
           },
           {
             '@type': 'Question',
-            name: 'Which processes are covered by the China-free line?',
+            name: 'Which processes are covered by the independent equipment line?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'The China-free line covers three core processes: machining, magnetizing, and testing. No Chinese-origin equipment is used in these processes.',
+              text: 'The independent equipment line covers three core processes: machining, magnetizing, and testing.',
             },
           },
           {
@@ -212,7 +194,7 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
             name: 'Why should we start supply chain scoping now rather than later?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: "China's extraterritorial export control provisions come into force in November 2026. Manufacturers using Chinese-origin controlled materials in restricted downstream applications may face regulatory action. Compliance audit, sampling, and validation typically take several months, so buyers who need their supply chain resolved before November should begin scoping now.",
+              text: "Compliance audit, sampling, and validation typically take several months. Buyers who want to add supply chain flexibility or diversify sourcing before Q4 2026 should begin scoping now, so the timeline aligns with our line's commissioning schedule.",
             },
           },
           {
@@ -355,13 +337,13 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
               >
                 <div className="about-china-free-glow pointer-events-none absolute inset-0" />
                 <div className="relative">
-                  <h3 className="text-lg font-black mb-3 text-white">{t(supplyChain.chinaFree.title, lang)}</h3>
-                  <p className="text-sm leading-relaxed mb-5" style={{ color: '#8A93A3' }}>{t(supplyChain.chinaFree.body, lang)}</p>
+                  <h3 className="text-lg font-black mb-3 text-white">{t(supplyChain.independentLine.title, lang)}</h3>
+                  <p className="text-sm leading-relaxed mb-5" style={{ color: '#8A93A3' }}>{t(supplyChain.independentLine.body, lang)}</p>
                   <span
                     className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest"
                     style={{ background: '#E8EDF4', color: '#0F131A' }}
                   >
-                    {t(supplyChain.chinaFree.badge, lang)}
+                    {t(supplyChain.independentLine.badge, lang)}
                   </span>
                 </div>
               </div>
@@ -370,44 +352,13 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
 
           <AboutReveal index={5}>
             <div className="mt-10 rounded-[2rem] p-6 sm:p-10" style={{ background: '#10141C', border: '1px solid #222833' }}>
-              <div className="flex flex-wrap items-baseline justify-between gap-3 mb-8">
-                <h3 className="text-lg font-black flex items-center gap-2.5 text-white">
-                  <span className="w-2 h-6 rounded-full inline-block" style={{ background: 'rgba(255,255,255,0.4)' }} />
-                  {t(supplyChain.timeline.heading, lang)}
-                </h3>
-                <Countdown template={t(supplyChain.timeline.countdown, lang) ?? ''} />
-              </div>
+              <h3 className="text-lg font-black flex items-center gap-2.5 text-white mb-6">
+                <span className="w-2 h-6 rounded-full inline-block" style={{ background: 'rgba(255,255,255,0.4)' }} />
+                {t(supplyChain.deployment.heading, lang)}
+              </h3>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-8">
-                {supplyChain.timeline.events.map((ev, i) => {
-                  const isNov = i === 2
-                  return (
-                    <div key={i} className="pl-3.5" style={{ borderLeft: `2px solid ${TIMELINE_LINE_COLOR[i]}` }}>
-                      <div
-                        className="font-black flex items-center gap-2"
-                        style={{ color: TIMELINE_TEXT_COLOR[i], fontSize: isNov ? 17 : 14 }}
-                      >
-                        {isNov && <span className="about-pulse-dot inline-block w-[7px] h-[7px] rounded-full bg-white shrink-0" />}
-                        {t(ev.month, lang)}
-                      </div>
-                      <div className="text-xs mt-1.5 leading-relaxed" style={{ color: i === 0 ? '#6A7180' : '#8A93A3' }}>
-                        {isNov ? (
-                          <>
-                            {t(ev.lead, lang)}
-                            <span style={{ color: '#FFFFFF', fontWeight: 500 }}>{t(ev.emphasis, lang)}</span>
-                            {t(ev.rest, lang)}
-                          </>
-                        ) : (
-                          t(ev.text, lang)
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-
-              <p className="text-sm leading-relaxed mb-4" style={{ color: '#E4E9F2' }}>{t(supplyChain.timeline.body, lang)}</p>
-              <p className="text-xs leading-relaxed pt-4" style={{ color: '#6B7280', borderTop: '1px solid #1F2530' }}>{t(supplyChain.timeline.note, lang)}</p>
+              <p className="text-sm leading-relaxed mb-4" style={{ color: '#E4E9F2' }}>{t(supplyChain.deployment.body, lang)}</p>
+              <p className="text-xs leading-relaxed pt-4" style={{ color: '#6B7280', borderTop: '1px solid #1F2530' }}>{t(supplyChain.deployment.note, lang)}</p>
             </div>
           </AboutReveal>
 

@@ -42,9 +42,11 @@ const footprint = {
     desc: { zh: '生產中心', en: 'Production centre' } as L,
     badge: { zh: '建設中', en: 'Under construction' } as L,
   },
+  // De-politicized 2026-07-16 (group risk decision, all locales): see
+  // translation-drafts/depoliticization-master.md.
   note: {
-    zh: 'SINOWIN 越南廠提供去中化設備專線選項，供有供應鏈合規需求的客戶選用。',
-    en: 'Our Vietnam facility offers a China-free equipment line for customers with supply chain compliance requirements.',
+    zh: 'SINOWIN 依托集團跨國製造網絡，整合越南、中國、印度的資源與經驗，為客戶提供彈性的產能與供應選擇。',
+    en: 'SINOWIN draws on a multinational manufacturing network across Vietnam, China, and India, giving customers flexible capacity and sourcing options.',
   } as L,
   link: { zh: '了解供應鏈韌性', en: 'Supply chain resilience' } as L,
 }
@@ -61,11 +63,13 @@ export async function generateMetadata({ params }: { params: { lang: string } })
     vi: 'SINOWIN INDUSTRIAL (VN) — Gia công nam châm chính xác tại Việt Nam',
     ja: 'SINOWIN INDUSTRIAL (VN) — ベトナムの精密磁石加工',
   }
+  // De-politicized 2026-07-16 (group risk decision, all locales): see
+  // translation-drafts/depoliticization-master.md.
   const descs: Record<Locale, string> = {
-    zh: '年產能 2,000 噸，去中化設備專線，ISO 9001 / ISO 14001 / ISO 45001 認證。越南精密磁材代工首選。',
-    en: '2,000 MT/year capacity, China-free supply chain, ISO 9001/14001/45001 certified. Vietnam\'s leading precision magnet contract manufacturer.',
-    vi: 'Công suất 2.000 tấn/năm, chuỗi cung ứng không liên quan Trung Quốc, chứng nhận ISO 9001/14001/45001.',
-    ja: '年産2,000トン、中国フリーサプライチェーン、ISO 9001/14001/45001認証取得。ベトナムの精密磁石加工。',
+    zh: '年產能 2,000 噸，多國供應鏈佈局，ISO 9001 / ISO 14001 / ISO 45001 認證。越南精密磁材代工首選。',
+    en: '2,000 MT/year capacity, multi-region supply chain, ISO 9001/14001/45001 certified. Vietnam\'s leading precision magnet contract manufacturer.',
+    vi: 'Công suất 2.000 tấn/năm, chuỗi cung ứng đa khu vực, chứng nhận ISO 9001/14001/45001.',
+    ja: '年産2,000トン、多地域サプライチェーン、ISO 9001/14001/45001認証取得。ベトナムの精密磁石加工。',
   }
   return { title: titles[lang], description: descs[lang] }
 }
@@ -112,7 +116,7 @@ const PRODUCTS: { flag: string; country: LocalizedText; tagline: LocalizedText; 
     country: { zh: '越南', en: 'Vietnam', vi: 'Việt Nam', ja: 'ベトナム' },
     tagline: { zh: '具競爭力的供應基地', en: 'Competitive Supply Base', vi: 'Cơ sở cung ứng cạnh tranh', ja: '競争力のある供給拠点' },
     bullets: [
-      { zh: '關稅與地緣優勢', en: 'Tariff & geopolitical advantage', vi: 'Lợi thế thuế quan & địa chính trị', ja: '関税・地政学上の優位性' },
+      { zh: '關稅與區位優勢', en: 'Tariff & regional advantage', vi: 'Lợi thế thuế quan & vị trí khu vực', ja: '関税・立地上の優位性' },
       { zh: '勞動力具彈性', en: 'Flexible labor force', vi: 'Lực lượng lao động linh hoạt', ja: '柔軟な労働力' },
       { zh: '在地垂直整合產能', en: 'Local vertically-integrated capacity', vi: 'Năng lực tích hợp dọc tại chỗ', ja: '現地垂直統合生産能力' },
     ],
@@ -129,6 +133,35 @@ const PRODUCTS: { flag: string; country: LocalizedText; tagline: LocalizedText; 
     },
   },
 ]
+
+// Overrides Sanity's homepageContent.supplyChainTitle/supplyChainBody, which
+// still contain the pre-2026-07-16 political framing ("helping customers
+// avoid long-arm jurisdiction and geopolitical compliance risks"). No Sanity
+// write token is configured in this environment (same constraint as
+// src/lib/localWorkshops.ts and the manufacturing page's INTRO_TEXT), so this
+// is a code-level override to stop showing the old text immediately; the
+// underlying CMS fields still hold the old copy until someone with Studio
+// access (or a write token) updates them, at which point this override
+// should be removed. See translation-drafts/depoliticization-master.md.
+// Same constraint as SUPPLY_CHAIN_TRUST_OVERRIDE below: overrides Sanity's
+// homepageContent.heroSubtitle, which still says "去中化設備專線 / China-free
+// supply chain" (found after the initial scan -- a second Sanity field
+// carrying the same old framing, separate from supplyChainTitle/Body).
+const HERO_SUBTITLE_OVERRIDE: L = {
+  zh: '年產能 2,000 噸・多國供應鏈佈局・ISO 9001 / ISO 14001 / ISO 45001 認證',
+  en: '2,000 MT/year capacity · Multi-region supply chain · ISO 9001 / ISO 14001 / ISO 45001 certified',
+  vi: 'Công suất 2.000 tấn/năm · Chuỗi cung ứng đa khu vực · Chứng nhận ISO 9001 / ISO 14001 / ISO 45001',
+  ja: '年産2,000トン・多地域サプライチェーン・ISO 9001 / ISO 14001 / ISO 45001認証',
+}
+
+const SUPPLY_CHAIN_TRUST_OVERRIDE = {
+  eyebrow: { zh: '供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' } as L,
+  title: { zh: '獨立設備專線', en: 'Independent Equipment Line' } as L,
+  body: {
+    zh: 'SINOWIN 核心製程（機加工、充磁、測試）採用獨立設備專線，可依客戶需求彈性配置供應來源。SINOWIN 團隊橫跨越南、印度、台灣與新加坡，工程與管理人才不集中於單一國家，為客戶提供不受單一人力市場波動影響的穩定支援。',
+    en: "SINOWIN's core processes (machining, magnetizing, testing) run on an independent equipment line, with sourcing configured flexibly to each customer's requirements. The SINOWIN team spans Vietnam, India, Taiwan, and Singapore — engineering and management talent is not concentrated in any single country, giving customers stable support that isn't exposed to volatility in any one labor market.",
+  } as L,
+}
 
 export default async function HomePage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
@@ -201,7 +234,7 @@ export default async function HomePage({ params }: { params: { lang: string } })
             {t(home?.heroTitle, lang)}
           </h1>
           <p className="text-lg text-slate-400 max-w-2xl font-medium leading-relaxed mb-10">
-            {t(home?.heroSubtitle, lang)}
+            {t(HERO_SUBTITLE_OVERRIDE, lang)}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             <a
@@ -325,10 +358,10 @@ export default async function HomePage({ params }: { params: { lang: string } })
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
             <div className="flex-1 text-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
-                {lang === 'zh' ? '供應鏈信任狀' : lang === 'vi' ? 'Cam kết chuỗi cung ứng' : lang === 'ja' ? 'サプライチェーンの信頼性' : 'Supply Chain Trust'}
+                {t(SUPPLY_CHAIN_TRUST_OVERRIDE.eyebrow, lang)}
               </div>
-              <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{t(home?.supplyChainTitle, lang)}</h2>
-              <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-2xl">{t(home?.supplyChainBody, lang)}</p>
+              <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{t(SUPPLY_CHAIN_TRUST_OVERRIDE.title, lang)}</h2>
+              <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-2xl">{t(SUPPLY_CHAIN_TRUST_OVERRIDE.body, lang)}</p>
 
               <div className="flex flex-wrap gap-3 mt-8">
                 {[
@@ -415,13 +448,16 @@ export default async function HomePage({ params }: { params: { lang: string } })
           </div>
           <div className="mt-10 p-10 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-y-2 border-emerald-200/50 rounded-3xl text-center">
             <p className="text-slate-700 font-medium max-w-3xl mx-auto">
+              {/* De-politicized 2026-07-16 (group risk decision): "geopolitical
+                  risk" -> "single-source risk", still framed as multi-region
+                  diversification. See translation-drafts/depoliticization-master.md. */}
               {lang === 'zh'
-                ? '透過中國、日本與越南等多國毛胚來源配置，並持續評估印度、馬來西亞、澳洲、歐洲與美洲等潛力據點，SINOWIN 為客戶建立不受單一地緣政治風險影響的供應韌性。'
+                ? '透過中國、日本與越南等多國毛胚來源配置，並持續評估印度、馬來西亞、澳洲、歐洲與美洲等潛力據點，SINOWIN 為客戶建立不受單一供應來源風險影響的供應韌性。'
                 : lang === 'vi'
-                ? 'Thông qua việc bố trí nguồn phôi từ Trung Quốc, Nhật Bản và Việt Nam, đồng thời liên tục đánh giá các địa điểm tiềm năng như Ấn Độ, Malaysia, Úc và châu Âu/Mỹ, SINOWIN xây dựng khả năng phục hồi chuỗi cung ứng không phụ thuộc vào một rủi ro địa chính trị duy nhất.'
+                ? 'Thông qua việc bố trí nguồn phôi từ Trung Quốc, Nhật Bản và Việt Nam, đồng thời liên tục đánh giá các địa điểm tiềm năng như Ấn Độ, Malaysia, Úc và châu Âu/Mỹ, SINOWIN xây dựng khả năng phục hồi chuỗi cung ứng không phụ thuộc vào một nguồn cung duy nhất.'
                 : lang === 'ja'
-                ? '中国・日本・ベトナムなど複数国からの原材料調達と、インド・マレーシア・オーストラリア・欧米など潜在拠点の継続評価により、SINOWINは単一の地政学リスクに左右されない供給の強靭性を構築しています。'
-                : 'Through blank/raw-material sourcing across China, Japan, and Vietnam, and by continuously evaluating potential sites in India, Malaysia, Australia, Europe, and the Americas, SINOWIN builds supply resilience that is not dependent on any single geopolitical risk.'}
+                ? '中国・日本・ベトナムなど複数国からの原材料調達と、インド・マレーシア・オーストラリア・欧米など潜在拠点の継続評価により、SINOWINは単一の調達先に左右されない供給の強靭性を構築しています。'
+                : 'Through blank/raw-material sourcing across China, Japan, and Vietnam, and by continuously evaluating potential sites in India, Malaysia, Australia, Europe, and the Americas, SINOWIN builds supply resilience that is not dependent on any single sourcing region.'}
             </p>
           </div>
         </div>
