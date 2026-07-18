@@ -495,3 +495,61 @@ button, a.btn-cta, .btn-cta {
   outline: 2px solid #5EEAD4;
   outline-offset: 2px;
 }
+
+/* ============================================================
+   Homepage Global Footprint cards (src/app/[lang]/page.tsx,
+   #footprint section). Vietnam + China are clickable (lift on
+   hover + arrow reveal); India is not yet linkable and must read
+   as inert -- no hover lift, shimmer "coming soon" label instead.
+   ============================================================ */
+.fp-card-link {
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.fp-card-link:hover {
+  transform: translateY(-4px);
+}
+.fp-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.fp-card-link:hover .fp-arrow,
+.fp-card-link:focus-visible .fp-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@keyframes fpShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.fp-india-soon {
+  background: linear-gradient(90deg, #4A5364 25%, #8A93A3 50%, #4A5364 75%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: fpShimmer 3s linear infinite;
+}
+.fp-india-dot {
+  animation: fpBreathe 3s ease-in-out infinite;
+}
+@keyframes fpBreathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fp-india-soon {
+    animation: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: #8A93A3;
+  }
+  .fp-india-dot {
+    animation: none;
+    opacity: 0.6;
+  }
+}
