@@ -282,12 +282,22 @@ export default async function HomePage({ params }: { params: { lang: string } })
                 </span>
               </div>
             </div>
-            <div className="rounded-xl p-6" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
-              <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.china.name, lang)}</h3>
-              <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.china.desc, lang)}</p>
-              <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A', color: '#7E8593' }}>
-                {tr(footprint.china.badge, lang)}
-              </span>
+            <div className="rounded-xl overflow-hidden" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
+              <div className="h-32 relative grayscale opacity-60">
+                <Image
+                  src="/assets/workshops/china-site.webp"
+                  alt={lang === 'zh' ? 'SINOWIN 集團中國生產基地' : 'SINOWIN group manufacturing base in China'}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.china.name, lang)}</h3>
+                <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.china.desc, lang)}</p>
+                <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A', color: '#7E8593' }}>
+                  {tr(footprint.china.badge, lang)}
+                </span>
+              </div>
             </div>
             <div className="rounded-xl overflow-hidden" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
               <div className="h-32 relative grayscale opacity-60">
