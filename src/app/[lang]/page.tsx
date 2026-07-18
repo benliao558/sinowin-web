@@ -296,9 +296,9 @@ export default async function HomePage({ params }: { params: { lang: string } })
             <Link
               href={`/${lang}/china-base`}
               className="fp-card-link rounded-xl overflow-hidden block"
-              style={{ background: '#12161F', border: '0.5px solid #1F2530' }}
+              style={{ background: '#141922', border: '0.5px solid #1F2530' }}
             >
-              <div className="h-32 relative grayscale opacity-60">
+              <div className="h-32 relative" style={{ opacity: 0.88 }}>
                 <Image
                   src="/assets/workshops/china-site.webp"
                   alt={lang === 'zh' ? 'SINOWIN 集團中國生產基地' : 'SINOWIN group manufacturing base in China'}
@@ -307,29 +307,29 @@ export default async function HomePage({ params }: { params: { lang: string } })
                 />
               </div>
               <div className="p-6">
-                <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.china.name, lang)}</h3>
+                <h3 className="font-black text-lg mb-2" style={{ color: '#D8DEE7' }}>{tr(footprint.china.name, lang)}</h3>
                 <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.china.desc, lang)}</p>
                 <div className="flex items-center justify-between">
                   <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A', color: '#7E8593' }}>
                     {tr(footprint.china.badge, lang)}
                   </span>
-                  <span className="fp-arrow text-xs font-bold" style={{ color: '#B8C0CC' }}>
+                  <span className="fp-arrow text-xs font-bold" style={{ color: '#D8DEE7' }}>
                     {tr(footprint.china.cta, lang)} →
                   </span>
                 </div>
               </div>
             </Link>
             <div className="rounded-xl overflow-hidden" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
-              <div className="h-32 relative grayscale opacity-60">
+              <div className="h-32 relative" style={{ opacity: 0.6 }}>
                 <Image src="/assets/workshops/india-site.jpg" alt="India Site" fill className="object-cover" />
                 <span
                   className="fp-india-dot absolute inline-block rounded-full"
-                  style={{ width: 6, height: 6, top: 14, right: 14, background: '#8A93A3' }}
+                  style={{ width: 6, height: 6, top: 14, right: 14, background: '#C2C9D3' }}
                   aria-hidden="true"
                 />
               </div>
               <div className="p-6">
-                <h3 className="font-black text-lg mb-2" style={{ color: '#B8C0CC' }}>{tr(footprint.india.name, lang)}</h3>
+                <h3 className="font-black text-lg mb-2" style={{ color: '#98A1B0' }}>{tr(footprint.india.name, lang)}</h3>
                 <p className="text-sm mb-5" style={{ color: '#79818F' }}>{tr(footprint.india.desc, lang)}</p>
                 <span className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest" style={{ background: '#1A1F2A' }}>
                   <span className="fp-india-soon">{tr(footprint.india.badge, lang)}</span>

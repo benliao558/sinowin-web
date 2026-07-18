@@ -17,15 +17,50 @@ const PAGE_LABEL: L = { zh: '中國生產基地', en: 'China manufacturing base'
 const EYEBROW: L = { zh: 'GROUP FOOTPRINT', en: 'GROUP FOOTPRINT' }
 const TITLE: L = { zh: '集團中國生產基地', en: 'Group manufacturing base in China' }
 const BODY: L = {
-  zh: '華殷集團於中國設有生產基地，為集團跨國製造網絡的一部分。',
-  en: 'The Phonein group operates a manufacturing base in China as part of its multi-region manufacturing network.',
+  zh: '華殷集團於中國設有兩處據點，為集團跨國製造網絡的一部分。',
+  en: "The Phonein group operates two sites in China as part of its multi-region manufacturing network.",
 }
 const BACK_LABEL: L = { zh: '返回集團版圖', en: 'Back to group footprint' }
-const PHOTO_ALT: L = { zh: 'SINOWIN 集團中國生產基地廠區', en: 'SINOWIN group manufacturing base in China' }
+const LAND_AREA_LABEL: L = { zh: '土地面積', en: 'Land area' }
+const BUILDING_AREA_LABEL: L = { zh: '建築面積', en: 'Building area' }
+const CERT_LABEL: L = { zh: '認證', en: 'Certifications' }
 const META_DESCRIPTION: L = {
   zh: '華殷集團中國生產基地——集團跨國製造網絡的一部分。',
   en: "Phonein Group's manufacturing base in China — part of the group's multi-region manufacturing network.",
 }
+
+type Facility = {
+  photo: string
+  alt: L
+  name: L
+  location: L
+  desc?: L
+  landArea: string
+  buildingArea: L
+  certs: string[]
+}
+
+const FACILITIES: Facility[] = [
+  {
+    photo: '/assets/china-base/china-xinyang.webp',
+    alt: { zh: '華殷集團信陽廠區', en: 'Phonein group Xinyang facility' },
+    name: { zh: '信陽廠', en: 'Xinyang Facility' },
+    location: { zh: '河南信陽', en: 'Xinyang, Henan' },
+    landArea: '76,000 m²',
+    buildingArea: { zh: '57,000 m²', en: '57,000 m²' },
+    certs: ['ISO 9001', 'ISO 14001', 'IATF 16949', 'UL ECVP 2809-2'],
+  },
+  {
+    photo: '/assets/china-base/china-suzhou.webp',
+    alt: { zh: '華殷集團蘇州 NPI 中心', en: 'Phonein group Suzhou NPI center' },
+    name: { zh: '蘇州 NPI 中心', en: 'Suzhou NPI Center' },
+    location: { zh: '江蘇蘇州', en: 'Suzhou, Jiangsu' },
+    desc: { zh: '磁材研發、實驗室與大數據中心。', en: 'Magnetic materials R&D, laboratory, and data center.' },
+    landArea: '12,000 m²',
+    buildingArea: { zh: '45,000 m²（7 層）', en: '45,000 m² (7 floors)' },
+    certs: ['ISO 9001', 'ISO 14001', 'ISO 45001'],
+  },
+]
 
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
   const lang = params.lang as Locale
@@ -60,21 +95,51 @@ export default async function ChinaBasePage({ params }: { params: { lang: string
         <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-6" style={{ color: '#E4E9F2' }}>
           {t(TITLE, lang)}
         </h1>
-        <p className="text-sm md:text-base max-w-2xl mb-10" style={{ color: '#8A93A3' }}>
+        <p className="text-sm md:text-base max-w-2xl mb-12" style={{ color: '#8A93A3' }}>
           {t(BODY, lang)}
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid #1F2530' }}>
-            <div className="relative" style={{ aspectRatio: '16 / 10' }}>
-              <Image src="/assets/china-base/china-base-2.webp" alt={t(PHOTO_ALT, lang) ?? ''} fill className="object-cover" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {FACILITIES.map((facility) => (
+            <div key={t(facility.name, lang)} className="rounded-xl overflow-hidden" style={{ background: '#12161F', border: '0.5px solid #1F2530' }}>
+              <div className="relative" style={{ height: 200 }}>
+                <Image src={facility.photo} alt={t(facility.alt, lang) ?? ''} fill className="object-cover" />
+              </div>
+              <div className="p-6">
+                <h2 className="font-black text-lg mb-1" style={{ color: '#E4E9F2' }}>{t(facility.name, lang)}</h2>
+                <p className="text-sm mb-4" style={{ color: '#79818F' }}>{t(facility.location, lang)}</p>
+                {facility.desc && (
+                  <p className="text-sm mb-4" style={{ color: '#8A93A3' }}>{t(facility.desc, lang)}</p>
+                )}
+
+                <div className="flex flex-wrap gap-x-8 gap-y-3 mb-4">
+                  <div className="pl-3" style={{ borderLeft: '2px solid #39414F' }}>
+                    <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: '#6B7280' }}>{t(LAND_AREA_LABEL, lang)}</p>
+                    <p className="text-lg" style={{ color: '#FFFFFF', fontWeight: 500 }}>{facility.landArea}</p>
+                  </div>
+                  <div className="pl-3" style={{ borderLeft: '2px solid #39414F' }}>
+                    <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: '#6B7280' }}>{t(BUILDING_AREA_LABEL, lang)}</p>
+                    <p className="text-lg" style={{ color: '#FFFFFF', fontWeight: 500 }}>{t(facility.buildingArea, lang)}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#6B7280' }}>{t(CERT_LABEL, lang)}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {facility.certs.map((cert) => (
+                      <span
+                        key={cert}
+                        className="inline-flex items-center px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest"
+                        style={{ background: '#1A1F2A', color: '#98A1B0' }}
+                      >
+                        {cert}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid #1F2530' }}>
-            <div className="relative" style={{ aspectRatio: '16 / 10' }}>
-              <Image src="/assets/china-base/china-base-3.webp" alt={t(PHOTO_ALT, lang) ?? ''} fill className="object-cover" />
-            </div>
-          </div>
+          ))}
         </div>
 
         <Link href={`/${lang}#footprint`} className="text-sm font-bold transition-colors" style={{ color: '#8A93A3' }}>
