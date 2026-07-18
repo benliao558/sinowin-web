@@ -5,7 +5,6 @@ import { getManufacturingIntro, getWorkshops } from '@/sanity/lib/fetch'
 import { t } from '@/sanity/lib/localize'
 import WorkshopGrid from '@/components/WorkshopGrid'
 import Breadcrumb from '@/components/Breadcrumb'
-import { surfaceTreatmentWorkshop } from '@/lib/localWorkshops'
 
 const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '製造能力', en: 'Manufacturing', vi: 'Năng lực sản xuất', ja: '製造能力' }
 
@@ -52,24 +51,12 @@ const toleranceTable = [
 
 const HEADING = { zh: '一號廠房｜現有產線佈局', en: 'Factory No.1 | Current Production Workshops', vi: 'Nhà máy số 1 | Bố trí dây chuyền hiện tại', ja: '第一工場｜現有生産ライン配置' }
 
-// Overrides Sanity's manufacturingIntro singleton, which still says "六大
-// 製造車間" (six workshops) -- stale since the 7th (fixture/tooling) and
-// 8th (surface treatment) were added. No Sanity write token is configured
-// in this environment (see src/lib/localWorkshops.ts), so this can't be
-// fixed at the source; someone with Studio access can update the CMS field
-// directly and this override can then be removed.
-const INTRO_TEXT: Partial<Record<Locale, string>> = {
-  zh: '越南廠區設有完整製造車間，提供從切割、研磨、組裝充磁、測試到表面處理的完整加工鏈。',
-  en: 'Our Vietnam facility operates a complete set of manufacturing workshops, covering the full process chain from cutting and grinding to assembly, magnetizing, testing, and surface treatment.',
-}
-
 export default async function ManufacturingPage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const [, fetchedWorkshops] = await Promise.all([getManufacturingIntro(), getWorkshops()])
-  const intro = t(INTRO_TEXT, lang) ?? ''
-  const workshops = [...fetchedWorkshops, surfaceTreatmentWorkshop]
+  const [manufacturingIntro, workshops] = await Promise.all([getManufacturingIntro(), getWorkshops()])
+  const intro = t(manufacturingIntro?.intro, lang) ?? ''
 
   return (
     <>

@@ -39,6 +39,23 @@ export type WorkshopTab = {
   points: WorkshopPoint[]
 }
 
+export type ProcessTableRow = {
+  process: string
+  characteristics: LocaleString
+  sst: LocaleString
+  thickness: string
+}
+
+export type QualityStandardItem = {
+  label: LocaleString
+  value: LocaleString
+}
+
+export type WorkshopGalleryImage = {
+  image: SanityImage
+  alt?: string
+}
+
 export type SanityWorkshop = {
   _id: string
   workshopId: string
@@ -54,6 +71,11 @@ export type SanityWorkshop = {
   tabs: WorkshopTab[]
   deliverTitle?: LocaleString
   deliverItems?: LocaleString[]
+  // Used instead of tabs by table-based workshops (e.g. Surface Treatment).
+  processTable?: { columns: LocaleString[]; rows: ProcessTableRow[] }
+  disclaimer?: LocaleText
+  qualityStandards?: { title: LocaleString; items: QualityStandardItem[] }
+  gallery?: WorkshopGalleryImage[]
 }
 
 export type SanityCertification = {

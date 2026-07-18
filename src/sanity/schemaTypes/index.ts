@@ -6,6 +6,9 @@ import localeBlockContent from './objects/localeBlockContent'
 import rawHtml from './objects/rawHtml'
 import workshopPoint from './objects/workshopPoint'
 import workshopTab from './objects/workshopTab'
+import processTableRow from './objects/processTableRow'
+import qualityStandardItem from './objects/qualityStandardItem'
+import workshopGalleryImage from './objects/workshopGalleryImage'
 import departmentField from './objects/departmentField'
 
 import article from './documents/article'
@@ -30,6 +33,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // workshop-only nested objects
     workshopPoint,
     workshopTab,
+    processTableRow,
+    qualityStandardItem,
+    workshopGalleryImage,
     // jobOpening-only nested object
     departmentField,
     // repeatable document types

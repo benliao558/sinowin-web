@@ -63,7 +63,20 @@ export const workshopsQuery = `*[_type == "workshop"] | order(_createdAt asc){
     points[]{ label, text }
   },
   deliverTitle,
-  deliverItems
+  deliverItems,
+  processTable{
+    columns,
+    rows[]{ process, characteristics, sst, thickness }
+  },
+  disclaimer,
+  qualityStandards{
+    title,
+    items[]{ label, value }
+  },
+  gallery[]{
+    image ${imageFields},
+    alt
+  }
 }`
 
 export const certificationsQuery = `*[_type == "certification"] | order(_createdAt asc){

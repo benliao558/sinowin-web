@@ -136,34 +136,11 @@ const PRODUCTS: { flag: string; country: LocalizedText; tagline: LocalizedText; 
   },
 ]
 
-// Overrides Sanity's homepageContent.supplyChainTitle/supplyChainBody, which
-// still contain the pre-2026-07-16 political framing ("helping customers
-// avoid long-arm jurisdiction and geopolitical compliance risks"). No Sanity
-// write token is configured in this environment (same constraint as
-// src/lib/localWorkshops.ts and the manufacturing page's INTRO_TEXT), so this
-// is a code-level override to stop showing the old text immediately; the
-// underlying CMS fields still hold the old copy until someone with Studio
-// access (or a write token) updates them, at which point this override
-// should be removed. See translation-drafts/depoliticization-master.md.
-// Same constraint as SUPPLY_CHAIN_TRUST_OVERRIDE below: overrides Sanity's
-// homepageContent.heroSubtitle, which still says "去中化設備專線 / China-free
-// supply chain" (found after the initial scan -- a second Sanity field
-// carrying the same old framing, separate from supplyChainTitle/Body).
-const HERO_SUBTITLE_OVERRIDE: L = {
-  zh: '年產能 2,000 噸・多國供應鏈佈局・ISO 9001 / ISO 14001 / ISO 45001 認證',
-  en: '2,000 MT/year capacity · Multi-region supply chain · ISO 9001 / ISO 14001 / ISO 45001 certified',
-  vi: 'Công suất 2.000 tấn/năm · Chuỗi cung ứng đa khu vực · Chứng nhận ISO 9001 / ISO 14001 / ISO 45001',
-  ja: '年産2,000トン・多地域サプライチェーン・ISO 9001 / ISO 14001 / ISO 45001認証',
-}
-
-const SUPPLY_CHAIN_TRUST_OVERRIDE = {
-  eyebrow: { zh: '供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' } as L,
-  title: { zh: '獨立設備專線', en: 'Independent Equipment Line' } as L,
-  body: {
-    zh: 'SINOWIN 核心製程（機加工、充磁、測試）採用獨立設備專線，可依客戶需求彈性配置供應來源。SINOWIN 團隊橫跨越南、印度、台灣與新加坡，工程與管理人才不集中於單一國家，為客戶提供不受單一人力市場波動影響的穩定支援。',
-    en: "SINOWIN's core processes (machining, magnetizing, testing) run on an independent equipment line, with sourcing configured flexibly to each customer's requirements. The SINOWIN team spans Vietnam, India, Taiwan, and Singapore — engineering and management talent is not concentrated in any single country, giving customers stable support that isn't exposed to volatility in any one labor market.",
-  } as L,
-}
+// De-politicized 2026-07-18: homepageContent.heroSubtitle/supplyChainTitle/
+// supplyChainBody were updated directly in Sanity (batch 2), replacing the
+// code-level overrides these fields used since 2026-07-16. Eyebrow has no
+// corresponding Sanity field -- it's always been a plain code constant.
+const SUPPLY_CHAIN_EYEBROW: L = { zh: '供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' }
 
 export default async function HomePage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
@@ -236,7 +213,7 @@ export default async function HomePage({ params }: { params: { lang: string } })
             {t(home?.heroTitle, lang)}
           </h1>
           <p className="text-lg text-slate-400 max-w-2xl font-medium leading-relaxed mb-10">
-            {t(HERO_SUBTITLE_OVERRIDE, lang)}
+            {t(home?.heroSubtitle, lang)}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             <a
@@ -393,10 +370,10 @@ export default async function HomePage({ params }: { params: { lang: string } })
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
             <div className="flex-1 text-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
-                {t(SUPPLY_CHAIN_TRUST_OVERRIDE.eyebrow, lang)}
+                {t(SUPPLY_CHAIN_EYEBROW, lang)}
               </div>
-              <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{t(SUPPLY_CHAIN_TRUST_OVERRIDE.title, lang)}</h2>
-              <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-2xl">{t(SUPPLY_CHAIN_TRUST_OVERRIDE.body, lang)}</p>
+              <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">{t(home?.supplyChainTitle, lang)}</h2>
+              <p className="text-lg leading-relaxed text-emerald-50/90 font-medium max-w-2xl">{t(home?.supplyChainBody, lang)}</p>
 
               <div className="flex flex-wrap gap-3 mt-8">
                 {[

@@ -1,15 +1,17 @@
 import Image from 'next/image'
 import type { SanityWorkshop, LocaleString } from '@/sanity/lib/types'
-import type { LocalWorkshop } from '@/lib/localWorkshops'
 import { urlForImage } from '@/sanity/lib/image'
 import { t } from '@/sanity/lib/localize'
 import type { Locale } from '@/lib/i18n'
 import WorkshopModalScript from './WorkshopModalScript'
 
-type Workshop = SanityWorkshop | LocalWorkshop
+type Workshop = SanityWorkshop
 
-function isLocalWorkshop(w: Workshop): w is LocalWorkshop {
-  return 'processTable' in w
+// Table-based workshops (currently just Surface Treatment) use
+// processTable/qualityStandards/gallery instead of the equipment-tabs
+// layout the other workshops use.
+function isTableBased(w: Workshop): w is Workshop & Required<Pick<SanityWorkshop, 'processTable' | 'qualityStandards' | 'gallery'>> {
+  return !!w.processTable
 }
 
 const CORE_EQUIPMENT_LABEL: Record<Locale, string> = {
@@ -65,7 +67,7 @@ function WorkshopDetail({ workshop, lang, titleId }: { workshop: Workshop; lang:
           ))}
         </div>
 
-        {isLocalWorkshop(workshop) ? (
+        {isTableBased(workshop) ? (
           <SurfaceTreatmentDetail workshop={workshop} lang={lang} />
         ) : (
           <TabbedWorkshopDetail workshop={workshop} lang={lang} />
@@ -144,7 +146,13 @@ function TabbedWorkshopDetail({ workshop, lang }: { workshop: SanityWorkshop; la
   )
 }
 
-function SurfaceTreatmentDetail({ workshop, lang }: { workshop: LocalWorkshop; lang: Locale }) {
+function SurfaceTreatmentDetail({
+  workshop,
+  lang,
+}: {
+  workshop: SanityWorkshop & Required<Pick<SanityWorkshop, 'processTable' | 'qualityStandards' | 'gallery'>>
+  lang: Locale
+}) {
   // Epoxy has the strongest salt-spray rating of the five (500h) -- the
   // spec calls this out as the differentiator, so its row reads brightest.
   const bestSstRow = 'Epoxy'
@@ -152,11 +160,14 @@ function SurfaceTreatmentDetail({ workshop, lang }: { workshop: LocalWorkshop; l
   return (
     <>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        {workshop.gallery.slice(1).map((g) => (
-          <div key={g.src} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-slate-800/40">
-            <Image src={g.src} alt={g.alt} fill className="object-cover" sizes="(max-width: 640px) 50vw, 200px" />
-          </div>
-        ))}
+        {workshop.gallery.slice(1).map((g, gi) => {
+          const galleryImageUrl = resolveImage(g.image, 400)
+          return (
+            <div key={gi} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-slate-800/40">
+              {galleryImageUrl && <Image src={galleryImageUrl} alt={g.alt ?? ''} fill className="object-cover" sizes="(max-width: 640px) 50vw, 200px" />}
+            </div>
+          )
+        })}
       </div>
 
       <div className="rounded-2xl border overflow-x-auto mb-4" style={{ borderColor: '#1F2530' }}>
