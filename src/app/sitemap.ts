@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const article of articles) {
       entries.push({
-        url: `${baseUrl}/${lang}/articles/${article.slug}`,
+        url: `${baseUrl}/${lang}/articles/${encodeURIComponent(article.slug)}`,
         lastModified: new Date(article.publishDate),
         changeFrequency: 'monthly',
         priority: 0.7,

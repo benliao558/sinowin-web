@@ -14,7 +14,13 @@ export default defineType({
       type: 'slug',
       description: 'Same URL slug is used for all 4 languages, e.g. /en/articles/magnet-surface',
       options: { source: 'title.zh', maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.required().custom((value) => {
+          if (!value?.current) return true
+          return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(value.current)
+            ? true
+            : 'Must be lowercase kebab-case (letters, numbers, hyphens only) -- use "Generate" from the Chinese title instead of typing a working title directly.'
+        }),
     }),
     defineField({ name: 'publishDate', title: 'Publish date', type: 'date', validation: (Rule) => Rule.required() }),
     defineField({

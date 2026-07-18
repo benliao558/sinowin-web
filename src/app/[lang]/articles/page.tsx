@@ -83,7 +83,7 @@ export default async function ArticlesPage({ params }: { params: { lang: string 
           return (
             <Link
               key={a.slug}
-              href={`/${lang}/articles/${a.slug}`}
+              href={`/${lang}/articles/${encodeURIComponent(a.slug)}`}
               className="hover-lift enter-fade group flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
               style={{ animationDelay: `${i * 60}ms` }}
             >

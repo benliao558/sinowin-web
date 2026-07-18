@@ -13,19 +13,42 @@ const ARTICLES_LABEL: Record<Locale, string> = { zh: '產業洞察', en: 'Articl
 // See src/app/[lang]/page.tsx for why this is needed.
 export const revalidate = 60
 
+// Sanity's slug field only enforces non-empty, so a malformed value (spaces,
+// stray punctuation) can still be saved -- e.g. one live article currently
+// has slug.current == "Australian rare earth developer Arafura" instead of
+// a kebab-case slug. That can't be safely prerendered: the static file gets
+// written with a literal space in its filename, but browsers always request
+// the percent-encoded form, and that mismatch 404d in production even
+// though `next build` completed without error. Skipping it here means it
+// falls back to on-demand rendering (dynamicParams defaults to true)
+// instead. Proper fix is correcting the Sanity slug field (needs write
+// access this environment doesn't have).
+
+function isValidSlug(slug: string): boolean {
+  return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)
+}
+
 export async function generateStaticParams() {
   const slugs = await getArticleSlugs()
-  return locales.flatMap((lang) => slugs.map(({ slug }) => ({ lang, slug })))
+  return locales.flatMap((lang) =>
+    slugs.filter(({ slug }) => isValidSlug(slug)).map(({ slug }) => ({ lang, slug }))
+  )
 }
 
 export async function generateMetadata({ params }: { params: { lang: string; slug: string } }): Promise<Metadata> {
   const lang = params.lang as Locale
-  const article = await getArticleBySlug(params.slug)
+  // Next.js does not decode dynamic segment params -- params.slug is still
+  // percent-encoded exactly as the browser sent it (e.g. "%20" for a space).
+  // Sanity's slug.current is stored decoded, so the exact-match GROQ query
+  // below silently returns null for any slug containing encodable characters
+  // unless we decode first.
+  const slug = decodeURIComponent(params.slug)
+  const article = await getArticleBySlug(slug)
   if (!article) return {}
 
   const title = t(article.metaTitle, lang) ?? t(article.title, lang) ?? ''
   const description = t(article.metaDescription, lang) ?? t(article.excerpt, lang) ?? ''
-  const url = `https://www.sinowin-vn.com/${lang}/articles/${params.slug}`
+  const url = `https://www.sinowin-vn.com/${lang}/articles/${encodeURIComponent(slug)}`
   // Prefer the article's own cover image so shares actually preview the
   // piece being shared, not a generic site card -- fall back to the site
   // default only if this article has none.
@@ -56,7 +79,7 @@ export default async function ArticlePage({ params }: { params: { lang: string; 
   const lang = params.lang as Locale
   if (!locales.includes(lang)) notFound()
 
-  const article = await getArticleBySlug(params.slug)
+  const article = await getArticleBySlug(decodeURIComponent(params.slug))
   if (!article) notFound()
 
   const title = t(article.title, lang) ?? ''
