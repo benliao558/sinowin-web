@@ -26,7 +26,8 @@ const ARTICLES_DESC: Record<Locale, string> = {
 
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
   const lang = params.lang as Locale
-  const title = lang === 'zh' ? '產業洞察 — SINOWIN' : 'Industry Insights — SINOWIN'
+  const title =
+    lang === 'zh' ? '產業洞察 — SINOWIN' : lang === 'vi' ? 'Tin tức ngành — SINOWIN' : lang === 'ja' ? '業界インサイト — SINOWIN' : 'Industry Insights — SINOWIN'
   const description = ARTICLES_DESC[lang]
   const url = `https://www.sinowin-vn.com/${lang}/articles`
   return {

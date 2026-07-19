@@ -96,17 +96,26 @@ const content = {
 type L = Partial<Record<Locale, string>>
 const supplyChain = {
   eyebrow: { zh: '供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' } as L,
-  h2: { zh: '兩條產線。由您決定哪一條接您的單。', en: 'Two production lines. You choose which one runs your order.' } as L,
+  h2: {
+    zh: '兩條產線。由您決定哪一條接您的單。',
+    en: 'Two production lines. You choose which one runs your order.',
+    vi: 'Hai dây chuyền sản xuất. Bạn quyết định dây chuyền nào nhận đơn hàng của mình.',
+    ja: '2つの生産ライン。どちらでご注文をお受けするかはお客様次第です。',
+  } as L,
   lead: {
     zh: '多數供應商只給你一條供應鏈、一種風險。我們建了第二條，讓合規需求不必變成採購難題。',
     en: "Most suppliers give you one supply chain and one risk profile. We built a second line so compliance requirements don't have to become a sourcing problem.",
+    vi: 'Hầu hết nhà cung cấp chỉ có một chuỗi cung ứng, một hồ sơ rủi ro duy nhất. Chúng tôi đã xây dựng thêm một dây chuyền thứ hai để yêu cầu tuân thủ không còn là bài toán khó trong việc tìm nguồn cung ứng.',
+    ja: '多くのサプライヤーは、単一のサプライチェーンと単一のリスクプロファイルしか提供できません。SINOWINは第二の生産ラインを構築し、コンプライアンス要件が調達上の課題にならないようにしました。',
   } as L,
   standard: {
-    title: { zh: '主力產線', en: 'Standard line' } as L,
-    badge: { zh: '常態產線', en: 'Default' } as L,
+    title: { zh: '主力產線', en: 'Standard line', vi: 'Dây chuyền chủ lực', ja: '主力ライン' } as L,
+    badge: { zh: '常態產線', en: 'Default', vi: 'Mặc định', ja: '標準' } as L,
     body: {
       zh: '採用業界標準設備，在成本與交期上維持競爭力。多數訂單由此產線生產。',
       en: 'Industry-standard equipment, competitive on cost and lead time. This line runs most orders.',
+      vi: 'Sử dụng thiết bị tiêu chuẩn ngành, duy trì tính cạnh tranh về chi phí và thời gian giao hàng. Phần lớn đơn hàng được sản xuất trên dây chuyền này.',
+      ja: '業界標準の設備を採用し、コストとリードタイムにおいて競争力を維持しています。大半のご注文はこのラインで生産されます。',
     } as L,
   },
   // De-politicized 2026-07-16 (group risk decision, all locales): was
@@ -114,11 +123,13 @@ const supplyChain = {
   // independent-equipment-line narrative, no China-specific framing.
   // See translation-drafts/depoliticization-master.md.
   independentLine: {
-    title: { zh: '獨立設備專線', en: 'Independent equipment line' } as L,
-    badge: { zh: '2026 Q4 就緒', en: 'Ready Q4 2026' } as L,
+    title: { zh: '獨立設備專線', en: 'Independent equipment line', vi: 'Dây chuyền thiết bị độc lập', ja: '独立設備ライン' } as L,
+    badge: { zh: '2026 Q4 就緒', en: 'Ready Q4 2026', vi: 'Sẵn sàng Q4/2026', ja: '2026年Q4稼働予定' } as L,
     body: {
       zh: '機加工、充磁、測試三大核心製程採獨立設備配置，可依客戶需求彈性調整供應來源。設備已完成採購，預計 2026 年 10 月到廠，第四季完成調機與試產。',
       en: 'Machining, magnetizing, and testing run on an independently configured equipment line, with sourcing adjusted flexibly to customer requirements. Equipment is on order, with delivery expected October 2026 and commissioning through Q4.',
+      vi: 'Ba quy trình cốt lõi — gia công cơ khí, từ hóa và kiểm tra — được vận hành trên một dây chuyền thiết bị cấu hình độc lập, với nguồn cung được điều chỉnh linh hoạt theo yêu cầu khách hàng. Thiết bị đã được đặt mua, dự kiến đến nhà máy vào tháng 10/2026 và hoàn tất lắp đặt, chạy thử trong quý 4/2026.',
+      ja: '機械加工・着磁・検査の3つの中核工程は独立して構成された設備ラインで稼働し、調達はお客様のご要件に応じて柔軟に調整されます。設備はすでに発注済みで、2026年10月の到着を予定しており、第4四半期中に調整・試作を完了します。',
     } as L,
   },
   // Replaces the old "timeline" (heading "Why now" + countdown + three
@@ -133,23 +144,91 @@ const supplyChain = {
     body: {
       zh: '獨立設備專線預計 2026 年 10 月到廠，第四季完成安裝與試產，為貴公司的供應鏈增加一個選項。若貴公司正在尋找備援方案或希望讓供應來源多元化，現在是適合展開討論的時間點——我們可以配合貴公司的規劃安排評估時程。',
       en: "Our independent equipment line is expected to arrive on site in October 2026, with installation and trial production completed in Q4 — adding another option to your supply chain. If you're looking for backup capacity or want to diversify your sourcing, this is a good time to start the conversation — we can align the evaluation timeline with your own planning.",
+      vi: 'Dây chuyền thiết bị độc lập dự kiến đến nhà máy vào tháng 10/2026 và hoàn tất lắp đặt, chạy thử trong quý 4/2026, bổ sung thêm một lựa chọn cho chuỗi cung ứng của quý công ty. Nếu quý công ty đang tìm phương án dự phòng hoặc muốn đa dạng hóa nguồn cung, đây là thời điểm phù hợp để bắt đầu trao đổi — chúng tôi có thể sắp xếp lịch trình đánh giá phù hợp với kế hoạch của quý công ty.',
+      ja: '独立設備ラインは2026年10月の到着を予定しており、第4四半期中に設置と試作を完了し、貴社のサプライチェーンに新たな選択肢を追加します。バックアップ体制の確保や調達の多様化をご検討中であれば、今が相談を始める良いタイミングです——評価スケジュールを貴社のご計画に合わせて調整いたします。',
     } as L,
     note: {
       zh: '時程以設備到廠與驗證進度為準，我們會在專案評估時同步更新。',
       en: "Timelines are subject to equipment delivery and validation progress. We'll keep you updated during project scoping.",
+      vi: 'Lịch trình có thể thay đổi tùy theo tiến độ giao thiết bị và xác nhận thực tế. Chúng tôi sẽ cập nhật đồng thời trong quá trình đánh giá dự án.',
+      ja: '納期は設備の到着状況と検証の進捗により変動する場合があります。プロジェクト評価の過程で随時最新情報をお知らせします。',
     } as L,
   },
   cta: {
-    question: { zh: '您要的是價格，還是供應鏈彈性？', en: 'Price, or supply chain flexibility — which are you optimizing for?' } as L,
-    button: { zh: '開始洽詢', en: 'Start an enquiry' } as L,
+    question: { zh: '您要的是價格，還是供應鏈彈性？', en: 'Price, or supply chain flexibility — which are you optimizing for?', vi: 'Bạn ưu tiên giá cả, hay tính linh hoạt của chuỗi cung ứng?', ja: '価格を優先しますか、それともサプライチェーンの柔軟性を優先しますか？' } as L,
+    button: { zh: '開始洽詢', en: 'Start an enquiry', vi: 'Bắt đầu liên hệ', ja: 'お問い合わせを開始' } as L,
   },
 }
 
+// FAQPage JSON-LD Q&A -- was hardcoded English-only for all 4 locales (a
+// genuine gap found 2026-07-19: JSON-LD is machine-read, but still ought to
+// match the page's own language rather than always serving English to
+// vi/ja/zh crawlers). vi/ja are draft translations pending Ben's review,
+// same as the rest of this round's translations.
+const faqJsonLd: { question: L; answer: L }[] = [
+  {
+    question: {
+      zh: 'SINOWIN 是否提供彈性的供應鏈選擇？',
+      en: 'Does SINOWIN offer flexible supply chain options?',
+      vi: 'SINOWIN có cung cấp các lựa chọn linh hoạt cho chuỗi cung ứng không?',
+      ja: 'SINOWINは柔軟なサプライチェーンの選択肢を提供していますか？',
+    },
+    answer: {
+      zh: 'SINOWIN 有兩條產線。主力產線採用業界標準設備，在成本與交期上維持競爭力。另一條獨立設備專線涵蓋機加工、充磁與測試，已完成採購，預計 2026 年 10 月到廠，第四季完成調機。時程以設備到廠與驗證進度為準。',
+      en: 'SINOWIN operates two production lines. The standard line uses industry-standard equipment and remains competitive on cost and lead time. A separate independent equipment line, covering machining, magnetizing, and testing, has been ordered with delivery expected October 2026 and commissioning through Q4 2026. Timelines are subject to equipment delivery and validation progress.',
+      vi: 'SINOWIN vận hành hai dây chuyền sản xuất. Dây chuyền tiêu chuẩn sử dụng thiết bị đạt chuẩn ngành và duy trì tính cạnh tranh về chi phí cũng như thời gian giao hàng. Một dây chuyền thiết bị độc lập riêng biệt, bao gồm gia công cơ khí, từ hóa và kiểm tra, đã được đặt mua với thời gian giao hàng dự kiến vào tháng 10/2026 và hoàn tất lắp đặt trong quý 4/2026. Lịch trình có thể thay đổi tùy theo tiến độ giao thiết bị và xác nhận thực tế.',
+      ja: 'SINOWINは2つの生産ラインを運営しています。標準ラインは業界標準の設備を使用し、コストとリードタイムにおいて競争力を維持しています。機械加工・着磁・検査を含む独立した設備ラインは別途発注済みで、2026年10月の納入、2026年第4四半期中の稼働開始を予定しています。納期は設備の到着状況と検証の進捗により変動する場合があります。',
+    },
+  },
+  {
+    question: {
+      zh: '獨立設備專線涵蓋哪些製程？',
+      en: 'Which processes are covered by the independent equipment line?',
+      vi: 'Dây chuyền thiết bị độc lập bao gồm những quy trình nào?',
+      ja: '独立設備ラインはどの工程をカバーしていますか？',
+    },
+    answer: {
+      zh: '獨立設備專線涵蓋三大核心製程：機加工、充磁與測試。',
+      en: 'The independent equipment line covers three core processes: machining, magnetizing, and testing.',
+      vi: 'Dây chuyền thiết bị độc lập bao gồm ba quy trình cốt lõi: gia công cơ khí, từ hóa và kiểm tra.',
+      ja: '独立設備ラインは、機械加工・着磁・検査という3つの中核工程をカバーしています。',
+    },
+  },
+  {
+    question: {
+      zh: '為什麼現在就該開始評估供應鏈，而不是等到之後？',
+      en: 'Why should we start supply chain scoping now rather than later?',
+      vi: 'Vì sao nên bắt đầu đánh giá chuỗi cung ứng ngay bây giờ thay vì sau này?',
+      ja: 'なぜ今からサプライチェーンの検討を始めるべきなのですか？',
+    },
+    answer: {
+      zh: '合規稽核、送樣與驗證通常需要數月時間。若貴司希望在 2026 年第四季前增加供應鏈彈性或分散供應來源，建議現在就開始評估，時程可與我們的產線調機排程對齊。',
+      en: "Compliance audit, sampling, and validation typically take several months. Buyers who want to add supply chain flexibility or diversify sourcing before Q4 2026 should begin scoping now, so the timeline aligns with our line's commissioning schedule.",
+      vi: 'Việc kiểm toán tuân thủ, lấy mẫu và xác nhận thường mất vài tháng. Người mua muốn tăng tính linh hoạt cho chuỗi cung ứng hoặc đa dạng hóa nguồn cung trước quý 4/2026 nên bắt đầu đánh giá ngay từ bây giờ, để lịch trình phù hợp với tiến độ vận hành dây chuyền của chúng tôi.',
+      ja: 'コンプライアンス監査、サンプリング、検証には通常数ヶ月かかります。2026年第4四半期より前にサプライチェーンの柔軟性を高めたい、または調達を多様化したいバイヤー様は、今から検討を開始することで、当社ラインの稼働スケジュールに合わせることができます。',
+    },
+  },
+  {
+    question: {
+      zh: 'SINOWIN 位於哪裡？',
+      en: 'Where is SINOWIN located?',
+      vi: 'SINOWIN đặt tại đâu?',
+      ja: 'SINOWINはどこにありますか？',
+    },
+    answer: {
+      zh: 'SINOWIN Industrial (Vietnam) Co., Ltd. 是位於越南北寧省的精密磁材加工廠，年加工產能 2,000 噸。',
+      en: 'SINOWIN Industrial (Vietnam) Co., Ltd. is a precision magnet processing facility in Bac Ninh Province, Vietnam, with 2,000 metric tons of annual processing capacity.',
+      vi: 'SINOWIN Industrial (Vietnam) Co., Ltd. là cơ sở gia công nam châm chính xác tại tỉnh Bắc Ninh, Việt Nam, với công suất gia công 2.000 tấn mỗi năm.',
+      ja: 'SINOWIN Industrial (Vietnam) Co., Ltd.は、ベトナム・バクニン省にある精密磁石加工拠点で、年間加工能力は2,000トンです。',
+    },
+  },
+]
+
 const heroStatsContent: { value: number; decimals?: number; comma?: boolean; unit?: string; label: L }[] = [
-  { value: 2000, comma: true, label: { zh: '噸／年加工產能', en: 'MT/year processing capacity' } },
-  { value: 0.005, decimals: 3, unit: 'mm', label: { zh: '平行度公差', en: 'Parallelism tolerance' } },
-  { value: 200, unit: '°C', label: { zh: 'EH 高溫等級', en: 'EH high-temp grade' } },
-  { value: 2, label: { zh: '條獨立產線', en: 'independent production lines' } },
+  { value: 2000, comma: true, label: { zh: '噸／年加工產能', en: 'MT/year processing capacity', vi: 'tấn/năm công suất gia công', ja: 'トン/年 加工能力' } },
+  { value: 0.005, decimals: 3, unit: 'mm', label: { zh: '平行度公差', en: 'Parallelism tolerance', vi: 'Dung sai độ song song', ja: '平行度公差' } },
+  { value: 200, unit: '°C', label: { zh: 'EH 高溫等級', en: 'EH high-temp grade', vi: 'Cấp chịu nhiệt cao EH', ja: 'EH高温グレード' } },
+  { value: 2, label: { zh: '條獨立產線', en: 'independent production lines', vi: 'dây chuyền sản xuất độc lập', ja: '独立生産ライン' } },
 ]
 
 export default function AboutPage({ params }: { params: { lang: string } }) {
@@ -164,7 +243,7 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
-        name: lang === 'zh' ? '關於 SINOWIN' : 'About SINOWIN',
+        name: lang === 'zh' ? '關於 SINOWIN' : lang === 'vi' ? 'Về SINOWIN' : lang === 'ja' ? 'SINOWINについて' : 'About SINOWIN',
         url: `https://www.sinowin-vn.com/${lang}/about`,
       })}} />
       {/* De-politicized 2026-07-16 (group risk decision): this JSON-LD is
@@ -174,40 +253,11 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: 'Does SINOWIN offer flexible supply chain options?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'SINOWIN operates two production lines. The standard line uses industry-standard equipment and remains competitive on cost and lead time. A separate independent equipment line, covering machining, magnetizing, and testing, has been ordered with delivery expected October 2026 and commissioning through Q4 2026. Timelines are subject to equipment delivery and validation progress.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Which processes are covered by the independent equipment line?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'The independent equipment line covers three core processes: machining, magnetizing, and testing.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Why should we start supply chain scoping now rather than later?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: "Compliance audit, sampling, and validation typically take several months. Buyers who want to add supply chain flexibility or diversify sourcing before Q4 2026 should begin scoping now, so the timeline aligns with our line's commissioning schedule.",
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Where is SINOWIN located?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'SINOWIN Industrial (Vietnam) Co., Ltd. is a precision magnet processing facility in Bac Ninh Province, Vietnam, with 2,000 metric tons of annual processing capacity.',
-            },
-          },
-        ],
+        mainEntity: faqJsonLd.map((qa) => ({
+          '@type': 'Question',
+          name: t(qa.question, lang),
+          acceptedAnswer: { '@type': 'Answer', text: t(qa.answer, lang) },
+        })),
       })}} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
@@ -243,7 +293,9 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           <AboutReveal index={1} className="lg:col-span-7">
             <article className="rounded-[2rem] p-8 sm:p-10 h-full" style={{ background: '#12161F', border: '1px solid #1F2530' }}>
-              <h2 className="text-2xl font-black mb-2" style={{ color: '#E4E9F2' }}>About SINOWIN</h2>
+              <h2 className="text-2xl font-black mb-2" style={{ color: '#E4E9F2' }}>
+                {lang === 'zh' ? '關於 SINOWIN' : lang === 'vi' ? 'Về SINOWIN' : lang === 'ja' ? 'SINOWINについて' : 'About SINOWIN'}
+              </h2>
               <div className="w-16 h-1.5 rounded-full mb-8" style={{ background: '#39414F' }} />
               <div className="space-y-6 text-[15px] sm:text-base leading-relaxed font-medium" style={{ color: '#8A93A3' }}>
                 <p>{c.p1[lang]}</p>

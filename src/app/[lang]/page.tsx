@@ -20,7 +20,7 @@ type L = Partial<Record<Locale, string>>
 // zh/en authored; vi/ja intentionally omitted -- resolved via tr() fallback (vi->en, ja->en).
 const heroCta = {
   sample: { zh: '一鍵申請樣品', en: 'REQUEST SAMPLE', vi: 'YÊU CẦU MẪU', ja: 'サンプル請求' } as L,
-  manufacturing: { zh: '製造能力', en: 'Manufacturing' } as L,
+  manufacturing: { zh: '製造能力', en: 'Manufacturing', vi: 'Sản xuất', ja: '製造' } as L,
   supplyChain: { zh: '供應鏈彈性', en: 'Supply Chain Flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' } as L,
 }
 
@@ -300,7 +300,15 @@ export default async function HomePage({ params }: { params: { lang: string } })
               <div className="h-32 relative" style={{ opacity: 0.88 }}>
                 <Image
                   src="/assets/workshops/china-site.webp"
-                  alt={lang === 'zh' ? 'SINOWIN 集團中國生產基地' : 'SINOWIN group manufacturing base in China'}
+                  alt={
+                    lang === 'zh'
+                      ? 'SINOWIN 集團中國生產基地'
+                      : lang === 'vi'
+                      ? 'Cơ sở sản xuất của tập đoàn SINOWIN tại Trung Quốc'
+                      : lang === 'ja'
+                      ? 'SINOWINグループの中国生産拠点'
+                      : 'SINOWIN group manufacturing base in China'
+                  }
                   fill
                   className="object-cover"
                 />

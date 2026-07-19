@@ -30,6 +30,9 @@ const LABELS: Record<Locale, Record<string, string>> = {
     submit: '立即估算',
     result: 'Surface Gauss',
     note: '結果為磁鐵中心軸線上、距磁極表面 z 處的估算值，實際量測會因探頭型號、間隙與磁材公差而有差異，僅供工程參考。',
+    maxTemp: '最高工作溫度',
+    dimensionSchema: '尺寸示意圖',
+    manualShort: '手動輸入',
   },
   en: {
     heading: 'NdFeB Grade Performance Table',
@@ -54,6 +57,9 @@ const LABELS: Record<Locale, Record<string, string>> = {
     submit: 'Estimate',
     result: 'Surface Gauss',
     note: 'Estimated value on the magnet’s central axis at distance z from the pole face. Actual measurements vary with probe type, gap, and material tolerance — engineering reference only.',
+    maxTemp: 'Max working temp',
+    dimensionSchema: 'Dimension Schema',
+    manualShort: 'Manual',
   },
   vi: {
     heading: 'Bảng hiệu suất mác NdFeB',
@@ -78,6 +84,9 @@ const LABELS: Record<Locale, Record<string, string>> = {
     submit: 'Ước tính',
     result: 'Surface Gauss',
     note: 'Giá trị ước tính trên trục tâm nam châm, tại khoảng cách z từ bề mặt cực. Kết quả đo thực tế có thể khác nhau tùy đầu dò, khe hở và dung sai vật liệu — chỉ để tham khảo kỹ thuật.',
+    maxTemp: 'Nhiệt độ làm việc tối đa',
+    dimensionSchema: 'Sơ đồ kích thước',
+    manualShort: 'Thủ công',
   },
   ja: {
     heading: 'NdFeBグレード性能表',
@@ -102,6 +111,9 @@ const LABELS: Record<Locale, Record<string, string>> = {
     submit: '試算する',
     result: 'Surface Gauss',
     note: '磁石中心軸上、磁極面から距離zにおける試算値です。実測はプローブ種類・ギャップ・材料公差により変動します。技術参考値としてご利用ください。',
+    maxTemp: '最高使用温度',
+    dimensionSchema: '寸法図',
+    manualShort: '手動入力',
   },
 }
 
@@ -185,7 +197,7 @@ export default function BrHcjTool({ lang }: { lang: Locale }) {
   }
 
   function handleAddToSample() {
-    const gradeLabel = gradeInfo ? gradeInfo.grade.id : lang === 'zh' ? '手動輸入' : 'Manual'
+    const gradeLabel = gradeInfo ? gradeInfo.grade.id : t.manualShort
     const dimsLabel =
       shape === 'cylinder'
         ? `Ø${dim1} × H${dim2} mm`
@@ -231,7 +243,7 @@ export default function BrHcjTool({ lang }: { lang: Locale }) {
         {GRADE_SERIES_ORDER.map((series) => (
           <div key={series} className={activeSeries === series ? '' : 'hidden'}>
             <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">
-              {series} {seriesLabel(lang)} | {lang === 'zh' ? '最高工作溫度' : 'Max working temp'} {GradeDatabase[series].temp}
+              {series} {seriesLabel(lang)} | {t.maxTemp} {GradeDatabase[series].temp}
             </p>
             <div className="bg-slate-900 rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl">
               <div className="overflow-x-auto no-scrollbar">
@@ -354,7 +366,7 @@ export default function BrHcjTool({ lang }: { lang: Locale }) {
             <div className="grid sm:grid-cols-12 gap-6 items-center">
               {/* Dynamic magnet schematic */}
               <div className="sm:col-span-5 bg-slate-950/60 border border-white/10 rounded-xl p-4 flex flex-col items-center justify-center h-48 relative">
-                <span className="text-[9px] text-slate-500 absolute top-2 left-3 font-mono uppercase tracking-widest">Dimension Schema</span>
+                <span className="text-[9px] text-slate-500 absolute top-2 left-3 font-mono uppercase tracking-widest">{t.dimensionSchema}</span>
                 <svg viewBox="0 0 100 100" className="w-32 h-32" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <line x1="10" y1="50" x2="90" y2="50" stroke="#1e293b" strokeDasharray="2 2" strokeWidth="0.5" />
                   <path d={`M 50 15 C 20 15, 20 85, 50 85`} stroke="#2dd4bf" strokeWidth="1" strokeDasharray="4 2" opacity="0.3" />
