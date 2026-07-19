@@ -25,6 +25,8 @@ const META: { title: Record<Locale, string>; description: L } = {
   description: {
     zh: 'SINOWIN 常見問題：釹鐵硼磁鐵加工精度、崩邊控制、批次追溯、IATF 16949 認證文件、交期評估、客製打樣與表面處理選型。',
     en: 'SINOWIN FAQ: NdFeB magnet machining precision, chipping control, batch traceability, IATF 16949 documentation, lead time, custom sampling, and surface treatment selection.',
+    vi: 'Câu hỏi thường gặp của SINOWIN: độ chính xác gia công nam châm NdFeB, kiểm soát sứt mẻ, truy xuất nguồn gốc theo lô, hồ sơ chứng nhận IATF 16949, đánh giá thời gian giao hàng, làm mẫu tùy chỉnh và lựa chọn xử lý bề mặt.',
+    ja: 'SINOWINよくある質問：NdFeB磁石の加工精度、欠け・チッピング制御、ロット追跡、IATF 16949認証文書、納期評価、カスタムサンプル製作、表面処理の選定について。',
   },
 }
 
@@ -63,7 +65,7 @@ const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '常見問題', en: 'FAQ'
 // that changes zh wording can never silently drop a question.
 const CATEGORIES: { title: L; zhQuestions: string[] }[] = [
   {
-    title: { zh: '製程與精度', en: 'Process & precision' },
+    title: { zh: '製程與精度', en: 'Process & precision', vi: 'Quy trình & độ chính xác', ja: '工程・精度' },
     zhQuestions: [
       '華榮實業 (SINOWIN) 在越南如何確保釹鐵硼磁鐵的加工精度？',
       '如何降低脆性釹鐵硼材料在切割時的崩邊風險？',
@@ -72,7 +74,7 @@ const CATEGORIES: { title: L; zhQuestions: string[] }[] = [
     ],
   },
   {
-    title: { zh: '品質與認證', en: 'Quality & certification' },
+    title: { zh: '品質與認證', en: 'Quality & certification', vi: 'Chất lượng & chứng nhận', ja: '品質・認証' },
     zhQuestions: [
       '如何確保批次一致性與可追溯性？',
       '可以提供哪些品質與合規文件？',
@@ -80,7 +82,7 @@ const CATEGORIES: { title: L; zhQuestions: string[] }[] = [
     ],
   },
   {
-    title: { zh: '交期與打樣', en: 'Lead time & sampling' },
+    title: { zh: '交期與打樣', en: 'Lead time & sampling', vi: 'Thời gian giao hàng & làm mẫu', ja: '納期・サンプル' },
     zhQuestions: [
       '交期如何評估？會受哪些因素影響？',
       '可以支援客製形狀與小量打樣嗎？',
@@ -91,10 +93,10 @@ const CATEGORIES: { title: L; zhQuestions: string[] }[] = [
 
 const HEADING = { zh: '常見問題', en: 'Frequently Asked Questions', vi: 'Câu hỏi thường gặp', ja: 'よくある質問' }
 const SUBTITLE = { zh: '採購、技術規格、交期、認證相關問答', en: 'Q&A on procurement, technical specs, lead time, certifications', vi: 'Hỏi đáp về mua hàng, thông số kỹ thuật, thời gian giao hàng, chứng nhận', ja: '調達、技術仕様、納期、認証に関するQ&A' }
-const OTHER_TITLE: L = { zh: '其他', en: 'Other' }
+const OTHER_TITLE: L = { zh: '其他', en: 'Other', vi: 'Khác', ja: 'その他' }
 const CTA = {
-  question: { zh: '沒找到您要的答案？', en: "Didn't find your answer?" } as L,
-  button: { zh: '直接詢問工程團隊', en: 'Ask our engineering team' } as L,
+  question: { zh: '沒找到您要的答案？', en: "Didn't find your answer?", vi: 'Không tìm thấy câu trả lời bạn cần?', ja: 'ご希望の回答が見つかりませんでしたか？' } as L,
+  button: { zh: '直接詢問工程團隊', en: 'Ask our engineering team', vi: 'Hỏi trực tiếp đội ngũ kỹ thuật', ja: 'エンジニアリングチームに直接質問する' } as L,
 }
 
 export default async function FaqPage({ params }: { params: { lang: string } }) {

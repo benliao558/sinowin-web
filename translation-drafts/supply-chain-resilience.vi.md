@@ -11,11 +11,15 @@
 
 ---
 
-### 1. Eyebrow 標籤 【保留】
+### 1. Eyebrow 標籤 【已改名，2026-07-19】
 
-- **zh：** 供應鏈韌性
-- **en：** Supply chain resilience
-- **VI：** Khả năng phục hồi chuỗi cung ứng
+**更新**：全站統一將「供應鏈韌性/Supply chain resilience」改名為「供應鏈彈性/Supply chain flexibility」（與 About 頁 `supplyChain.eyebrow`、首頁 `heroCta.supplyChain`、`footprint.link` 三處同步改名，理由：vi/ja 譯詞完全不同，「韌性」≠「彈性」，需統一避免翻譯上線後固化不一致）。此欄位目前**已直接在程式碼裡寫入四語言**，不再是 vi-only 草稿。
+
+- **zh：** 供應鏈彈性
+- **en：** Supply chain flexibility
+- **VI：** Tính linh hoạt của chuỗi cung ứng
+
+*（舊版「Khả năng phục hồi chuỗi cung ứng」已棄用，改用上方新譯詞，與 `global-footprint.vi.md` 的 link 欄位保持一致）*
 
 ---
 

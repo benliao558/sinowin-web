@@ -16,6 +16,8 @@ export async function generateStaticParams() {
 const META_DESCRIPTION: Partial<Record<Locale, string>> = {
   zh: 'SINOWIN 越南廠：異形磁鐵與高複雜度製造，並建有獨立設備產線，2026 Q4 就緒，提供多國供應鏈彈性選擇。',
   en: 'SINOWIN Vietnam: custom-shaped magnets and high-complexity manufacturing, plus an independent equipment line ready Q4 2026, offering multi-region supply chain flexibility.',
+  vi: 'SINOWIN Việt Nam: sản xuất nam châm hình dạng tùy chỉnh và độ phức tạp cao, cùng dây chuyền thiết bị độc lập sẵn sàng vào quý 4/2026, mang đến các lựa chọn linh hoạt cho chuỗi cung ứng đa khu vực.',
+  ja: 'SINOWINベトナム工場：異形磁石と高複雑度の製造に対応し、独立設備ラインが2026年第4四半期に稼働開始予定。多地域にわたるサプライチェーンの柔軟な選択肢を提供します。',
 }
 
 const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '關於我們', en: 'About', vi: 'Về chúng tôi', ja: '会社概要' }
@@ -93,7 +95,7 @@ const content = {
 // zh/en authored; vi/ja intentionally omitted -- resolved via t() fallback (vi->en, ja->en).
 type L = Partial<Record<Locale, string>>
 const supplyChain = {
-  eyebrow: { zh: '供應鏈韌性', en: 'Supply chain resilience' } as L,
+  eyebrow: { zh: '供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' } as L,
   h2: { zh: '兩條產線。由您決定哪一條接您的單。', en: 'Two production lines. You choose which one runs your order.' } as L,
   lead: {
     zh: '多數供應商只給你一條供應鏈、一種風險。我們建了第二條，讓合規需求不必變成採購難題。',

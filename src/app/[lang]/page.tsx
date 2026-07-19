@@ -22,35 +22,40 @@ type L = Partial<Record<Locale, string>>
 const heroCta = {
   sample: { zh: '一鍵申請樣品', en: 'REQUEST SAMPLE', vi: 'YÊU CẦU MẪU', ja: 'サンプル請求' } as L,
   manufacturing: { zh: '製造能力', en: 'Manufacturing' } as L,
-  supplyChain: { zh: '供應鏈韌性', en: 'Supply Chain Resilience' } as L,
+  supplyChain: { zh: '供應鏈彈性', en: 'Supply Chain Flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' } as L,
 }
 
 const footprint = {
-  heading: { zh: '集團版圖', en: 'Global footprint' } as L,
+  heading: { zh: '集團版圖', en: 'Global footprint', vi: 'Bản đồ tập đoàn', ja: 'グローバル拠点' } as L,
   vietnam: {
-    name: { zh: '越南 · 北寧', en: 'Vietnam · Bac Ninh' } as L,
-    desc: { zh: '精密磁材加工　2,000 噸／年', en: 'Precision magnet processing　2,000 MT/year' } as L,
-    badge: { zh: '量產中', en: 'In production' } as L,
-    cta: { zh: '進入車間', en: 'Enter workshop' } as L,
+    name: { zh: '越南 · 北寧', en: 'Vietnam · Bac Ninh', vi: 'Việt Nam · Bắc Ninh', ja: 'ベトナム・バクニン' } as L,
+    desc: { zh: '精密磁材加工　2,000 噸／年', en: 'Precision magnet processing　2,000 MT/year', vi: 'Gia công vật liệu từ tính chính xác　2.000 tấn/năm', ja: '精密磁性材料加工　年産2,000トン' } as L,
+    badge: { zh: '量產中', en: 'In production', vi: 'Đang sản xuất hàng loạt', ja: '量産中' } as L,
+    cta: { zh: '進入車間', en: 'Enter workshop', vi: 'Vào xưởng sản xuất', ja: '工場を見る' } as L,
   },
   china: {
-    name: { zh: '中國', en: 'China' } as L,
-    desc: { zh: '母公司華殷集團生產基地', en: 'Parent group manufacturing base' } as L,
-    badge: { zh: '集團據點', en: 'Group site' } as L,
-    cta: { zh: '了解更多', en: 'Learn more' } as L,
+    name: { zh: '中國', en: 'China', vi: 'Trung Quốc', ja: '中国' } as L,
+    desc: { zh: '母公司華殷集團生產基地', en: 'Parent group manufacturing base', vi: 'Cơ sở sản xuất của tập đoàn mẹ Phonein Group', ja: '親会社Phonein Groupの生産拠点' } as L,
+    badge: { zh: '集團據點', en: 'Group site', vi: 'Cơ sở của tập đoàn', ja: 'グループ拠点' } as L,
+    cta: { zh: '了解更多', en: 'Learn more', vi: 'Tìm hiểu thêm', ja: '詳しく見る' } as L,
   },
   india: {
-    name: { zh: '印度 · 清奈', en: 'India · Chennai' } as L,
-    desc: { zh: '生產中心', en: 'Production centre' } as L,
-    badge: { zh: '敬請期待', en: 'Coming soon' } as L,
+    name: { zh: '印度 · 清奈', en: 'India · Chennai', vi: 'Ấn Độ · Chennai', ja: 'インド・チェンナイ' } as L,
+    desc: { zh: '生產中心', en: 'Production centre', vi: 'Trung tâm sản xuất', ja: '生産センター' } as L,
+    badge: { zh: '敬請期待', en: 'Coming soon', vi: 'Sắp ra mắt', ja: '近日公開' } as L,
   },
   // De-politicized 2026-07-16 (group risk decision, all locales): see
   // translation-drafts/depoliticization-master.md.
   note: {
     zh: 'SINOWIN 依托集團跨國製造網絡，整合越南、中國、印度的資源與經驗，為客戶提供彈性的產能與供應選擇。',
     en: 'SINOWIN draws on a multinational manufacturing network across Vietnam, China, and India, giving customers flexible capacity and sourcing options.',
+    vi: 'SINOWIN dựa vào mạng lưới sản xuất đa quốc gia của tập đoàn, kết hợp nguồn lực và kinh nghiệm tại Việt Nam, Trung Quốc và Ấn Độ, mang đến cho khách hàng các lựa chọn năng lực sản xuất và nguồn cung linh hoạt.',
+    ja: 'SINOWINはグループの多国籍製造ネットワークを活用し、ベトナム、中国、インドの資源と経験を統合することで、お客様に柔軟な生産能力と調達の選択肢を提供しています。',
   } as L,
-  link: { zh: '了解供應鏈韌性', en: 'Supply chain resilience' } as L,
+  // Renamed 2026-07-19: was "了解供應鏈韌性"/"Supply chain resilience" --
+  // unified with the site-wide neutral term (see heroCta.supplyChain and
+  // about/page.tsx's supplyChain.eyebrow, same rename).
+  link: { zh: '了解供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tìm hiểu về tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性について' } as L,
 }
 
 export async function generateStaticParams() {

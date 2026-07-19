@@ -11,6 +11,12 @@ const BREADCRUMB_LABEL: Record<Locale, string> = { zh: '製造能力', en: 'Manu
 const META_DESCRIPTION: Partial<Record<Locale, string>> = {
   zh: 'SINOWIN 越南廠製造能力：多線切、激光切割、研磨、倒角、組裝充磁、測試實驗室、輔具加工，以及表面處理車間（鎳銅鎳、環氧、電泳、銅鎳磷、鋅鍍層，鹽霧測試與厚度規格）。',
   en: 'SINOWIN Vietnam manufacturing capabilities: multi-wire cutting, laser cutting, grinding, chamfering, assembly & magnetizing, testing lab, fixture/tooling, and a surface treatment workshop (Ni-Cu-Ni, epoxy, e-coating, Cu-Ni-P, zinc — salt spray ratings and coating thickness).',
+  // Kept shorter than a full workshop-by-workshop translation of zh/en (would
+  // exceed ~155 chars and get truncated in search results) -- keeps the
+  // highest-value keywords (magnet processing, surface treatment, salt
+  // spray, Vietnam) instead of enumerating all 8 workshops/5 coatings.
+  vi: 'Năng lực sản xuất của SINOWIN tại Việt Nam: gia công nam châm chính xác, từ cắt dây đến xử lý bề mặt, với kiểm tra phun muối đạt chuẩn quốc tế.',
+  ja: 'SINOWINベトナム工場の製造能力：精密磁石加工から表面処理まで一貫対応。塩水噴霧試験など国際基準の品質管理。',
 }
 
 // See src/app/[lang]/page.tsx for why this is needed.

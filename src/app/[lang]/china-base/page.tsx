@@ -12,21 +12,25 @@ export async function generateStaticParams() {
 
 type L = Partial<Record<Locale, string>>
 
-const FOOTPRINT_LABEL: L = { zh: '集團版圖', en: 'Global footprint' }
-const PAGE_LABEL: L = { zh: '中國生產基地', en: 'China manufacturing base' }
-const EYEBROW: L = { zh: 'GROUP FOOTPRINT', en: 'GROUP FOOTPRINT' }
-const TITLE: L = { zh: '集團中國生產基地', en: 'Group manufacturing base in China' }
+const FOOTPRINT_LABEL: L = { zh: '集團版圖', en: 'Global footprint', vi: 'Bản đồ tập đoàn', ja: 'グローバル拠点' }
+const PAGE_LABEL: L = { zh: '中國生產基地', en: 'China manufacturing base', vi: 'Cơ sở sản xuất tại Trung Quốc', ja: '中国生産拠点' }
+const EYEBROW: L = { zh: 'GROUP FOOTPRINT', en: 'GROUP FOOTPRINT', vi: 'GROUP FOOTPRINT', ja: 'GROUP FOOTPRINT' }
+const TITLE: L = { zh: '集團中國生產基地', en: 'Group manufacturing base in China', vi: 'Cơ sở sản xuất của tập đoàn tại Trung Quốc', ja: 'グループ中国生産拠点' }
 const BODY: L = {
   zh: '華殷集團於中國設有兩處據點，為集團跨國製造網絡的一部分。',
   en: "The Phonein group operates two sites in China as part of its multi-region manufacturing network.",
+  vi: 'Phonein Group vận hành hai cơ sở tại Trung Quốc, là một phần trong mạng lưới sản xuất đa khu vực của tập đoàn.',
+  ja: 'Phonein Groupは中国に2つの拠点を有しており、これはグループの多地域製造ネットワークの一部です。',
 }
-const BACK_LABEL: L = { zh: '返回集團版圖', en: 'Back to group footprint' }
-const LAND_AREA_LABEL: L = { zh: '土地面積', en: 'Land area' }
-const BUILDING_AREA_LABEL: L = { zh: '建築面積', en: 'Building area' }
-const CERT_LABEL: L = { zh: '認證', en: 'Certifications' }
+const BACK_LABEL: L = { zh: '返回集團版圖', en: 'Back to group footprint', vi: 'Quay lại Bản đồ tập đoàn', ja: 'グローバル拠点に戻る' }
+const LAND_AREA_LABEL: L = { zh: '土地面積', en: 'Land area', vi: 'Diện tích đất', ja: '敷地面積' }
+const BUILDING_AREA_LABEL: L = { zh: '建築面積', en: 'Building area', vi: 'Diện tích xây dựng', ja: '建築面積' }
+const CERT_LABEL: L = { zh: '認證', en: 'Certifications', vi: 'Chứng nhận', ja: '認証' }
 const META_DESCRIPTION: L = {
   zh: '華殷集團中國生產基地——集團跨國製造網絡的一部分。',
   en: "Phonein Group's manufacturing base in China — part of the group's multi-region manufacturing network.",
+  vi: 'Cơ sở sản xuất của Phonein Group tại Trung Quốc — một phần trong mạng lưới sản xuất đa khu vực của tập đoàn.',
+  ja: 'Phonein Groupの中国生産拠点——グループの多地域製造ネットワークの一部。',
 }
 
 type Facility = {
@@ -43,21 +47,21 @@ type Facility = {
 const FACILITIES: Facility[] = [
   {
     photo: '/assets/china-base/china-xinyang.webp',
-    alt: { zh: '華殷集團信陽廠區', en: 'Phonein group Xinyang facility' },
-    name: { zh: '信陽廠', en: 'Xinyang Facility' },
-    location: { zh: '河南信陽', en: 'Xinyang, Henan' },
+    alt: { zh: '華殷集團信陽廠區', en: 'Phonein group Xinyang facility', vi: 'Cơ sở Tín Dương của Phonein Group', ja: 'Phonein Group 信陽拠点' },
+    name: { zh: '信陽廠', en: 'Xinyang Facility', vi: 'Nhà máy Tín Dương', ja: '信陽工場' },
+    location: { zh: '河南信陽', en: 'Xinyang, Henan', vi: 'Tín Dương, Hà Nam', ja: '河南省信陽市' },
     landArea: '76,000 m²',
-    buildingArea: { zh: '57,000 m²', en: '57,000 m²' },
+    buildingArea: { zh: '57,000 m²', en: '57,000 m²', vi: '57,000 m²', ja: '57,000 m²' },
     certs: ['ISO 9001', 'ISO 14001', 'IATF 16949', 'UL ECVP 2809-2'],
   },
   {
     photo: '/assets/china-base/china-suzhou.webp',
-    alt: { zh: '華殷集團蘇州 NPI 中心', en: 'Phonein group Suzhou NPI center' },
-    name: { zh: '蘇州 NPI 中心', en: 'Suzhou NPI Center' },
-    location: { zh: '江蘇蘇州', en: 'Suzhou, Jiangsu' },
-    desc: { zh: '磁材研發、實驗室與大數據中心。', en: 'Magnetic materials R&D, laboratory, and data center.' },
+    alt: { zh: '華殷集團蘇州 NPI 中心', en: 'Phonein group Suzhou NPI center', vi: 'Trung tâm NPI Tô Châu của Phonein Group', ja: 'Phonein Group 蘇州NPIセンター' },
+    name: { zh: '蘇州 NPI 中心', en: 'Suzhou NPI Center', vi: 'Trung tâm NPI Tô Châu', ja: '蘇州NPIセンター' },
+    location: { zh: '江蘇蘇州', en: 'Suzhou, Jiangsu', vi: 'Tô Châu, Giang Tô', ja: '江蘇省蘇州市' },
+    desc: { zh: '磁材研發、實驗室與大數據中心。', en: 'Magnetic materials R&D, laboratory, and data center.', vi: 'Nghiên cứu & phát triển vật liệu từ tính, phòng thí nghiệm và trung tâm dữ liệu.', ja: '磁性材料の研究開発、実験室、およびデータセンター。' },
     landArea: '12,000 m²',
-    buildingArea: { zh: '45,000 m²（7 層）', en: '45,000 m² (7 floors)' },
+    buildingArea: { zh: '45,000 m²（7 層）', en: '45,000 m² (7 floors)', vi: '45,000 m² (7 tầng)', ja: '45,000 m²（7階建て）' },
     certs: ['ISO 9001', 'ISO 14001', 'ISO 45001'],
   },
 ]
