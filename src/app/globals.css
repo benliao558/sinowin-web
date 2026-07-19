@@ -103,30 +103,6 @@ button, a.btn-cta, .btn-cta {
 }
 .btn-cta:active { transform: translateY(0) scale(0.97); }
 
-/* Partner logo marquee — track is rendered twice back-to-back (see
-   PartnersStrip.tsx), so translating exactly -50% loops seamlessly. */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 32s linear infinite;
-}
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-/* Second row: opposite direction, slightly different speed so the two rows
-   don't read as a single mechanically-synced block. */
-.animate-marquee-reverse {
-  animation: marquee 38s linear infinite reverse;
-}
-.animate-marquee-reverse:hover {
-  animation-play-state: paused;
-}
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee, .animate-marquee-reverse { animation: none; }
-}
-
 /* Circuit-board decoration (Industry Insights section): a traveling dash
    over a static base line simulates a signal running along the trace,
    plus a slow opacity pulse on each node. Both are plain CSS so they can

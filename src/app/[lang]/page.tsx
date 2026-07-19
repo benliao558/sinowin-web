@@ -13,7 +13,6 @@ export const revalidate = 60
 import { t } from '@/sanity/lib/localize'
 import { urlForImage } from '@/sanity/lib/image'
 import BrHcjTool from '@/components/BrHcjTool'
-import PartnersStrip from '@/components/PartnersStrip'
 import ContactForm from '@/components/ContactForm'
 
 type L = Partial<Record<Locale, string>>
@@ -146,6 +145,24 @@ const PRODUCTS: { flag: string; country: LocalizedText; tagline: LocalizedText; 
 // code-level overrides these fields used since 2026-07-16. Eyebrow has no
 // corresponding Sanity field -- it's always been a plain code constant.
 const SUPPLY_CHAIN_EYEBROW: L = { zh: '供應鏈彈性', en: 'Supply chain flexibility', vi: 'Tính linh hoạt của chuỗi cung ứng', ja: 'サプライチェーンの柔軟性' }
+
+// Replaces the customer-logo carousel (2026-07-19, Ben's decision): 24
+// client trademarks displayed under a "Partners" heading without written
+// authorization was a contract/trademark risk (same category as the
+// Apple-disclosure issue already handled elsewhere on this site). This
+// unnamed industry description keeps the credibility signal without the
+// exposure. Logo files moved to C:\_archive\partner-logos-backup-2026-07-19\
+// (not deleted) in case written authorization is obtained later.
+// vi/ja are draft translations pending Ben's review.
+const INDUSTRIES_SERVED = {
+  title: { zh: '服務領域', en: 'Industries Served', vi: 'Lĩnh vực phục vụ', ja: '対応業界' } as L,
+  body: {
+    zh: 'SINOWIN 為消費電子、汽車、家電與工業設備領域之國際品牌供應精密磁性元件。',
+    en: 'SINOWIN supplies precision magnetic components to international brands across consumer electronics, automotive, home appliances, and industrial equipment.',
+    vi: 'SINOWIN cung cấp linh kiện từ tính chính xác cho các thương hiệu quốc tế trong lĩnh vực điện tử tiêu dùng, ô tô, thiết bị gia dụng và thiết bị công nghiệp.',
+    ja: 'SINOWINは、コンシューマーエレクトロニクス、自動車、家電、産業機器分野の国際的ブランドに精密磁性部品を供給しています。',
+  } as L,
+}
 
 export default async function HomePage({ params }: { params: { lang: string } }) {
   const lang = params.lang as Locale
@@ -542,8 +559,18 @@ export default async function HomePage({ params }: { params: { lang: string } })
         </div>
       </section>
 
-      {/* Partners */}
-      <PartnersStrip lang={lang} />
+      {/* Industries Served -- see INDUSTRIES_SERVED comment above for why
+          this replaced the customer-logo carousel. */}
+      <section className="py-16 md:py-24 relative overflow-hidden" style={{ background: '#0A0D14' }}>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(800px 500px at 50% 0%, rgba(15,191,155,0.12), rgba(10,13,20,0) 60%)' }}
+        />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl font-black text-white mb-4">{tr(INDUSTRIES_SERVED.title, lang)}</h2>
+          <p className="text-lg leading-relaxed" style={{ color: '#8A93A3' }}>{tr(INDUSTRIES_SERVED.body, lang)}</p>
+        </div>
+      </section>
 
       {/* Br/Hcj grade table + calculator */}
       <section className="py-16 md:py-24 bg-white">
