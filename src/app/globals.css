@@ -360,7 +360,10 @@ button, a.btn-cta, .btn-cta {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  /* Above .sinowin-site-header's z-[9999] -- equal z-index ties resolve by
+     DOM order, which put the header on top and swallowed clicks on the
+     modal close button. */
+  z-index: 10000;
 }
 .wsg-modal-target:target {
   display: flex;

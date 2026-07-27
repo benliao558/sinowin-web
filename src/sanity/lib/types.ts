@@ -84,6 +84,7 @@ export type SanityCertification = {
   name: string
   confirmed: boolean
   badgeImage: SanityImage
+  sortOrder?: number
 }
 
 export type SanityFaqItem = {

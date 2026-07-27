@@ -11,9 +11,9 @@ import { getHomepageContent, getCertifications } from '@/sanity/lib/fetch'
 // deploy. Revalidate every 60s so content edits show up on their own.
 export const revalidate = 60
 import { t } from '@/sanity/lib/localize'
-import { urlForImage } from '@/sanity/lib/image'
 import BrHcjTool from '@/components/BrHcjTool'
 import ContactForm from '@/components/ContactForm'
+import CertificationsGrid, { CertificationModals } from '@/components/CertificationsGrid'
 
 type L = Partial<Record<Locale, string>>
 
@@ -83,8 +83,6 @@ export async function generateMetadata({ params }: { params: { lang: string } })
 const T = {
   eyebrow: { zh: '越南垂直整合磁材製造商', en: 'Vertically Integrated Magnet Manufacturer in Vietnam', vi: 'Nhà sản xuất nam châm tích hợp dọc tại Việt Nam', ja: 'ベトナムの垂直統合型磁石メーカー' },
   certTitle: { zh: '認證與管理體系', en: 'Certifications & Management Systems', vi: 'Chứng nhận & Hệ thống quản lý', ja: '認証・管理システム' },
-  obtained: { zh: '已獲取', en: 'Obtained', vi: 'Đã đạt được', ja: '取得済み' },
-  verifying: { zh: '審核中', en: 'Under Audit', vi: 'Đang được đánh giá', ja: '審査中' },
   contactTitle: { zh: '越南基地定位', en: 'Vietnam Site Location', vi: 'Vị trí cơ sở Việt Nam', ja: 'ベトナム拠点の所在地' },
   addrCompany: 'SINOWIN INDUSTRIAL(VN)CO.,LTD',
   addrFull: 'Lot B3, B4, B5, Dinh Tram Industrial Park, Nenh Ward, Bac Ninh Province, Vietnam',
@@ -363,31 +361,9 @@ export default async function HomePage({ params }: { params: { lang: string } })
         <div className="absolute top-0 left-0 w-full h-1 hero-gradient opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 className="text-4xl font-black mb-12 tracking-tight">{tr(T.certTitle, lang)}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {certifications.map((cert, i) => {
-              const img = urlForImage(cert.badgeImage)?.width(200).url()
-              return (
-                <div
-                  key={cert.certId}
-                  className={`hover-lift enter-fade relative bg-white/5 border border-white/10 rounded-2xl p-6 text-center group hover:z-50 cursor-pointer ${!cert.confirmed ? 'grayscale opacity-60 hover:grayscale-0' : ''}`}
-                  style={{ animationDelay: `${i * 60}ms` }}
-                >
-                  <div className="h-20 flex items-center justify-center mb-4 relative">
-                    {img ? (
-                      <Image src={img} alt={cert.name} fill className="object-contain transition-transform duration-500 group-hover:scale-150" />
-                    ) : (
-                      <span className="text-slate-500 text-xs font-black">{cert.name}</span>
-                    )}
-                  </div>
-                  <h4 className="text-sm font-black text-white mb-1">{cert.name}</h4>
-                  <p className={`text-[9px] font-bold uppercase ${cert.confirmed ? 'text-teal-400' : 'text-slate-500'}`}>
-                    {cert.confirmed ? tr(T.obtained, lang) : tr(T.verifying, lang)}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
+          <CertificationsGrid certifications={certifications} lang={lang} />
         </div>
+        <CertificationModals certifications={certifications} lang={lang} />
       </section>
 
        {/* Supply Chain / China-Free differentiation */}

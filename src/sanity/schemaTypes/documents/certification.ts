@@ -37,6 +37,13 @@ export default defineType({
       type: 'image',
       description: 'Official certification badge/logo. Falls back to a plain text label if not set.',
     }),
+    defineField({
+      name: 'sortOrder',
+      title: 'Sort order',
+      type: 'number',
+      description: 'Lower numbers show first. Only compared within the same "Obtained?" group -- obtained certs always render before under-audit ones regardless of this value.',
+      initialValue: 0,
+    }),
   ],
   preview: {
     select: { title: 'name', subtitle: 'confirmed', media: 'badgeImage' },

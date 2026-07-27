@@ -79,11 +79,12 @@ export const workshopsQuery = `*[_type == "workshop"] | order(_createdAt asc){
   }
 }`
 
-export const certificationsQuery = `*[_type == "certification"] | order(_createdAt asc){
+export const certificationsQuery = `*[_type == "certification"] | order(confirmed desc, sortOrder asc, _createdAt asc){
   _id,
   "certId": certId.current,
   name,
   confirmed,
+  sortOrder,
   badgeImage ${imageFields}
 }`
 
