@@ -16,7 +16,7 @@ const CLOSE_LABEL: Record<Locale, string> = {
   zh: '關閉', en: 'Close', vi: 'Đóng', ja: '閉じる',
 }
 
-function CertCard({ cert, lang, delayMs }: { cert: SanityCertification; lang: Locale; delayMs: number }) {
+function CertCard({ cert, lang, delayMs, widthClass }: { cert: SanityCertification; lang: Locale; delayMs: number; widthClass?: string }) {
   const img = urlForImage(cert.badgeImage)?.width(200).url()
   const modalId = `modal-cert-${cert.certId}`
   const statusLabel = cert.confirmed ? OBTAINED_LABEL[lang] : VERIFYING_LABEL[lang]
@@ -45,7 +45,7 @@ function CertCard({ cert, lang, delayMs }: { cert: SanityCertification; lang: Lo
     </>
   )
 
-  const cardClass = `hover-lift enter-fade group relative bg-white/5 border border-white/10 rounded-2xl p-6 text-center block ${!cert.confirmed ? 'grayscale opacity-60 hover:grayscale-0' : ''}`
+  const cardClass = `hover-lift enter-fade group relative bg-white/5 border border-white/10 rounded-2xl p-6 text-center block ${widthClass ?? ''} ${!cert.confirmed ? 'grayscale opacity-60 hover:grayscale-0' : ''}`
 
   if (!img) {
     return (
@@ -110,9 +110,15 @@ export default function CertificationsGrid({ certifications, lang }: { certifica
       </div>
 
       {pending.length > 0 && (
-        <div className={`${gridClass} mt-6`}>
+        <div className="flex flex-wrap justify-center gap-4 mt-6">
           {pending.map((cert, i) => (
-            <CertCard key={cert.certId} cert={cert} lang={lang} delayMs={(confirmed.length + i) * 60} />
+            <CertCard
+              key={cert.certId}
+              cert={cert}
+              lang={lang}
+              delayMs={(confirmed.length + i) * 60}
+              widthClass="w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.667rem)] lg:w-[calc(20%-0.8rem)]"
+            />
           ))}
         </div>
       )}
