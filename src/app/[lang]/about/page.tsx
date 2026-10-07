@@ -5,6 +5,7 @@ import { t } from '@/sanity/lib/localize'
 import Breadcrumb from '@/components/Breadcrumb'
 import AboutReveal from '@/components/about/AboutReveal'
 import HeroStats, { type HeroStat } from '@/components/about/HeroStats'
+import GhgDisclosure from '@/components/about/GhgDisclosure'
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -430,6 +431,8 @@ export default function AboutPage({ params }: { params: { lang: string } }) {
           </AboutReveal>
         </div>
       </section>
+
+      <GhgDisclosure lang={lang} />
     </div>
   )
 }
