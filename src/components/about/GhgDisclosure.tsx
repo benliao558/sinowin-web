@@ -24,7 +24,7 @@ const ghg = {
     {
       href: '/downloads/sinowin-vn-ghg-2025.pdf',
       title: { zh: '2025 年溫室氣體排放計算表及 2026 年減排目標', en: '2025 GHG emissions calculation and 2026 reduction targets', vi: 'Bảng tính phát thải KNK năm 2025 và mục tiêu giảm thiểu năm 2026', ja: '2025 年 温室効果ガス排出量算定表および 2026 年削減目標' } as L,
-      meta: { zh: '全年度・範疇 1–3・PDF・中文／越南文', en: 'Full year · Scopes 1–3 · PDF · Chinese / Vietnamese', vi: 'Cả năm · Phạm vi 1–3 · PDF · Tiếng Trung / Tiếng Việt', ja: '通年・Scope 1–3・PDF・中国語／ベトナム語' } as L,
+      meta: { zh: '基準年總排放 32.7 tCO₂e・2026 目標：單位產品排放強度降低 1%・PDF・中文／越南文', en: 'Base-year total 32.7 tCO₂e · 2026 target: 1% lower emission intensity per unit · PDF · Chinese / Vietnamese', vi: 'Tổng phát thải năm cơ sở 32,7 tCO₂e · Mục tiêu 2026: giảm 1% cường độ phát thải trên mỗi sản phẩm · PDF · Tiếng Trung / Tiếng Việt', ja: '基準年総排出量 32.7 tCO₂e・2026 年目標：製品単位当たりの排出原単位 1% 削減・PDF・中国語／ベトナム語' } as L,
     },
     {
       href: '/downloads/sinowin-vn-ghg-2026.pdf',
